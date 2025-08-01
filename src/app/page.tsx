@@ -1,5 +1,5 @@
-import H1 from "@/components/H1";
+import Heading from "@/components/Heading";
 
 export default function Home() {
-  return <H1>Hello World</H1>;
+  return <Heading level={1}>Hello World</Heading>;
 }

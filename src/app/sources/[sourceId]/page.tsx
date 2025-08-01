@@ -1,7 +1,8 @@
-import Code from "@/components/Code";
-import Heading from "@/components/Heading";
-import Link from "@/components/Link";
-import List from "@/components/List";
+import Code from "@/components/elements/Code";
+import Heading from "@/components/elements/Heading";
+import Link from "@/components/elements/Link";
+import List from "@/components/elements/List";
+import FetchSourceHtmlTextarea from "@/components/FetchSourceHtmlTextarea";
 import { getSource } from "@/lib/db/sources";
 
 export default async function SourcePage({
@@ -38,6 +39,8 @@ export default async function SourcePage({
           )}
         </li>
       </List>
+
+      <FetchSourceHtmlTextarea sourceId={sourceId} />
     </div>
   );
 }

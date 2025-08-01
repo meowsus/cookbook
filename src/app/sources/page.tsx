@@ -1,8 +1,8 @@
-import Heading from "@/components/Heading";
-import List from "@/components/List";
+import Heading from "@/components/elements/Heading";
+import List from "@/components/elements/List";
 import { getSources } from "@/lib/db/sources";
-import Link from "@/components/Link";
-import Code from "@/components/Code";
+import Link from "@/components/elements/Link";
+import Code from "@/components/elements/Code";
 
 export default async function SourcesPage() {
   const sources = await getSources();

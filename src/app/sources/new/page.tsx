@@ -1,8 +1,8 @@
-import Heading from "@/components/Heading";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
+import Heading from "@/components/elements/Heading";
+import Input from "@/components/elements/Input";
+import Button from "@/components/elements/Button";
 import { createSourceAction } from "@/lib/actions/sources";
-import Link from "@/components/Link";
+import Link from "@/components/elements/Link";
 
 export default function NewSourcePage() {
   return (

@@ -14,9 +14,12 @@
   },
   "dependencies": {
     "@prisma/client": "6.13.0",
+    "ai": "^4.3.19",
     "next": "15.4.5",
+    "ollama-ai-provider": "^1.2.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "sanitize-html": "^2.17.0",
     "swr": "^2.3.4"
   },
   "devDependencies": {
@@ -25,13 +28,14 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sanitize-html": "^2.16.0",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",
     "prettier": "3.6.2",
     "prettier-plugin-prisma": "^5.0.0",
     "prisma": "^6.13.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
 }

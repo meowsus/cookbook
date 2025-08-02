@@ -21,3 +21,12 @@ export async function addSourceHtmlAction(formData: FormData) {
 
   redirect(`/sources/${sourceId}`);
 }
+
+export async function addExtractedRecipeAction(formData: FormData) {
+  "use server";
+
+  const sourceId = formData.get("sourceId") as string;
+  const extractedRecipe = formData.get("extractedRecipe") as string;
+
+  await updateSource(sourceId, { extractedRecipe });
+}

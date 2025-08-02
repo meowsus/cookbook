@@ -16,6 +16,7 @@ model Source {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  url  String @unique
-  html String @default("")
+  url             String @unique
+  html            String @default("")
+  extractedRecipe String @default("")
 }

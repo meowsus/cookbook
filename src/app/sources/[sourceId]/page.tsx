@@ -2,7 +2,8 @@ import Code from "@/components/elements/Code";
 import Heading from "@/components/elements/Heading";
 import Link from "@/components/elements/Link";
 import List from "@/components/elements/List";
-import FetchSourceHtmlTextarea from "@/components/FetchSourceHtmlTextarea";
+import FetchSourceHtmlForm from "@/components/FetchSourceHtmlForm";
+import { addSourceHtmlAction } from "@/lib/actions/sources";
 import { getSource } from "@/lib/db/sources";
 
 export default async function SourcePage({
@@ -38,9 +39,17 @@ export default async function SourcePage({
             </>
           )}
         </li>
+        <li>
+          <Code>HTML</Code>: {source?.html.slice(0, 100)}...
+        </li>
       </List>
 
-      <FetchSourceHtmlTextarea sourceId={sourceId} />
+      {!source?.html && (
+        <FetchSourceHtmlForm
+          sourceId={sourceId}
+          formAction={addSourceHtmlAction}
+        />
+      )}
     </div>
   );
 }

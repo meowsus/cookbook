@@ -6,10 +6,12 @@ import fetcher from "@/lib/fetcher";
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
 
-export default function FetchSourceHtmlTextarea({
+export default function FetchSourceHtmlForm({
   sourceId,
+  formAction,
 }: {
   sourceId: string;
+  formAction: (formData: FormData) => Promise<void> | void;
 }) {
   const { data, error, isLoading, mutate } = useSWRImmutable(
     `/api/sources/${sourceId}/html`,
@@ -29,5 +31,17 @@ export default function FetchSourceHtmlTextarea({
     );
   }
 
-  return <Textarea disabled value={data?.html} />;
+  return (
+    <form action={formAction} className="space-y-2">
+      <input type="hidden" name="sourceId" value={sourceId} />
+      <Textarea name="html" value={data?.html} />
+
+      <div className="space-x-2">
+        <Button type="submit">Looks good!</Button>
+        <Button type="reset" onClick={() => mutate()}>
+          Fetch again?
+        </Button>
+      </div>
+    </form>
+  );
 }

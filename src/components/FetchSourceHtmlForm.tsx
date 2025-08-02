@@ -34,7 +34,7 @@ export default function FetchSourceHtmlForm({
   return (
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
-      <Textarea name="html" value={data?.html} />
+      <Textarea rows={10} name="html" value={data?.html} />
 
       <div className="space-x-2">
         <Button type="submit">Looks good!</Button>

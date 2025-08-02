@@ -25,30 +25,43 @@ export default async function SourcePage({
         <Link href="/sources">Back to sources</Link>
       </div>
 
-      <List type="ul">
-        <li>
-          <Code>URL</Code>: {source?.url}
-          {source?.url && (
-            <>
-              {" "}
-              (
-              <Link href={source.url} target="_blank">
-                Visit
-              </Link>
-              )
-            </>
-          )}
-        </li>
-        <li>
-          <Code>HTML</Code>: {source?.html.slice(0, 100)}...
-        </li>
-      </List>
+      <Heading level={2}>Data</Heading>
 
-      {!source?.html && (
-        <FetchSourceHtmlForm
-          sourceId={sourceId}
-          formAction={addSourceHtmlAction}
-        />
+      {source?.url && (
+        <>
+          <Heading level={3}>URL</Heading>
+
+          <div className="space-x-2">
+            {source.url}{" "}
+            <Link href={source.url} target="_blank">
+              Visit
+            </Link>
+          </div>
+        </>
+      )}
+
+      {source?.url && !source?.html && (
+        <>
+          <Heading level={3}>Fetched Source HTML</Heading>
+
+          <p>
+            We&apos;ve fetched the HTML for this source URL. Review it below,
+            and if it looks like it&apos;s the right HTML, click &quot;Looks
+            good!&quot; to save it.
+          </p>
+
+          <FetchSourceHtmlForm
+            sourceId={sourceId}
+            formAction={addSourceHtmlAction}
+          />
+        </>
+      )}
+
+      {source?.html && (
+        <>
+          <Heading level={3}>HTML</Heading>
+          <p>{source.html.slice(0, 100)}...</p>
+        </>
       )}
     </div>
   );

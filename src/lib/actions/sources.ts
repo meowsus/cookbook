@@ -1,9 +1,9 @@
+"use server";
+
 import { createSource, updateSource } from "@/lib/db/sources";
 import { redirect } from "next/navigation";
 
 export async function createSourceAction(formData: FormData) {
-  "use server";
-
   const url = formData.get("url") as string;
 
   await createSource(url);
@@ -11,20 +11,25 @@ export async function createSourceAction(formData: FormData) {
   redirect("/sources");
 }
 
-export async function addSourceHtmlAction(formData: FormData) {
-  "use server";
-
+export async function addSourceFullHtmlAction(formData: FormData) {
   const sourceId = formData.get("sourceId") as string;
-  const html = formData.get("html") as string;
+  const fullHtml = formData.get("fullHtml") as string;
 
-  await updateSource(sourceId, { html });
+  await updateSource(sourceId, { fullHtml });
+
+  redirect(`/sources/${sourceId}`);
+}
+
+export async function addSourceProcessedHtmlAction(formData: FormData) {
+  const sourceId = formData.get("sourceId") as string;
+  const processedHtml = formData.get("processedHtml") as string;
+
+  await updateSource(sourceId, { processedHtml });
 
   redirect(`/sources/${sourceId}`);
 }
 
 export async function addExtractedRecipeAction(formData: FormData) {
-  "use server";
-
   const sourceId = formData.get("sourceId") as string;
   const extractedRecipe = formData.get("extractedRecipe") as string;
 

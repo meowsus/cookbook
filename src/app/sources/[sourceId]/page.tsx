@@ -1,13 +1,15 @@
 import Code from "@/components/elements/Code";
 import Heading from "@/components/elements/Heading";
 import Link from "@/components/elements/Link";
-import FetchSourceHtmlForm from "@/components/FetchSourceHtmlForm";
-import RecipeExtractionForm from "@/components/ExtractRecipeForm";
+import FetchSourceFullHtmlForm from "@/components/FetchSourceFullHtmlForm";
 import {
   addExtractedRecipeAction,
-  addSourceHtmlAction,
+  addSourceFullHtmlAction,
+  addSourceProcessedHtmlAction,
 } from "@/lib/actions/sources";
 import { getSource } from "@/lib/db/sources";
+import ProcessedSourceHtmlForm from "@/components/ProcessedSourceHtmlForm";
+import FetchSourceExtractedRecipeForm from "@/components/FetchSourceExtractedRecipeForm";
 
 export default async function SourcePage({
   params,
@@ -43,7 +45,7 @@ export default async function SourcePage({
         </>
       )}
 
-      {source?.url && !source?.html && (
+      {source?.url && !source?.fullHtml && (
         <>
           <Heading level={3}>Fetched Source HTML</Heading>
 
@@ -53,22 +55,47 @@ export default async function SourcePage({
             good!&quot; to save it.
           </p>
 
-          <FetchSourceHtmlForm
+          <FetchSourceFullHtmlForm
             sourceId={sourceId}
-            formAction={addSourceHtmlAction}
+            formAction={addSourceFullHtmlAction}
           />
         </>
       )}
 
-      {source?.html && (
+      {source?.fullHtml && (
         <>
-          <Heading level={3}>HTML</Heading>
+          <Heading level={3}>Full HTML</Heading>
 
-          <p>{source.html.slice(0, 100)}...</p>
+          <p>{source.fullHtml.slice(0, 100)}...</p>
         </>
       )}
 
-      {source?.html && !source?.extractedRecipe && (
+      {source?.fullHtml && !source?.processedHtml && (
+        <>
+          <Heading level={3}>Processed HTML</Heading>
+
+          <p>
+            Here is the proposed processed HTML. Review it below, and if it
+            looks like it&apos;s the right HTML, click &quot;Looks good!&quot;
+            to save it.
+          </p>
+
+          <ProcessedSourceHtmlForm
+            sourceId={sourceId}
+            value={source.fullHtml}
+            formAction={addSourceProcessedHtmlAction}
+          />
+        </>
+      )}
+
+      {source?.processedHtml && (
+        <>
+          <Heading level={3}>Processed HTML</Heading>
+          <p>{source.processedHtml.slice(0, 100)}...</p>
+        </>
+      )}
+
+      {source?.processedHtml && !source?.extractedRecipe && (
         <>
           <Heading level={3}>Extracted Recipe</Heading>
 
@@ -81,7 +108,7 @@ export default async function SourcePage({
             the right recipe, click &quot;Looks good!&quot; to save it.
           </p>
 
-          <RecipeExtractionForm
+          <FetchSourceExtractedRecipeForm
             sourceId={sourceId}
             formAction={addExtractedRecipeAction}
           />

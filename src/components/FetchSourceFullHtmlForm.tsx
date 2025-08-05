@@ -6,7 +6,7 @@ import fetcher from "@/lib/fetcher";
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
 
-export default function RecipeExtractionForm({
+export default function FetchSourceHtmlForm({
   sourceId,
   formAction,
 }: {
@@ -14,12 +14,12 @@ export default function RecipeExtractionForm({
   formAction: (formData: FormData) => Promise<void> | void;
 }) {
   const { data, error, isLoading, mutate } = useSWRImmutable(
-    `/api/sources/${sourceId}/html/extract-recipe`,
+    `/api/sources/${sourceId}/html`,
     fetcher,
   );
 
   if (isLoading) {
-    return <Textarea disabled value="Generating recipe data..." />;
+    return <Textarea disabled value="Fetching source HTML..." />;
   }
 
   if (error) {
@@ -34,7 +34,7 @@ export default function RecipeExtractionForm({
   return (
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
-      <Textarea rows={10} name="extractedRecipe" value={data?.text} />
+      <Textarea rows={10} name="fullHtml" value={data?.fullHtml} />
 
       <div className="space-x-2">
         <Button type="submit">Looks good!</Button>

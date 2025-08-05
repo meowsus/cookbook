@@ -37,7 +37,7 @@ export async function GET(
   const { sourceId } = await params;
   const source = await getSource(sourceId);
 
-  const html = source?.html;
+  const html = source?.processedHtml;
 
   if (!html) {
     return NextResponse.json(

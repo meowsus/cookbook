@@ -1,7 +1,7 @@
 import Code from "@/components/elements/Code";
 import Heading from "@/components/elements/Heading";
 import Link from "@/components/elements/Link";
-import FetchSourceFullHtmlForm from "@/components/FetchSourceFullHtmlForm";
+import FetchFullHtmlForm from "@/app/sources/[sourceId]/FetchFullHtmlForm";
 import {
   updateExtractedRecipeAction,
   updateSourceFullHtmlAction,
@@ -11,10 +11,10 @@ import {
   removeExtractedRecipeAction,
 } from "@/lib/actions/sources";
 import { getSource } from "@/lib/db/sources";
-import ProcessedSourceHtmlForm from "@/components/ProcessedSourceHtmlForm";
-import FetchSourceExtractedRecipeForm from "@/components/FetchSourceExtractedRecipeForm";
-import DeleteSourceForm from "../DeleteSourceForm";
-import RemoveSourceDataForm from "./RemoveSourceDataForm";
+import ProcessedHtmlForm from "@/app/sources/[sourceId]/ProcessedHtmlForm";
+import FetchExtractedRecipeForm from "@/app/sources/[sourceId]/FetchExtractedRecipeForm";
+import DeleteForm from "../DeleteForm";
+import RemoveDataForm from "./RemoveDataForm";
 
 export default async function SourcePage({
   params,
@@ -33,7 +33,7 @@ export default async function SourcePage({
 
       <div className="flex items-center gap-2">
         <Link href="/sources">Back to sources</Link>
-        <DeleteSourceForm sourceId={sourceId} />
+        <DeleteForm sourceId={sourceId} />
       </div>
 
       <Heading level={2}>Data</Heading>
@@ -61,7 +61,7 @@ export default async function SourcePage({
             good!&quot; to save it.
           </p>
 
-          <FetchSourceFullHtmlForm
+          <FetchFullHtmlForm
             sourceId={sourceId}
             formAction={updateSourceFullHtmlAction}
           />
@@ -72,7 +72,7 @@ export default async function SourcePage({
         <>
           <div className="flex items-baseline gap-2">
             <Heading level={3}>Full HTML</Heading>
-            <RemoveSourceDataForm
+            <RemoveDataForm
               sourceId={sourceId}
               formAction={removeSourceFullHtmlAction}
             />
@@ -92,7 +92,7 @@ export default async function SourcePage({
             to save it.
           </p>
 
-          <ProcessedSourceHtmlForm
+          <ProcessedHtmlForm
             sourceId={sourceId}
             value={source.fullHtml}
             formAction={updateSourceProcessedHtmlAction}
@@ -105,7 +105,7 @@ export default async function SourcePage({
           <div className="flex items-baseline gap-2">
             <Heading level={3}>Processed HTML</Heading>
 
-            <RemoveSourceDataForm
+            <RemoveDataForm
               sourceId={sourceId}
               formAction={removeSourceProcessedHtmlAction}
             />
@@ -128,7 +128,7 @@ export default async function SourcePage({
             the right recipe, click &quot;Looks good!&quot; to save it.
           </p>
 
-          <FetchSourceExtractedRecipeForm
+          <FetchExtractedRecipeForm
             sourceId={sourceId}
             formAction={updateExtractedRecipeAction}
           />
@@ -140,7 +140,7 @@ export default async function SourcePage({
           <div className="flex items-baseline gap-2">
             <Heading level={3}>Extracted Recipe</Heading>
 
-            <RemoveSourceDataForm
+            <RemoveDataForm
               sourceId={sourceId}
               formAction={removeExtractedRecipeAction}
             />

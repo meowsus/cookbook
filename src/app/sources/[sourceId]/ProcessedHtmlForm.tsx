@@ -7,7 +7,7 @@ import { useState } from "react";
 
 const MAX_LENGTH = 10000;
 
-export default function ProcessedSourceHtmlForm({
+export default function ProcessedHtmlForm({
   sourceId,
   value,
   formAction,

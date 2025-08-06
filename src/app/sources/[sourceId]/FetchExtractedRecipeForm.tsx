@@ -6,7 +6,7 @@ import fetcher from "@/lib/fetcher";
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
 
-export default function FetchSourceExtractedRecipeForm({
+export default function FetchExtractedRecipeForm({
   sourceId,
   formAction,
 }: {

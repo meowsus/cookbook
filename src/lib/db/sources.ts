@@ -30,3 +30,9 @@ export async function getSource(sourceId: string) {
     },
   });
 }
+
+export async function deleteSource(sourceId: string) {
+  return prisma.source.delete({
+    where: { id: parseInt(sourceId) },
+  });
+}

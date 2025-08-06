@@ -15,7 +15,11 @@ export async function updateSourceFullHtmlAction(formData: FormData) {
   const sourceId = formData.get("sourceId") as string;
   const fullHtml = formData.get("fullHtml") as string;
 
-  await updateSource(sourceId, { fullHtml });
+  await updateSource(sourceId, {
+    fullHtml,
+    processedHtml: "",
+    extractedRecipe: "",
+  });
 
   redirect(`/sources/${sourceId}`);
 }
@@ -36,7 +40,10 @@ export async function updateSourceProcessedHtmlAction(formData: FormData) {
   const sourceId = formData.get("sourceId") as string;
   const processedHtml = formData.get("processedHtml") as string;
 
-  await updateSource(sourceId, { processedHtml });
+  await updateSource(sourceId, {
+    processedHtml,
+    extractedRecipe: "",
+  });
 
   redirect(`/sources/${sourceId}`);
 }

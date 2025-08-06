@@ -34,7 +34,7 @@ export default function FetchSourceExtractedRecipeForm({
   return (
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
-      <Textarea rows={10} name="extractedRecipe" value={data?.text} />
+      <Textarea rows={10} name="extractedRecipe" value={data?.text} readOnly />
 
       <div className="space-x-2">
         <Button type="submit">Looks good!</Button>

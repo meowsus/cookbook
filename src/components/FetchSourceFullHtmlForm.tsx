@@ -34,7 +34,7 @@ export default function FetchSourceHtmlForm({
   return (
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
-      <Textarea rows={10} name="fullHtml" value={data?.fullHtml} />
+      <Textarea rows={10} name="fullHtml" value={data?.fullHtml} readOnly />
 
       <div className="space-x-2">
         <Button type="submit">Looks good!</Button>

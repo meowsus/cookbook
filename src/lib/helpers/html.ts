@@ -1,7 +1,26 @@
 import sanitizeHtml from "sanitize-html";
-export function processRecipeHtml(fullHtml: string): string {
-  // Remove non-content sections
-  let html = fullHtml
+
+const MAIN_CONTENT_REGEX =
+  /<(main|article|div[^>]*class="[^"]*recipe[^"]*")[^>]*>([\s\S]*?)<\/\1>/gi;
+
+const ALLOWED_TAGS = [
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "p",
+  "span",
+  "ul",
+  "ol",
+  "li",
+  "strong",
+  "em",
+];
+
+function removeNonContentTags(html: string): string {
+  return html
     .replace(/<header[^>]*>[\s\S]*?<\/header>/gi, "")
     .replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, "")
     .replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, "")
@@ -11,54 +30,32 @@ export function processRecipeHtml(fullHtml: string): string {
     .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
     .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, "")
     .replace(/<form[^>]*>[\s\S]*?<\/form>/gi, "");
+}
 
-  // Try to find main content areas
-  const mainContentRegex =
-    /<(main|article|div[^>]*class="[^"]*recipe[^"]*")[^>]*>([\s\S]*?)<\/\1>/gi;
-  const matches = html.match(mainContentRegex);
+function determineMainRecipeContent(html: string): string {
+  const matches = html.match(MAIN_CONTENT_REGEX);
+
   if (matches && matches.length > 0) {
-    html = matches.join(" ");
+    return matches.join(" ");
+  } else {
+    return removeNonContentTags(html);
   }
+}
 
-  // Aggressive sanitization - keep only essential tags and no attributes
-  const cleanHtml = sanitizeHtml(html, {
-    allowedTags: [
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "p",
-      "span",
-      "ul",
-      "ol",
-      "li",
-      "strong",
-      "em",
-    ],
+export function condenseHtml(html: string): string {
+  // Reduce all whitespace (including newlines, tabs, spaces) between tags to nothing
+  return html.replace(/>\s+</g, ">\n<").replace(/\s+\n/g, "\n").trim();
+}
+
+export function processRecipeHtml(fullHtml: string): string {
+  const recipeHtml = determineMainRecipeContent(fullHtml);
+
+  const sanitizedHtml = sanitizeHtml(recipeHtml, {
+    allowedTags: ALLOWED_TAGS,
     allowedAttributes: {},
     allowedSchemes: [],
     allowedSchemesAppliedToAttributes: [],
   });
 
-  // Final condensing
-  const condensedHtml = cleanHtml
-    .replace(/\n/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  // Limit size to prevent token overflow (adjust as needed)
-  const maxLength = 15000;
-
-  if (condensedHtml.length > maxLength) {
-    console.warn(
-      "HTML is too long, truncating from the bottom (keeping top content)",
-    );
-
-    // Keep the START of the document since recipes may be at the top
-    return condensedHtml.substring(0, maxLength) + "...";
-  }
-
-  return condensedHtml;
+  return condenseHtml(sanitizedHtml);
 }

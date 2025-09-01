@@ -8,6 +8,7 @@ This project requires:
 
 1. [pnpm](https://pnpm.io/installation)
 2. [ollama](https://ollama.com/)
+3. [sqlite](https://sqlite.org/download.html)
 
 ```
 pnpm i

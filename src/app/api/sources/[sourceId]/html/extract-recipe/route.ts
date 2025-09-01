@@ -11,7 +11,7 @@ You are a recipe extraction bot. You MUST follow these rules strictly:
 
 1. ONLY extract recipe information from the HTML
 2. IGNORE all other content (navigation, comments, ads, etc.)
-3. Return ONLY the recipe in this EXACT format:
+3. Return ONLY the recipe in this EXACT markdown format:
 
 # Recipe Name
 
@@ -47,7 +47,7 @@ export async function GET(
   }
 
   const result = await generateText({
-    model: ollama("gemma3"),
+    model: ollama(process.env.OLLAMA_MODEL || "mistral"),
     system: SYSTEM_PROMPT,
     prompt: `Extract ONLY the recipe from this HTML (ignore everything else): ${html}`,
     temperature: 0.3,

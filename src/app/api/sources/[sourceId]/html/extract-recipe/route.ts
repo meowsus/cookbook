@@ -1,10 +1,7 @@
-import { generateText } from "ai";
-import { createOllama } from "ollama-ai-provider";
+import ollama from "ollama";
 import { NextResponse } from "next/server";
 
 import { getSource } from "@/lib/db/sources";
-
-const ollama = createOllama();
 
 const SYSTEM_PROMPT = `
 You are a recipe extraction bot. You MUST follow these rules strictly:
@@ -46,14 +43,15 @@ export async function GET(
     );
   }
 
-  const result = await generateText({
-    model: ollama(process.env.OLLAMA_MODEL || "mistral"),
+  const result = await ollama.generate({
+    model: process.env.OLLAMA_MODEL || "mistral",
     system: SYSTEM_PROMPT,
     prompt: `Extract ONLY the recipe from this HTML (ignore everything else): ${html}`,
-    temperature: 0.3,
+    think: false,
+    keep_alive: "15m",
   });
 
   console.log(result);
 
-  return NextResponse.json({ text: result.text });
+  return NextResponse.json({ text: result.response });
 }

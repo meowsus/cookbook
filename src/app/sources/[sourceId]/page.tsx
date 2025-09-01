@@ -123,9 +123,13 @@ export default async function SourcePage({
             We&apos;re extracting the recipe from the HTML. This could take a
             while.
           </p>
+
           <p>
             When it finishes, review it below, and if it looks like it&apos;s
-            the right recipe, click &quot;Looks good!&quot; to save it.
+            the right recipe, click &quot;Looks good!&quot; to save it. If it
+            looks as though the model has gone haywire and you are not receiving
+            a concise response, try manually editing the processed HTML, above,
+            to be much shorter.
           </p>
 
           <FetchExtractedRecipeForm

@@ -22,4 +22,6 @@ pnpm dev
 
 ## Notes
 
-- `mistral` has been the model most battle-tested, since it runs on my machine fairly well
+- `mistral` has been the model most battle-tested, since it runs on my machine fairly well in CPU mode
+- LLM generation can take a very long time in CPU mode, timeouts may occur
+- I am using ollama because it is free

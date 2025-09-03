@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const schema = z.object({
-  sourceId: z.string(),
+  sourceId: z.string().nonempty(),
 });
 
 export async function GET(
@@ -14,8 +14,12 @@ export async function GET(
 
   if (!parsedParams.success) {
     return NextResponse.json(
-      { message: "Invalid request parameters" },
-      { status: 400 },
+      {
+        validation: z.treeifyError(parsedParams.error),
+      },
+      {
+        status: 400,
+      },
     );
   }
 
@@ -23,17 +27,11 @@ export async function GET(
 
   const source = await getSource(sourceId);
 
-  const url = source?.url;
-
-  if (!url) {
-    return NextResponse.json(
-      { message: "Source url not found" },
-      { status: 404 },
-    );
+  if (!source) {
+    return NextResponse.json({ message: "Source not found" }, { status: 404 });
   }
 
-  const response = await fetch(url);
-
+  const response = await fetch(source.url);
   const fullHtml = await response.text();
 
   return NextResponse.json({ fullHtml });

@@ -11,8 +11,6 @@ export default function CreateSourceForm() {
     undefined,
   );
 
-  const errors = state?.properties?.url?.errors;
-
   return (
     <form action={formAction} className="space-y-2">
       <div className="flex gap-2">
@@ -22,9 +20,9 @@ export default function CreateSourceForm() {
         </Button>
       </div>
 
-      {errors && (
+      {state?.properties?.url?.errors && (
         <ul className="list-disc list-inside text-red-500">
-          {errors.map((error) => (
+          {state.properties.url.errors.map((error) => (
             <li key={error} className="text-red-500">
               {error}
             </li>

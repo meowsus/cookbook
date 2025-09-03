@@ -171,13 +171,16 @@ const deleteSourceFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
-export async function deleteSourceAction(formData: FormData) {
+export async function deleteSourceAction(
+  prevState: unknown,
+  formData: FormData,
+) {
   const parsedFormData = deleteSourceFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 
   if (!parsedFormData.success) {
-    throw new Error("Invalid form data");
+    return z.treeifyError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;

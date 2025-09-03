@@ -3,8 +3,7 @@ import List from "@/components/elements/List";
 import { getSources } from "@/lib/db/sources";
 import Link from "@/components/elements/Link";
 import Code from "@/components/elements/Code";
-import { deleteSourceAction } from "@/lib/actions/sources";
-import DeleteForm from "./DeleteForm";
+import DeleteSourceForm from "./DeleteSourceForm";
 
 export default async function SourcesPage() {
   const sources = await getSources();
@@ -22,7 +21,7 @@ export default async function SourcesPage() {
             <Code>{source.id}</Code> {source.url}{" "}
             <div className="inline-flex items-center gap-2">
               <Link href={`/sources/${source.id}`}>View</Link>
-              <DeleteForm sourceId={source.id} />
+              <DeleteSourceForm sourceId={source.id} />
             </div>
           </li>
         ))}

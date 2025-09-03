@@ -13,7 +13,7 @@ import {
 import { getSource } from "@/lib/db/sources";
 import ProcessedHtmlForm from "@/app/sources/[sourceId]/ProcessedHtmlForm";
 import FetchExtractedRecipeForm from "@/app/sources/[sourceId]/FetchExtractedRecipeForm";
-import DeleteForm from "../DeleteForm";
+import DeleteSourceForm from "../DeleteSourceForm";
 import RemoveDataForm from "./RemoveDataForm";
 
 export default async function SourcePage({
@@ -33,7 +33,7 @@ export default async function SourcePage({
 
       <div className="flex items-center gap-2">
         <Link href="/sources">Back to sources</Link>
-        <DeleteForm sourceId={sourceId} />
+        <DeleteSourceForm sourceId={sourceId} />
       </div>
 
       <Heading level={2}>Data</Heading>

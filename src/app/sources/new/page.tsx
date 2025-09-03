@@ -1,8 +1,6 @@
 import Heading from "@/components/elements/Heading";
-import Input from "@/components/elements/Input";
-import Button from "@/components/elements/Button";
-import { createSourceAction } from "@/lib/actions/sources";
 import Link from "@/components/elements/Link";
+import CreateSourceForm from "./CreateSourceForm";
 
 export default function NewSourcePage() {
   return (
@@ -15,12 +13,7 @@ export default function NewSourcePage() {
 
       <p>Did you find a new recipe on the internet? Add it&apos;s url here!</p>
 
-      <form action={createSourceAction}>
-        <div className="flex gap-2">
-          <Input name="url" type="text" placeholder="https://example.com" />
-          <Button type="submit">Add</Button>
-        </div>
-      </form>
+      <CreateSourceForm />
     </div>
   );
 }

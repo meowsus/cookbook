@@ -13,10 +13,10 @@ export default function FetchSourceHtmlForm({
   sourceId: string;
   formAction: (formData: FormData) => Promise<void> | void;
 }) {
-  const { data, error, isLoading, mutate } = useSWRImmutable(
-    `/api/sources/${sourceId}/html`,
-    fetcher,
-  );
+  const { data, error, isLoading, mutate } = useSWRImmutable<
+    { fullHtml: string },
+    { message: string }
+  >(`/api/sources/${sourceId}/html`, fetcher);
 
   if (isLoading) {
     return <Textarea disabled value="Fetching source HTML..." />;

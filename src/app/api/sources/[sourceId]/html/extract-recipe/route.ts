@@ -1,7 +1,12 @@
 import ollama from "ollama";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 import { getSource } from "@/lib/db/sources";
+
+const schema = z.object({
+  sourceId: z.string(),
+});
 
 const SYSTEM_PROMPT = `
 You are a recipe extraction bot. You MUST follow these rules strictly:
@@ -31,14 +36,23 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ sourceId: string }> },
 ) {
-  const { sourceId } = await params;
+  const parsedParams = schema.safeParse(await params);
+
+  if (!parsedParams.success) {
+    return NextResponse.json(
+      { message: "Invalid request parameters" },
+      { status: 400 },
+    );
+  }
+
+  const { sourceId } = parsedParams.data;
   const source = await getSource(sourceId);
 
   const html = source?.processedHtml;
 
   if (!html) {
     return NextResponse.json(
-      { error: "Source html not found" },
+      { message: "Source processed html not found" },
       { status: 404 },
     );
   }
@@ -47,7 +61,6 @@ export async function GET(
     model: process.env.OLLAMA_MODEL || "mistral",
     system: SYSTEM_PROMPT,
     prompt: `Extract ONLY the recipe from this HTML (ignore everything else): ${html}`,
-    think: false,
     keep_alive: "15m",
   });
 

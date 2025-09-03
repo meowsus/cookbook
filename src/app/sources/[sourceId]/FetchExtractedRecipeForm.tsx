@@ -13,10 +13,10 @@ export default function FetchExtractedRecipeForm({
   sourceId: string;
   formAction: (formData: FormData) => Promise<void> | void;
 }) {
-  const { data, error, isLoading, mutate } = useSWRImmutable(
-    `/api/sources/${sourceId}/html/extract-recipe`,
-    fetcher,
-  );
+  const { data, error, isLoading, mutate } = useSWRImmutable<
+    { text: string },
+    { message: string }
+  >(`/api/sources/${sourceId}/html/extract-recipe`, fetcher);
 
   if (isLoading) {
     return <Textarea disabled value="Generating recipe data..." />;

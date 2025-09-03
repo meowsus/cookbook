@@ -5,16 +5,19 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const createSourceFormDataSchema = z.object({
-  url: z.string(),
+  url: z.url(),
 });
 
-export async function createSourceAction(formData: FormData) {
+export async function createSourceAction(
+  prevState: unknown,
+  formData: FormData,
+) {
   const parsedFormData = createSourceFormDataSchema.safeParse({
     url: formData.get("url"),
   });
 
   if (!parsedFormData.success) {
-    throw new Error("Invalid form data");
+    return z.treeifyError(parsedFormData.error);
   }
 
   const { url } = parsedFormData.data;
@@ -25,8 +28,8 @@ export async function createSourceAction(formData: FormData) {
 }
 
 const updateSourceFullHtmlFormDataSchema = z.object({
-  sourceId: z.string(),
-  fullHtml: z.string(),
+  sourceId: z.string().nonempty(),
+  fullHtml: z.string().nonempty(),
 });
 
 export async function updateSourceFullHtmlAction(formData: FormData) {
@@ -36,7 +39,7 @@ export async function updateSourceFullHtmlAction(formData: FormData) {
   });
 
   if (!parsedFormData.success) {
-    throw new Error("Invalid form data");
+    return z.treeifyError(parsedFormData.error);
   }
 
   const { sourceId, fullHtml } = parsedFormData.data;
@@ -51,7 +54,7 @@ export async function updateSourceFullHtmlAction(formData: FormData) {
 }
 
 const removeSourceFullHtmlFormDataSchema = z.object({
-  sourceId: z.string(),
+  sourceId: z.string().nonempty(),
 });
 
 export async function removeSourceFullHtmlAction(formData: FormData) {
@@ -60,7 +63,7 @@ export async function removeSourceFullHtmlAction(formData: FormData) {
   });
 
   if (!parsedFormData.success) {
-    throw new Error("Invalid form data");
+    return z.treeifyError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -75,8 +78,8 @@ export async function removeSourceFullHtmlAction(formData: FormData) {
 }
 
 const updateSourceProcessedHtmlFormDataSchema = z.object({
-  sourceId: z.string(),
-  processedHtml: z.string(),
+  sourceId: z.string().nonempty(),
+  processedHtml: z.string().nonempty(),
 });
 
 export async function updateSourceProcessedHtmlAction(formData: FormData) {
@@ -86,7 +89,7 @@ export async function updateSourceProcessedHtmlAction(formData: FormData) {
   });
 
   if (!parsedFormData.success) {
-    throw new Error("Invalid form data");
+    return z.treeifyError(parsedFormData.error);
   }
 
   const { sourceId, processedHtml } = parsedFormData.data;
@@ -100,7 +103,7 @@ export async function updateSourceProcessedHtmlAction(formData: FormData) {
 }
 
 const removeSourceProcessedHtmlFormDataSchema = z.object({
-  sourceId: z.string(),
+  sourceId: z.string().nonempty(),
 });
 
 export async function removeSourceProcessedHtmlAction(formData: FormData) {
@@ -109,7 +112,7 @@ export async function removeSourceProcessedHtmlAction(formData: FormData) {
   });
 
   if (!parsedFormData.success) {
-    throw new Error("Invalid form data");
+    return z.treeifyError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -123,8 +126,8 @@ export async function removeSourceProcessedHtmlAction(formData: FormData) {
 }
 
 const updateExtractedRecipeFormDataSchema = z.object({
-  sourceId: z.string(),
-  extractedRecipe: z.string(),
+  sourceId: z.string().nonempty(),
+  extractedRecipe: z.string().nonempty(),
 });
 
 export async function updateExtractedRecipeAction(formData: FormData) {
@@ -134,7 +137,7 @@ export async function updateExtractedRecipeAction(formData: FormData) {
   });
 
   if (!parsedFormData.success) {
-    throw new Error("Invalid form data");
+    return z.treeifyError(parsedFormData.error);
   }
 
   const { sourceId, extractedRecipe } = parsedFormData.data;
@@ -145,7 +148,7 @@ export async function updateExtractedRecipeAction(formData: FormData) {
 }
 
 const removeExtractedRecipeFormDataSchema = z.object({
-  sourceId: z.string(),
+  sourceId: z.string().nonempty(),
 });
 
 export async function removeExtractedRecipeAction(formData: FormData) {
@@ -154,7 +157,7 @@ export async function removeExtractedRecipeAction(formData: FormData) {
   });
 
   if (!parsedFormData.success) {
-    throw new Error("Invalid form data");
+    return z.treeifyError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -165,7 +168,7 @@ export async function removeExtractedRecipeAction(formData: FormData) {
 }
 
 const deleteSourceFormDataSchema = z.object({
-  sourceId: z.string(),
+  sourceId: z.string().nonempty(),
 });
 
 export async function deleteSourceAction(formData: FormData) {

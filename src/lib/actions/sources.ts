@@ -2,18 +2,44 @@
 
 import { createSource, deleteSource, updateSource } from "@/lib/db/sources";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+
+const createSourceFormDataSchema = z.object({
+  url: z.string(),
+});
 
 export async function createSourceAction(formData: FormData) {
-  const url = formData.get("url") as string;
+  const parsedFormData = createSourceFormDataSchema.safeParse({
+    url: formData.get("url"),
+  });
+
+  if (!parsedFormData.success) {
+    throw new Error("Invalid form data");
+  }
+
+  const { url } = parsedFormData.data;
 
   await createSource(url);
 
-  redirect("/sources");
+  void redirect("/sources");
 }
 
+const updateSourceFullHtmlFormDataSchema = z.object({
+  sourceId: z.string(),
+  fullHtml: z.string(),
+});
+
 export async function updateSourceFullHtmlAction(formData: FormData) {
-  const sourceId = formData.get("sourceId") as string;
-  const fullHtml = formData.get("fullHtml") as string;
+  const parsedFormData = updateSourceFullHtmlFormDataSchema.safeParse({
+    sourceId: formData.get("sourceId"),
+    fullHtml: formData.get("fullHtml"),
+  });
+
+  if (!parsedFormData.success) {
+    throw new Error("Invalid form data");
+  }
+
+  const { sourceId, fullHtml } = parsedFormData.data;
 
   await updateSource(sourceId, {
     fullHtml,
@@ -21,11 +47,23 @@ export async function updateSourceFullHtmlAction(formData: FormData) {
     extractedRecipe: "",
   });
 
-  redirect(`/sources/${sourceId}`);
+  void redirect(`/sources/${sourceId}`);
 }
 
+const removeSourceFullHtmlFormDataSchema = z.object({
+  sourceId: z.string(),
+});
+
 export async function removeSourceFullHtmlAction(formData: FormData) {
-  const sourceId = formData.get("sourceId") as string;
+  const parsedFormData = removeSourceFullHtmlFormDataSchema.safeParse({
+    sourceId: formData.get("sourceId"),
+  });
+
+  if (!parsedFormData.success) {
+    throw new Error("Invalid form data");
+  }
+
+  const { sourceId } = parsedFormData.data;
 
   await updateSource(sourceId, {
     fullHtml: "",
@@ -36,9 +74,22 @@ export async function removeSourceFullHtmlAction(formData: FormData) {
   redirect(`/sources/${sourceId}`);
 }
 
+const updateSourceProcessedHtmlFormDataSchema = z.object({
+  sourceId: z.string(),
+  processedHtml: z.string(),
+});
+
 export async function updateSourceProcessedHtmlAction(formData: FormData) {
-  const sourceId = formData.get("sourceId") as string;
-  const processedHtml = formData.get("processedHtml") as string;
+  const parsedFormData = updateSourceProcessedHtmlFormDataSchema.safeParse({
+    sourceId: formData.get("sourceId"),
+    processedHtml: formData.get("processedHtml"),
+  });
+
+  if (!parsedFormData.success) {
+    throw new Error("Invalid form data");
+  }
+
+  const { sourceId, processedHtml } = parsedFormData.data;
 
   await updateSource(sourceId, {
     processedHtml,
@@ -48,8 +99,20 @@ export async function updateSourceProcessedHtmlAction(formData: FormData) {
   redirect(`/sources/${sourceId}`);
 }
 
+const removeSourceProcessedHtmlFormDataSchema = z.object({
+  sourceId: z.string(),
+});
+
 export async function removeSourceProcessedHtmlAction(formData: FormData) {
-  const sourceId = formData.get("sourceId") as string;
+  const parsedFormData = removeSourceProcessedHtmlFormDataSchema.safeParse({
+    sourceId: formData.get("sourceId"),
+  });
+
+  if (!parsedFormData.success) {
+    throw new Error("Invalid form data");
+  }
+
+  const { sourceId } = parsedFormData.data;
 
   await updateSource(sourceId, {
     processedHtml: "",
@@ -59,27 +122,64 @@ export async function removeSourceProcessedHtmlAction(formData: FormData) {
   redirect(`/sources/${sourceId}`);
 }
 
+const updateExtractedRecipeFormDataSchema = z.object({
+  sourceId: z.string(),
+  extractedRecipe: z.string(),
+});
+
 export async function updateExtractedRecipeAction(formData: FormData) {
-  const sourceId = formData.get("sourceId") as string;
-  const extractedRecipe = formData.get("extractedRecipe") as string;
+  const parsedFormData = updateExtractedRecipeFormDataSchema.safeParse({
+    sourceId: formData.get("sourceId"),
+    extractedRecipe: formData.get("extractedRecipe"),
+  });
+
+  if (!parsedFormData.success) {
+    throw new Error("Invalid form data");
+  }
+
+  const { sourceId, extractedRecipe } = parsedFormData.data;
 
   await updateSource(sourceId, { extractedRecipe });
 
   redirect(`/sources/${sourceId}`);
 }
 
+const removeExtractedRecipeFormDataSchema = z.object({
+  sourceId: z.string(),
+});
+
 export async function removeExtractedRecipeAction(formData: FormData) {
-  const sourceId = formData.get("sourceId") as string;
+  const parsedFormData = removeExtractedRecipeFormDataSchema.safeParse({
+    sourceId: formData.get("sourceId"),
+  });
+
+  if (!parsedFormData.success) {
+    throw new Error("Invalid form data");
+  }
+
+  const { sourceId } = parsedFormData.data;
 
   await updateSource(sourceId, { extractedRecipe: "" });
 
   redirect(`/sources/${sourceId}`);
 }
 
+const deleteSourceFormDataSchema = z.object({
+  sourceId: z.string(),
+});
+
 export async function deleteSourceAction(formData: FormData) {
-  const sourceId = formData.get("sourceId") as string;
+  const parsedFormData = deleteSourceFormDataSchema.safeParse({
+    sourceId: formData.get("sourceId"),
+  });
+
+  if (!parsedFormData.success) {
+    throw new Error("Invalid form data");
+  }
+
+  const { sourceId } = parsedFormData.data;
 
   await deleteSource(sourceId);
 
-  redirect("/sources");
+  void redirect("/sources");
 }

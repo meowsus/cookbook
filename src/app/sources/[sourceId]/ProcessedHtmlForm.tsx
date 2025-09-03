@@ -31,6 +31,7 @@ export default function ProcessedHtmlForm({
         onChange={(event) => {
           setProcessedHtml(processRecipeHtml(event.target.value));
         }}
+        required
       />
 
       {isTooLong && (

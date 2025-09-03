@@ -2,21 +2,25 @@
 
 import Button from "@/components/elements/Button";
 import Textarea from "@/components/elements/Textarea";
+import { updateSourceProcessedHtmlAction } from "@/lib/actions/sources";
 import { processRecipeHtml } from "@/lib/helpers/html";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 
 const MAX_LENGTH = 10000;
 
-export default function ProcessedHtmlForm({
+export default function UpdateSourceProcessedHtmlForm({
   sourceId,
   value,
-  formAction,
 }: {
   sourceId: string;
   value: string;
-  formAction: (formData: FormData) => Promise<void> | void;
 }) {
   const [processedHtml, setProcessedHtml] = useState(processRecipeHtml(value));
+
+  const [state, formAction, pending] = useActionState(
+    updateSourceProcessedHtmlAction,
+    undefined,
+  );
 
   const isTooLong = processedHtml.length > MAX_LENGTH;
 
@@ -44,8 +48,20 @@ export default function ProcessedHtmlForm({
       )}
 
       <div className="space-x-2">
-        <Button type="submit">Looks good!</Button>
+        <Button type="submit" disabled={pending}>
+          Looks good!
+        </Button>
       </div>
+
+      {state?.properties?.processedHtml?.errors && (
+        <ul className="list-disc list-inside text-red-500">
+          {state.properties.processedHtml.errors.map((error) => (
+            <li key={error} className="text-red-500">
+              {error}
+            </li>
+          ))}
+        </ul>
+      )}
     </form>
   );
 }

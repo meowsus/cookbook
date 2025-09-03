@@ -5,7 +5,7 @@ import { z } from "zod";
 import { getSource } from "@/lib/db/sources";
 
 const schema = z.object({
-  sourceId: z.string(),
+  sourceId: z.string().nonempty(),
 });
 
 const SYSTEM_PROMPT = `
@@ -40,7 +40,7 @@ export async function GET(
 
   if (!parsedParams.success) {
     return NextResponse.json(
-      { message: "Invalid request parameters" },
+      { validation: z.treeifyError(parsedParams.error) },
       { status: 400 },
     );
   }
@@ -48,19 +48,14 @@ export async function GET(
   const { sourceId } = parsedParams.data;
   const source = await getSource(sourceId);
 
-  const html = source?.processedHtml;
-
-  if (!html) {
-    return NextResponse.json(
-      { message: "Source processed html not found" },
-      { status: 404 },
-    );
+  if (!source) {
+    return NextResponse.json({ message: "Source not found" }, { status: 404 });
   }
 
   const result = await ollama.generate({
     model: process.env.OLLAMA_MODEL || "mistral",
     system: SYSTEM_PROMPT,
-    prompt: `Extract ONLY the recipe from this HTML (ignore everything else): ${html}`,
+    prompt: `Extract ONLY the recipe from this HTML (ignore everything else): ${source.processedHtml}`,
     keep_alive: "15m",
   });
 

@@ -6,14 +6,19 @@ import fetcher from "@/lib/fetcher";
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
 import { treeifyError } from "zod";
+import { useActionState } from "react";
+import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
 
-export default function FetchExtractedRecipeForm({
+export default function UpdateSourceExtractedRecipeForm({
   sourceId,
-  formAction,
 }: {
   sourceId: string;
-  formAction: (formData: FormData) => Promise<void> | void;
 }) {
+  const [state, formAction, pending] = useActionState(
+    updateSourceExtractedRecipeAction,
+    undefined,
+  );
+
   const { data, error, isLoading, mutate } = useSWRImmutable<
     { text: string },
     | { message: string }
@@ -45,11 +50,23 @@ export default function FetchExtractedRecipeForm({
       <Textarea rows={10} name="extractedRecipe" value={data?.text} readOnly />
 
       <div className="space-x-2">
-        <Button type="submit">Looks good!</Button>
+        <Button type="submit" disabled={pending}>
+          Looks good!
+        </Button>
         <Button type="reset" onClick={() => mutate()}>
           Fetch again?
         </Button>
       </div>
+
+      {state?.properties?.extractedRecipe?.errors && (
+        <ul className="list-disc list-inside text-red-500">
+          {state.properties.extractedRecipe.errors.map((error) => (
+            <li key={error} className="text-red-500">
+              {error}
+            </li>
+          ))}
+        </ul>
+      )}
     </form>
   );
 }

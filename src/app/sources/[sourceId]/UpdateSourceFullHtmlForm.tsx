@@ -6,14 +6,19 @@ import fetcher from "@/lib/fetcher";
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
 import { treeifyError } from "zod";
+import { useActionState } from "react";
+import { updateSourceFullHtmlAction } from "@/lib/actions/sources";
 
-export default function FetchSourceHtmlForm({
+export default function UpdateSourceFullHtmlForm({
   sourceId,
-  formAction,
 }: {
   sourceId: string;
-  formAction: (formData: FormData) => Promise<void> | void;
 }) {
+  const [state, formAction, pending] = useActionState(
+    updateSourceFullHtmlAction,
+    undefined,
+  );
+
   const { data, error, isLoading, mutate } = useSWRImmutable<
     { fullHtml: string },
     | { message: string }
@@ -44,11 +49,23 @@ export default function FetchSourceHtmlForm({
       <Textarea rows={10} name="fullHtml" value={data?.fullHtml} readOnly />
 
       <div className="space-x-2">
-        <Button type="submit">Looks good!</Button>
+        <Button type="submit" disabled={pending}>
+          Looks good!
+        </Button>
         <Button type="reset" onClick={() => mutate()}>
           Fetch again?
         </Button>
       </div>
+
+      {state?.properties?.fullHtml?.errors && (
+        <ul className="list-disc list-inside text-red-500">
+          {state.properties.fullHtml.errors.map((error) => (
+            <li key={error} className="text-red-500">
+              {error}
+            </li>
+          ))}
+        </ul>
+      )}
     </form>
   );
 }

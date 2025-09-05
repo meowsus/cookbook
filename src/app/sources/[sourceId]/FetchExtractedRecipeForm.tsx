@@ -41,7 +41,6 @@ export default function FetchExtractedRecipeForm({
   return (
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
-
       <Textarea rows={10} name="extractedRecipe" value={data?.text} readOnly />
 
       <div className="space-x-2">

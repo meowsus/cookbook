@@ -5,7 +5,7 @@ import { z } from "zod";
 import { getSource } from "@/lib/db/sources";
 import { ApiErrorCode, ApiResponse } from "@/types";
 
-const schema = z.object({
+const GetParamsSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -41,7 +41,7 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ sourceId: string }> },
 ): Promise<NextResponse<ApiResponse<GetResponseData>>> {
-  const parsedParams = schema.safeParse(await params);
+  const parsedParams = GetParamsSchema.safeParse(await params);
 
   if (!parsedParams.success) {
     return NextResponse.json(

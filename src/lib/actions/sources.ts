@@ -4,7 +4,7 @@ import { createSource, deleteSource, updateSource } from "@/lib/db/sources";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-export const CreateSourceFormDataSchema = z.object({
+const CreateSourceFormDataSchema = z.object({
   url: z.url(),
 });
 
@@ -24,10 +24,10 @@ export async function createSourceAction(
 
   await createSource(url);
 
-  void redirect("/sources");
+  redirect("/sources");
 }
 
-export const UpdateSourceFullHtmlFormDataSchema = z.object({
+const UpdateSourceFullHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   fullHtml: z.string().nonempty(),
 });
@@ -53,10 +53,10 @@ export async function updateSourceFullHtmlAction(
     extractedRecipe: "",
   });
 
-  void redirect(`/sources/${sourceId}`);
+  redirect(`/sources/${sourceId}`);
 }
 
-export const RemoveSourceFullHtmlFormDataSchema = z.object({
+const RemoveSourceFullHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -83,7 +83,7 @@ export async function removeSourceFullHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-export const UpdateSourceProcessedHtmlFormDataSchema = z.object({
+const UpdateSourceProcessedHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   processedHtml: z.string().nonempty(),
 });
@@ -111,7 +111,7 @@ export async function updateSourceProcessedHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-export const RemoveSourceProcessedHtmlFormDataSchema = z.object({
+const RemoveSourceProcessedHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -137,7 +137,7 @@ export async function removeSourceProcessedHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-export const UpdateExtractedRecipeFormDataSchema = z.object({
+const UpdateExtractedRecipeFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   extractedRecipe: z.string().nonempty(),
 });
@@ -162,7 +162,7 @@ export async function updateSourceExtractedRecipeAction(
   redirect(`/sources/${sourceId}`);
 }
 
-export const RemoveExtractedRecipeFormDataSchema = z.object({
+const RemoveExtractedRecipeFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -185,7 +185,7 @@ export async function removeSourceExtractedRecipeAction(
   redirect(`/sources/${sourceId}`);
 }
 
-export const DeleteSourceFormDataSchema = z.object({
+const DeleteSourceFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -205,5 +205,5 @@ export async function deleteSourceAction(
 
   await deleteSource(sourceId);
 
-  void redirect("/sources");
+  redirect("/sources");
 }

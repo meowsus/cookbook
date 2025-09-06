@@ -6,9 +6,10 @@ A robot pal for recipes
 
 This project requires:
 
+1. [the correct version](.nvmrc) of [nodejs](https://nodejs.org/en/download)
 1. [pnpm](https://pnpm.io/installation)
-2. [ollama](https://ollama.com/)
-3. [sqlite](https://sqlite.org/download.html)
+1. [ollama](https://ollama.com/)
+1. [sqlite](https://sqlite.org/download.html)
 
 ```
 pnpm i

@@ -59,6 +59,7 @@ export default function UpdateSourceExtractedRecipeForm({
           name="extractedRecipe"
           value={data?.text}
           readOnly
+          required
         />
 
         {state?.fieldErrors?.extractedRecipe && (

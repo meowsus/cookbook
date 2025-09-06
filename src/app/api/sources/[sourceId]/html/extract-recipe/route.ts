@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { getSource } from "@/lib/db/sources";
+import { ApiErrorCode, ApiResponse } from "@/types";
 
 const schema = z.object({
   sourceId: z.string().nonempty(),
@@ -32,15 +33,23 @@ You are a recipe extraction bot. You MUST follow these rules strictly:
 CRITICAL: Do not provide explanations, summaries, or any other text. Return ONLY the recipe in the format above.
 `;
 
+export type GetResponseData = {
+  text: string;
+};
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ sourceId: string }> },
-) {
+): Promise<NextResponse<ApiResponse<GetResponseData>>> {
   const parsedParams = schema.safeParse(await params);
 
   if (!parsedParams.success) {
     return NextResponse.json(
-      { validation: z.treeifyError(parsedParams.error) },
+      {
+        message: "Validation Error",
+        code: ApiErrorCode.VALIDATION_ERROR,
+        validation: z.flattenError(parsedParams.error).fieldErrors,
+      },
       { status: 400 },
     );
   }
@@ -49,7 +58,10 @@ export async function GET(
   const source = await getSource(sourceId);
 
   if (!source) {
-    return NextResponse.json({ message: "Source not found" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Source not found", code: ApiErrorCode.NOT_FOUND },
+      { status: 404 },
+    );
   }
 
   const result = await ollama.generate({

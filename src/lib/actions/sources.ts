@@ -17,7 +17,7 @@ export async function createSourceAction(
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { url } = parsedFormData.data;
@@ -42,7 +42,7 @@ export async function updateSourceFullHtmlAction(
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId, fullHtml } = parsedFormData.data;
@@ -69,7 +69,7 @@ export async function removeSourceFullHtmlAction(
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -98,7 +98,7 @@ export async function updateSourceProcessedHtmlAction(
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId, processedHtml } = parsedFormData.data;
@@ -124,7 +124,7 @@ export async function removeSourceProcessedHtmlAction(
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -152,7 +152,7 @@ export async function updateSourceExtractedRecipeAction(
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId, extractedRecipe } = parsedFormData.data;
@@ -175,7 +175,7 @@ export async function removeSourceExtractedRecipeAction(
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -198,7 +198,7 @@ export async function deleteSourceAction(
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;

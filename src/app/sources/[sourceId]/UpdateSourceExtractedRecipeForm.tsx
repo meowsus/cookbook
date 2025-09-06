@@ -5,9 +5,10 @@ import fetcher from "@/lib/fetcher";
 
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
-import { treeifyError } from "zod";
 import { useActionState } from "react";
 import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
+import { GetResponseData } from "@/app/api/sources/[sourceId]/html/extract-recipe/route";
+import { ApiErrorResponse } from "@/types";
 
 export default function UpdateSourceExtractedRecipeForm({
   sourceId,
@@ -20,24 +21,29 @@ export default function UpdateSourceExtractedRecipeForm({
   );
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
-    { text: string },
-    | { message: string }
-    | { validation: ReturnType<typeof treeifyError<{ sourceId: string }>> }
+    GetResponseData,
+    ApiErrorResponse
   >(`/api/sources/${sourceId}/html/extract-recipe`, fetcher);
 
   if (isLoading) {
     return <Textarea disabled value="Generating recipe data..." />;
   }
 
-  const errorMessage =
-    error && "validation" in error
-      ? error.validation.errors.join(", ") // TODO: This may be blank?
-      : error?.message;
-
   if (error) {
     return (
       <div className="space-y-2">
-        <Textarea disabled value={`Error: ${errorMessage}`} />
+        <Textarea disabled value={`Error: ${error.message}`} />
+
+        {error.validation && (
+          <ul className="text-red-500">
+            {Object.entries(error.validation).map(([key, value]) => (
+              <li key={key}>
+                {key}: {value.join(", ")}
+              </li>
+            ))}
+          </ul>
+        )}
+
         <Button onClick={() => mutate()}>Try again</Button>
       </div>
     );

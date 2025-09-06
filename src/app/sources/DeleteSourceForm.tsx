@@ -25,9 +25,9 @@ export default function DeleteSourceForm({
         Delete
       </button>
 
-      {state?.properties?.sourceId?.errors && (
+      {state?.formErrors && (
         <ul className="list-disc list-inside text-red-500">
-          {state.properties.sourceId.errors.map((error) => (
+          {state.formErrors.map((error) => (
             <li key={error} className="text-red-500">
               {error}
             </li>

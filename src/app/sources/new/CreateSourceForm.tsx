@@ -15,14 +15,25 @@ export default function CreateSourceForm() {
     <form action={formAction} className="space-y-2">
       <div className="flex gap-2">
         <Input name="url" type="text" placeholder="https://example.com" />
+
         <Button type="submit" disabled={pending}>
           Add
         </Button>
       </div>
 
-      {state?.properties?.url?.errors && (
+      {state?.fieldErrors?.url && (
         <ul className="list-disc list-inside text-red-500">
-          {state.properties.url.errors.map((error) => (
+          {state.fieldErrors.url.map((error) => (
+            <li key={error} className="text-red-500">
+              {error}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {state?.formErrors && (
+        <ul className="list-disc list-inside text-red-500">
+          {state.formErrors.map((error) => (
             <li key={error} className="text-red-500">
               {error}
             </li>

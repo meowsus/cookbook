@@ -28,15 +28,27 @@ export default function UpdateSourceProcessedHtmlForm({
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <Textarea
-        rows={10}
-        name="processedHtml"
-        value={processedHtml}
-        onChange={(event) => {
-          setProcessedHtml(processRecipeHtml(event.target.value));
-        }}
-        required
-      />
+      <div className="space-y-1">
+        <Textarea
+          rows={10}
+          name="processedHtml"
+          value={processedHtml}
+          onChange={(event) => {
+            setProcessedHtml(processRecipeHtml(event.target.value));
+          }}
+          required
+        />
+
+        {state?.fieldErrors?.processedHtml && (
+          <ul className="list-disc list-inside text-red-500">
+            {state.fieldErrors.processedHtml.map((error) => (
+              <li key={error} className="text-red-500">
+                {error}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       {isTooLong && (
         <div className="text-yellow-500">
@@ -53,9 +65,9 @@ export default function UpdateSourceProcessedHtmlForm({
         </Button>
       </div>
 
-      {state?.properties?.processedHtml?.errors && (
+      {state?.formErrors && (
         <ul className="list-disc list-inside text-red-500">
-          {state.properties.processedHtml.errors.map((error) => (
+          {state.formErrors.map((error) => (
             <li key={error} className="text-red-500">
               {error}
             </li>

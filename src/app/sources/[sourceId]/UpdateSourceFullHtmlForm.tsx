@@ -53,7 +53,19 @@ export default function UpdateSourceFullHtmlForm({
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <Textarea rows={10} name="fullHtml" value={data?.html} readOnly />
+      <div className="space-y-1">
+        <Textarea rows={10} name="fullHtml" value={data?.html} readOnly />
+
+        {state?.fieldErrors?.fullHtml && (
+          <ul className="list-disc list-inside text-red-500">
+            {state.fieldErrors.fullHtml.map((error) => (
+              <li key={error} className="text-red-500">
+                {error}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <div className="space-x-2">
         <Button type="submit" disabled={pending}>
@@ -64,9 +76,9 @@ export default function UpdateSourceFullHtmlForm({
         </Button>
       </div>
 
-      {state?.properties?.fullHtml?.errors && (
+      {state?.formErrors && (
         <ul className="list-disc list-inside text-red-500">
-          {state.properties.fullHtml.errors.map((error) => (
+          {state.formErrors.map((error) => (
             <li key={error} className="text-red-500">
               {error}
             </li>

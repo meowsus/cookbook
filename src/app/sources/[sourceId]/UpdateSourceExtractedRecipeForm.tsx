@@ -53,7 +53,24 @@ export default function UpdateSourceExtractedRecipeForm({
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <Textarea rows={10} name="extractedRecipe" value={data?.text} readOnly />
+      <div className="flex flex-col gap-2">
+        <Textarea
+          rows={10}
+          name="extractedRecipe"
+          value={data?.text}
+          readOnly
+        />
+
+        {state?.fieldErrors?.extractedRecipe && (
+          <ul className="list-disc list-inside text-red-500">
+            {state.fieldErrors.extractedRecipe.map((error) => (
+              <li key={error} className="text-red-500">
+                {error}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <div className="space-x-2">
         <Button type="submit" disabled={pending}>
@@ -64,9 +81,9 @@ export default function UpdateSourceExtractedRecipeForm({
         </Button>
       </div>
 
-      {state?.properties?.extractedRecipe?.errors && (
+      {state?.formErrors && (
         <ul className="list-disc list-inside text-red-500">
-          {state.properties.extractedRecipe.errors.map((error) => (
+          {state.formErrors.map((error) => (
             <li key={error} className="text-red-500">
               {error}
             </li>

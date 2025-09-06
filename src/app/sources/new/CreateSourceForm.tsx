@@ -14,7 +14,12 @@ export default function CreateSourceForm() {
   return (
     <form action={formAction} className="space-y-2">
       <div className="flex gap-2">
-        <Input name="url" type="text" placeholder="https://example.com" />
+        <Input
+          name="url"
+          type="url"
+          placeholder="https://example.com"
+          required
+        />
 
         <Button type="submit" disabled={pending}>
           Add

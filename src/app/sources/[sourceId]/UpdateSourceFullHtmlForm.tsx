@@ -54,7 +54,13 @@ export default function UpdateSourceFullHtmlForm({
       <input type="hidden" name="sourceId" value={sourceId} />
 
       <div className="space-y-1">
-        <Textarea rows={10} name="fullHtml" value={data?.html} readOnly />
+        <Textarea
+          rows={10}
+          name="fullHtml"
+          value={data?.html}
+          readOnly
+          required
+        />
 
         {state?.fieldErrors?.fullHtml && (
           <ul className="list-disc list-inside text-red-500">

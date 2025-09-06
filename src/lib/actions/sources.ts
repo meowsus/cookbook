@@ -4,7 +4,7 @@ import { createSource, deleteSource, updateSource } from "@/lib/db/sources";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-const createSourceFormDataSchema = z.object({
+export const CreateSourceFormDataSchema = z.object({
   url: z.url(),
 });
 
@@ -12,7 +12,7 @@ export async function createSourceAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = createSourceFormDataSchema.safeParse({
+  const parsedFormData = CreateSourceFormDataSchema.safeParse({
     url: formData.get("url"),
   });
 
@@ -27,7 +27,7 @@ export async function createSourceAction(
   void redirect("/sources");
 }
 
-const updateSourceFullHtmlFormDataSchema = z.object({
+export const UpdateSourceFullHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   fullHtml: z.string().nonempty(),
 });
@@ -36,7 +36,7 @@ export async function updateSourceFullHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = updateSourceFullHtmlFormDataSchema.safeParse({
+  const parsedFormData = UpdateSourceFullHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     fullHtml: formData.get("fullHtml"),
   });
@@ -56,7 +56,7 @@ export async function updateSourceFullHtmlAction(
   void redirect(`/sources/${sourceId}`);
 }
 
-const removeSourceFullHtmlFormDataSchema = z.object({
+export const RemoveSourceFullHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -64,7 +64,7 @@ export async function removeSourceFullHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = removeSourceFullHtmlFormDataSchema.safeParse({
+  const parsedFormData = RemoveSourceFullHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 
@@ -83,7 +83,7 @@ export async function removeSourceFullHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const updateSourceProcessedHtmlFormDataSchema = z.object({
+export const UpdateSourceProcessedHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   processedHtml: z.string().nonempty(),
 });
@@ -92,7 +92,7 @@ export async function updateSourceProcessedHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = updateSourceProcessedHtmlFormDataSchema.safeParse({
+  const parsedFormData = UpdateSourceProcessedHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     processedHtml: formData.get("processedHtml"),
   });
@@ -111,7 +111,7 @@ export async function updateSourceProcessedHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const removeSourceProcessedHtmlFormDataSchema = z.object({
+export const RemoveSourceProcessedHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -119,7 +119,7 @@ export async function removeSourceProcessedHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = removeSourceProcessedHtmlFormDataSchema.safeParse({
+  const parsedFormData = RemoveSourceProcessedHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 
@@ -137,7 +137,7 @@ export async function removeSourceProcessedHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const updateExtractedRecipeFormDataSchema = z.object({
+export const UpdateExtractedRecipeFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   extractedRecipe: z.string().nonempty(),
 });
@@ -146,7 +146,7 @@ export async function updateSourceExtractedRecipeAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = updateExtractedRecipeFormDataSchema.safeParse({
+  const parsedFormData = UpdateExtractedRecipeFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     extractedRecipe: formData.get("extractedRecipe"),
   });
@@ -162,7 +162,7 @@ export async function updateSourceExtractedRecipeAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const removeExtractedRecipeFormDataSchema = z.object({
+export const RemoveExtractedRecipeFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -170,7 +170,7 @@ export async function removeSourceExtractedRecipeAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = removeExtractedRecipeFormDataSchema.safeParse({
+  const parsedFormData = RemoveExtractedRecipeFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 
@@ -185,7 +185,7 @@ export async function removeSourceExtractedRecipeAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const deleteSourceFormDataSchema = z.object({
+export const DeleteSourceFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -193,7 +193,7 @@ export async function deleteSourceAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = deleteSourceFormDataSchema.safeParse({
+  const parsedFormData = DeleteSourceFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 

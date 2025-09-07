@@ -12,8 +12,10 @@
     "format:fix": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "db:seed": "tsx src/lib/db/seed/index.ts",
+    "db:drop": "prisma migrate reset --force"
   },
   "dependencies": {
     "@prisma/client": "6.13.0",
@@ -39,6 +41,7 @@
     "prettier-plugin-prisma": "^5.0.0",
     "prisma": "^6.13.0",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
     "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@10.15.1+sha512.34e538c329b5553014ca8e8f4535997f96180a1d0f614339357449935350d924e22f8614682191264ec33d1462ac21561aff97f6bb18065351c162c7e8f6de67"

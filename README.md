@@ -12,8 +12,11 @@ This project requires:
 1. [sqlite](https://sqlite.org/download.html)
 
 ```
-pnpm i
 ollama pull mistral
+pnpm i
+pnpm prisma:generate
+pnpm prisma:migrate
+pnpm db:seed # optional
 ```
 
 ## Development

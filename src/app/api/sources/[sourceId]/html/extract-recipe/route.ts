@@ -4,6 +4,8 @@ import { z } from "zod";
 
 import { getSource } from "@/lib/db/sources";
 import { ApiErrorCode, ApiResponse } from "@/types";
+import { auth } from "@/lib/auth";
+import { NextAuthRequest } from "next-auth";
 
 const GetParamsSchema = z.object({
   sourceId: z.string().nonempty(),
@@ -37,10 +39,17 @@ export type GetResponseData = {
   text: string;
 };
 
-export async function GET(
-  request: Request,
+export const GET = auth(async function GET(
+  request: NextAuthRequest,
   { params }: { params: Promise<{ sourceId: string }> },
 ): Promise<NextResponse<ApiResponse<GetResponseData>>> {
+  if (!request.auth) {
+    return NextResponse.json(
+      { message: "Unauthorized", code: ApiErrorCode.UNAUTHORIZED },
+      { status: 401 },
+    );
+  }
+
   const parsedParams = GetParamsSchema.safeParse(await params);
 
   if (!parsedParams.success) {
@@ -74,4 +83,4 @@ export async function GET(
   console.log(result);
 
   return NextResponse.json({ text: result.response });
-}
+});

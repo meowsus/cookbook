@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  smtp4dev:
+    image: rnwood/smtp4dev:latest
+    container_name: cookbook-smtp4dev
+    ports:
+      - "1025:25" # SMTP port (mapped to standard port 25 inside container)
+      - "8025:80" # Web UI port
+    environment:
+      - ServerOptions__HostName=smtp4dev
+      - ServerOptions__Port=25
+      - ServerOptions__AuthenticationRequired=true
+      - ServerOptions__AllowedUsers=username:password
+    volumes:
+      - smtp4dev_data:/smtp4dev
+    restart: unless-stopped
+    networks:
+      - cookbook-network
+
+volumes:
+  smtp4dev_data:
+    driver: local
+
+networks:
+  cookbook-network:
+    driver: bridge

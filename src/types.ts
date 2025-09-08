@@ -1,6 +1,7 @@
 export enum ApiErrorCode {
   VALIDATION_ERROR,
   NOT_FOUND,
+  UNAUTHORIZED,
 }
 
 export interface ApiErrors {

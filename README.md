@@ -10,6 +10,7 @@ This project requires:
 1. [pnpm](https://pnpm.io/installation)
 1. [ollama](https://ollama.com/)
 1. [sqlite](https://sqlite.org/download.html)
+1. [docker](https://www.docker.com/)
 
 ```
 ollama pull mistral
@@ -23,7 +24,12 @@ pnpm db:seed # optional
 
 ```
 pnpm dev
+docker compose up -d
 ```
+
+### Authentication
+
+After signing in with your email address, visit http://localhost:8025 to get the email the server sends. That email will contain a link to finish authentication.
 
 ## Notes
 

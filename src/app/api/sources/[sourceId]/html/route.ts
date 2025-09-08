@@ -1,5 +1,7 @@
+import { auth } from "@/lib/auth";
 import { getSource } from "@/lib/db/sources";
 import { ApiErrorCode, ApiResponse } from "@/types";
+import { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -11,10 +13,17 @@ export interface GetResponseData {
   html: string;
 }
 
-export async function GET(
-  request: Request,
+export const GET = auth(async function GET(
+  request: NextAuthRequest,
   { params }: { params: Promise<{ sourceId: string }> },
 ): Promise<NextResponse<ApiResponse<GetResponseData>>> {
+  if (!request.auth) {
+    return NextResponse.json(
+      { message: "Unauthorized", code: ApiErrorCode.UNAUTHORIZED },
+      { status: 401 },
+    );
+  }
+
   const parsedParams = GetParamsSchema.safeParse(await params);
 
   if (!parsedParams.success) {
@@ -45,4 +54,4 @@ export async function GET(
   const html = await response.text();
 
   return NextResponse.json({ html });
-}
+});

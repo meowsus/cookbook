@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { readFileSync, readdirSync } from "fs";
 import { join, parse } from "path";
 

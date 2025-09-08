@@ -4,16 +4,8 @@ import { getSources } from "@/lib/db/sources";
 import Link from "@/components/elements/Link";
 import Code from "@/components/elements/Code";
 import DeleteSourceForm from "./DeleteSourceForm";
-import { auth } from "@/lib/auth";
-import { notFound } from "next/navigation";
 
 export default async function SourcesPage() {
-  const session = await auth();
-
-  if (!session) {
-    notFound();
-  }
-
   const sources = await getSources();
 
   return (

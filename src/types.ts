@@ -5,7 +5,7 @@ export enum ApiErrorCode {
 
 export interface ApiErrors {
   message: string;
-  code?: ApiErrorCode;
+  code: ApiErrorCode;
   validation?: Record<string, string[]>;
 }
 

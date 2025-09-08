@@ -5,9 +5,10 @@ import fetcher from "@/lib/fetcher";
 
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
-import { treeifyError } from "zod";
 import { useActionState } from "react";
 import { updateSourceFullHtmlAction } from "@/lib/actions/sources";
+import { ApiErrorResponse } from "@/types";
+import { GetResponseData } from "@/app/api/sources/[sourceId]/html/route";
 
 export default function UpdateSourceFullHtmlForm({
   sourceId,
@@ -20,24 +21,29 @@ export default function UpdateSourceFullHtmlForm({
   );
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
-    { fullHtml: string },
-    | { message: string }
-    | { validation: ReturnType<typeof treeifyError<{ sourceId: string }>> }
+    GetResponseData,
+    ApiErrorResponse
   >(`/api/sources/${sourceId}/html`, fetcher);
 
   if (isLoading) {
     return <Textarea disabled value="Fetching source HTML..." />;
   }
 
-  const errorMessage =
-    error && "validation" in error
-      ? error.validation.errors.join(", ") // TODO: This may be blank?
-      : error?.message;
-
   if (error) {
     return (
       <div className="space-y-2">
-        <Textarea disabled value={`Error: ${errorMessage}`} />
+        <Textarea disabled value={`Error: ${error.message}`} />
+
+        {error.validation && (
+          <ul className="text-red-500">
+            {Object.entries(error.validation).map(([key, value]) => (
+              <li key={key}>
+                {key}: {value.join(", ")}
+              </li>
+            ))}
+          </ul>
+        )}
+
         <Button onClick={() => mutate()}>Try again</Button>
       </div>
     );
@@ -46,7 +52,26 @@ export default function UpdateSourceFullHtmlForm({
   return (
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
-      <Textarea rows={10} name="fullHtml" value={data?.fullHtml} readOnly />
+
+      <div className="space-y-1">
+        <Textarea
+          rows={10}
+          name="fullHtml"
+          value={data?.html}
+          readOnly
+          required
+        />
+
+        {state?.fieldErrors?.fullHtml && (
+          <ul className="list-disc list-inside text-red-500">
+            {state.fieldErrors.fullHtml.map((error) => (
+              <li key={error} className="text-red-500">
+                {error}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <div className="space-x-2">
         <Button type="submit" disabled={pending}>
@@ -57,9 +82,9 @@ export default function UpdateSourceFullHtmlForm({
         </Button>
       </div>
 
-      {state?.properties?.fullHtml?.errors && (
+      {state?.formErrors && (
         <ul className="list-disc list-inside text-red-500">
-          {state.properties.fullHtml.errors.map((error) => (
+          {state.formErrors.map((error) => (
             <li key={error} className="text-red-500">
               {error}
             </li>

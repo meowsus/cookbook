@@ -4,7 +4,7 @@ import { createSource, deleteSource, updateSource } from "@/lib/db/sources";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-const createSourceFormDataSchema = z.object({
+const CreateSourceFormDataSchema = z.object({
   url: z.url(),
 });
 
@@ -12,22 +12,22 @@ export async function createSourceAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = createSourceFormDataSchema.safeParse({
+  const parsedFormData = CreateSourceFormDataSchema.safeParse({
     url: formData.get("url"),
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { url } = parsedFormData.data;
 
   await createSource(url);
 
-  void redirect("/sources");
+  redirect("/sources");
 }
 
-const updateSourceFullHtmlFormDataSchema = z.object({
+const UpdateSourceFullHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   fullHtml: z.string().nonempty(),
 });
@@ -36,13 +36,13 @@ export async function updateSourceFullHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = updateSourceFullHtmlFormDataSchema.safeParse({
+  const parsedFormData = UpdateSourceFullHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     fullHtml: formData.get("fullHtml"),
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId, fullHtml } = parsedFormData.data;
@@ -53,10 +53,10 @@ export async function updateSourceFullHtmlAction(
     extractedRecipe: "",
   });
 
-  void redirect(`/sources/${sourceId}`);
+  redirect(`/sources/${sourceId}`);
 }
 
-const removeSourceFullHtmlFormDataSchema = z.object({
+const RemoveSourceFullHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -64,12 +64,12 @@ export async function removeSourceFullHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = removeSourceFullHtmlFormDataSchema.safeParse({
+  const parsedFormData = RemoveSourceFullHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -83,7 +83,7 @@ export async function removeSourceFullHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const updateSourceProcessedHtmlFormDataSchema = z.object({
+const UpdateSourceProcessedHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   processedHtml: z.string().nonempty(),
 });
@@ -92,13 +92,13 @@ export async function updateSourceProcessedHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = updateSourceProcessedHtmlFormDataSchema.safeParse({
+  const parsedFormData = UpdateSourceProcessedHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     processedHtml: formData.get("processedHtml"),
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId, processedHtml } = parsedFormData.data;
@@ -111,7 +111,7 @@ export async function updateSourceProcessedHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const removeSourceProcessedHtmlFormDataSchema = z.object({
+const RemoveSourceProcessedHtmlFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -119,12 +119,12 @@ export async function removeSourceProcessedHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = removeSourceProcessedHtmlFormDataSchema.safeParse({
+  const parsedFormData = RemoveSourceProcessedHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -137,7 +137,7 @@ export async function removeSourceProcessedHtmlAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const updateExtractedRecipeFormDataSchema = z.object({
+const UpdateExtractedRecipeFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
   extractedRecipe: z.string().nonempty(),
 });
@@ -146,13 +146,13 @@ export async function updateSourceExtractedRecipeAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = updateExtractedRecipeFormDataSchema.safeParse({
+  const parsedFormData = UpdateExtractedRecipeFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     extractedRecipe: formData.get("extractedRecipe"),
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId, extractedRecipe } = parsedFormData.data;
@@ -162,7 +162,7 @@ export async function updateSourceExtractedRecipeAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const removeExtractedRecipeFormDataSchema = z.object({
+const RemoveExtractedRecipeFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -170,12 +170,12 @@ export async function removeSourceExtractedRecipeAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = removeExtractedRecipeFormDataSchema.safeParse({
+  const parsedFormData = RemoveExtractedRecipeFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
@@ -185,7 +185,7 @@ export async function removeSourceExtractedRecipeAction(
   redirect(`/sources/${sourceId}`);
 }
 
-const deleteSourceFormDataSchema = z.object({
+const DeleteSourceFormDataSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
@@ -193,17 +193,17 @@ export async function deleteSourceAction(
   prevState: unknown,
   formData: FormData,
 ) {
-  const parsedFormData = deleteSourceFormDataSchema.safeParse({
+  const parsedFormData = DeleteSourceFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
 
   if (!parsedFormData.success) {
-    return z.treeifyError(parsedFormData.error);
+    return z.flattenError(parsedFormData.error);
   }
 
   const { sourceId } = parsedFormData.data;
 
   await deleteSource(sourceId);
 
-  void redirect("/sources");
+  redirect("/sources");
 }

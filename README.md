@@ -14,6 +14,7 @@ This project requires:
 
 ```
 ollama pull mistral
+
 pnpm i
 pnpm prisma:generate
 pnpm prisma:migrate
@@ -23,16 +24,10 @@ pnpm db:seed # optional
 ## Development
 
 ```
-pnpm dev
 docker compose up -d
+pnpm dev
 ```
 
 ### Authentication
 
-After signing in with your email address, visit http://localhost:8025 to get the email the server sends. That email will contain a link to finish authentication.
-
-## Notes
-
-- `mistral` has been the model most battle-tested, since it runs on my machine fairly well in CPU mode
-- LLM generation can take a very long time in CPU mode, timeouts may occur
-- I am using ollama because it is free
+After signing in with any email address, visit http://localhost:8025 to retrieve the magic link email.

@@ -2,7 +2,7 @@ import Code from "@/components/elements/Code";
 import Heading from "@/components/elements/Heading";
 import Link from "@/components/elements/Link";
 import UpdateSourceFullHtmlForm from "./UpdateSourceFullHtmlForm";
-import { getSource } from "@/lib/db/sources";
+import { findSource } from "@/lib/db/sources";
 import DeleteSourceForm from "../DeleteSourceForm";
 import RemoveSourceFullHtmlForm from "./RemoveSourceFullHtmlForm";
 import RemoveSourceProcessedHtmlForm from "./RemoveSourceProcessedHtmlForm";
@@ -17,7 +17,7 @@ export default async function SourcePage({
 }) {
   const { sourceId } = await params;
 
-  const source = await getSource(sourceId);
+  const source = await findSource(sourceId);
 
   return (
     <div className="space-y-4">

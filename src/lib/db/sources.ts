@@ -1,11 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "../../../generated/prisma";
 
-export async function createSource(url: string) {
+export async function createSource(data: Prisma.SourceCreateInput) {
   return prisma.source.create({
-    data: {
-      url,
-    },
+    data,
   });
 }
 
@@ -14,25 +12,25 @@ export async function updateSource(
   data: Prisma.SourceUpdateInput,
 ) {
   return prisma.source.update({
-    where: { id: parseInt(sourceId) },
+    where: { id: sourceId },
     data,
   });
 }
 
-export async function getSources() {
+export async function findSources() {
   return prisma.source.findMany();
 }
 
-export async function getSource(sourceId: string) {
+export async function findSource(sourceId: string) {
   return prisma.source.findUnique({
     where: {
-      id: parseInt(sourceId),
+      id: sourceId,
     },
   });
 }
 
 export async function deleteSource(sourceId: string) {
   return prisma.source.delete({
-    where: { id: parseInt(sourceId) },
+    where: { id: sourceId },
   });
 }

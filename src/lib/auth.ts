@@ -1,8 +1,15 @@
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Nodemailer from "next-auth/providers/nodemailer";
 import { prisma } from "./prisma";
 import authConfig from "../../auth.config";
+import { findOrCreateUserByEmail } from "./db/users";
+
+declare module "next-auth" {
+  interface Session {
+    user: Awaited<ReturnType<typeof findOrCreateUserByEmail>>;
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -21,7 +28,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       from: process.env.EMAIL_FROM,
     }),
+
     // Spread any edge-compatible providers from authConfig
     ...authConfig.providers,
   ],
+  callbacks: {
+    async session({ session }) {
+      const dbUser = await findOrCreateUserByEmail(session.user.email);
+
+      return {
+        ...session,
+        user: dbUser,
+      };
+    },
+  },
 });

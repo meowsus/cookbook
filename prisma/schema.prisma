@@ -66,7 +66,7 @@ model VerificationToken {
 }
 
 model Source {
-  id              Int    @id @default(autoincrement())
+  id              String @id @default(cuid())
   url             String @unique
   fullHtml        String @default("")
   processedHtml   String @default("")

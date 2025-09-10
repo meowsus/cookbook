@@ -1,12 +1,12 @@
 import Heading from "@/components/elements/Heading";
 import List from "@/components/elements/List";
-import { getSources } from "@/lib/db/sources";
+import { findSources } from "@/lib/db/sources";
 import Link from "@/components/elements/Link";
 import Code from "@/components/elements/Code";
 import DeleteSourceForm from "./DeleteSourceForm";
 
 export default async function SourcesPage() {
-  const sources = await getSources();
+  const sources = await findSources();
 
   return (
     <div className="space-y-4">

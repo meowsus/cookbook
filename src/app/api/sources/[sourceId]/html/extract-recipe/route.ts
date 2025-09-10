@@ -2,7 +2,7 @@ import ollama from "ollama";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { getSource } from "@/lib/db/sources";
+import { findSource } from "@/lib/db/sources";
 import { ApiErrorCode, ApiResponse } from "@/types";
 import { auth } from "@/lib/auth";
 import { NextAuthRequest } from "next-auth";
@@ -64,7 +64,7 @@ export const GET = auth(async function GET(
   }
 
   const { sourceId } = parsedParams.data;
-  const source = await getSource(sourceId);
+  const source = await findSource(sourceId);
 
   if (!source) {
     return NextResponse.json(

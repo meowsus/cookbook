@@ -22,7 +22,9 @@ export async function createSourceAction(
 
   const { url } = parsedFormData.data;
 
-  await createSource(url);
+  await createSource({
+    url,
+  });
 
   redirect("/sources");
 }

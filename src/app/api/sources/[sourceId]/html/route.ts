@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { findSource } from "@/lib/db/sources";
-import { ApiErrorCode, ApiResponse } from "@/types";
+import { ApiErrorCode, ApiError } from "@/types";
 import { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -9,6 +9,8 @@ export const GetParamsSchema = z.object({
   sourceId: z.string().nonempty(),
 });
 
+export type GetParamsType = z.infer<typeof GetParamsSchema>;
+
 export interface GetResponseData {
   html: string;
 }
@@ -16,7 +18,7 @@ export interface GetResponseData {
 export const GET = auth(async function GET(
   request: NextAuthRequest,
   { params }: { params: Promise<{ sourceId: string }> },
-): Promise<NextResponse<ApiResponse<GetResponseData>>> {
+): Promise<NextResponse<GetResponseData | ApiError<GetParamsType>>> {
   if (!request.auth) {
     return NextResponse.json(
       { message: "Unauthorized", code: ApiErrorCode.UNAUTHORIZED },
@@ -31,7 +33,7 @@ export const GET = auth(async function GET(
       {
         message: "Validation Error",
         code: ApiErrorCode.VALIDATION_ERROR,
-        validation: z.flattenError(parsedParams.error).fieldErrors,
+        validation: z.flattenError(parsedParams.error),
       },
       {
         status: 400,

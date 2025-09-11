@@ -2,13 +2,15 @@
 
 import Button from "@/components/elements/Button";
 import fetcher from "@/lib/fetcher";
-
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
 import { useActionState } from "react";
 import { updateSourceFullHtmlAction } from "@/lib/actions/sources";
-import { ApiErrorResponse } from "@/types";
-import { GetResponseData } from "@/app/api/sources/[sourceId]/html/route";
+import { ApiError } from "@/types";
+import {
+  GetParamsType,
+  GetResponseData,
+} from "@/app/api/sources/[sourceId]/html/route";
 
 export default function UpdateSourceFullHtmlForm({
   sourceId,
@@ -22,7 +24,7 @@ export default function UpdateSourceFullHtmlForm({
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
     GetResponseData,
-    ApiErrorResponse
+    ApiError<GetParamsType>
   >(`/api/sources/${sourceId}/html`, fetcher);
 
   if (isLoading) {
@@ -36,11 +38,13 @@ export default function UpdateSourceFullHtmlForm({
 
         {error.validation && (
           <ul className="text-red-500">
-            {Object.entries(error.validation).map(([key, value]) => (
-              <li key={key}>
-                {key}: {value.join(", ")}
-              </li>
-            ))}
+            {Object.entries(error.validation.fieldErrors).map(
+              ([key, value]) => (
+                <li key={key}>
+                  {key}: {value.join(", ")}
+                </li>
+              ),
+            )}
           </ul>
         )}
 

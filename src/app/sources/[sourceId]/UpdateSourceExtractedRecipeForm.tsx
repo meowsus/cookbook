@@ -7,8 +7,11 @@ import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
 import { useActionState } from "react";
 import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
-import { GetResponseData } from "@/app/api/sources/[sourceId]/html/extract-recipe/route";
-import { ApiErrorResponse } from "@/types";
+import {
+  GetParamsType,
+  GetResponseData,
+} from "@/app/api/sources/[sourceId]/html/extract-recipe/route";
+import { ApiError } from "@/types";
 
 export default function UpdateSourceExtractedRecipeForm({
   sourceId,
@@ -22,7 +25,7 @@ export default function UpdateSourceExtractedRecipeForm({
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
     GetResponseData,
-    ApiErrorResponse
+    ApiError<GetParamsType>
   >(`/api/sources/${sourceId}/html/extract-recipe`, fetcher);
 
   if (isLoading) {
@@ -36,11 +39,13 @@ export default function UpdateSourceExtractedRecipeForm({
 
         {error.validation && (
           <ul className="text-red-500">
-            {Object.entries(error.validation).map(([key, value]) => (
-              <li key={key}>
-                {key}: {value.join(", ")}
-              </li>
-            ))}
+            {Object.entries(error.validation.fieldErrors).map(
+              ([key, value]) => (
+                <li key={key}>
+                  {key}: {value.join(", ")}
+                </li>
+              ),
+            )}
           </ul>
         )}
 

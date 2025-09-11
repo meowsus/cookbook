@@ -1,15 +1,13 @@
+import { z } from "zod";
+
 export enum ApiErrorCode {
   VALIDATION_ERROR,
   NOT_FOUND,
   UNAUTHORIZED,
 }
 
-export interface ApiErrors {
+export interface ApiError<T> {
   message: string;
   code: ApiErrorCode;
-  validation?: Record<string, string[]>;
+  validation?: z.ZodFlattenedError<T>;
 }
-
-export type ApiSuccessResponse<T> = T;
-export type ApiErrorResponse = ApiErrors;
-export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;

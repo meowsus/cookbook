@@ -20,7 +20,7 @@ export default function UpdateSourceExtractedRecipeForm({
 }) {
   const [state, formAction, pending] = useActionState(
     updateSourceExtractedRecipeAction,
-    undefined,
+    null,
   );
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
@@ -63,19 +63,10 @@ export default function UpdateSourceExtractedRecipeForm({
           rows={10}
           name="extractedRecipe"
           value={data?.text}
+          defaultValue={state?.fields?.extractedRecipe as string}
           readOnly
           required
         />
-
-        {state?.fieldErrors?.extractedRecipe && (
-          <ul className="list-disc list-inside text-red-500">
-            {state.fieldErrors.extractedRecipe.map((error) => (
-              <li key={error} className="text-red-500">
-                {error}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
       <div className="space-x-2">
@@ -87,15 +78,7 @@ export default function UpdateSourceExtractedRecipeForm({
         </Button>
       </div>
 
-      {state?.formErrors && (
-        <ul className="list-disc list-inside text-red-500">
-          {state.formErrors.map((error) => (
-            <li key={error} className="text-red-500">
-              {error}
-            </li>
-          ))}
-        </ul>
-      )}
+      {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>
   );
 }

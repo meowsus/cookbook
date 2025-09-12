@@ -19,7 +19,7 @@ export default function UpdateSourceFullHtmlForm({
 }) {
   const [state, formAction, pending] = useActionState(
     updateSourceFullHtmlAction,
-    undefined,
+    null,
   );
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
@@ -62,19 +62,10 @@ export default function UpdateSourceFullHtmlForm({
           rows={10}
           name="fullHtml"
           value={data?.html}
+          defaultValue={state?.fields?.fullHtml as string}
           readOnly
           required
         />
-
-        {state?.fieldErrors?.fullHtml && (
-          <ul className="list-disc list-inside text-red-500">
-            {state.fieldErrors.fullHtml.map((error) => (
-              <li key={error} className="text-red-500">
-                {error}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
       <div className="space-x-2">
@@ -86,15 +77,7 @@ export default function UpdateSourceFullHtmlForm({
         </Button>
       </div>
 
-      {state?.formErrors && (
-        <ul className="list-disc list-inside text-red-500">
-          {state.formErrors.map((error) => (
-            <li key={error} className="text-red-500">
-              {error}
-            </li>
-          ))}
-        </ul>
-      )}
+      {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>
   );
 }

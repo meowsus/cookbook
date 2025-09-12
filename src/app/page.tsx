@@ -9,9 +9,7 @@ export default async function Home() {
     <div className="space-y-4">
       <Heading level={1}>Home</Heading>
 
-      <span>
-        {session?.user?.email} # {session?.user?.id}
-      </span>
+      {session?.user && <span>Welcome, {session?.user?.email}</span>}
 
       {session?.user ? (
         <form action={signOutAction}>

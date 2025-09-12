@@ -6,10 +6,7 @@ import { createSourceAction } from "@/lib/actions/sources";
 import { useActionState } from "react";
 
 export default function CreateSourceForm() {
-  const [state, formAction, pending] = useActionState(
-    createSourceAction,
-    undefined,
-  );
+  const [state, formAction, pending] = useActionState(createSourceAction, null);
 
   return (
     <form action={formAction} className="space-y-2">
@@ -18,6 +15,7 @@ export default function CreateSourceForm() {
           name="url"
           type="url"
           placeholder="https://example.com"
+          defaultValue={state?.fields?.url as string}
           required
         />
 
@@ -26,25 +24,7 @@ export default function CreateSourceForm() {
         </Button>
       </div>
 
-      {state?.fieldErrors?.url && (
-        <ul className="list-disc list-inside text-red-500">
-          {state.fieldErrors.url.map((error) => (
-            <li key={error} className="text-red-500">
-              {error}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {state?.formErrors && (
-        <ul className="list-disc list-inside text-red-500">
-          {state.formErrors.map((error) => (
-            <li key={error} className="text-red-500">
-              {error}
-            </li>
-          ))}
-        </ul>
-      )}
+      {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>
   );
 }

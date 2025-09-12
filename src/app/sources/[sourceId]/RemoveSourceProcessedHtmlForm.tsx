@@ -6,12 +6,13 @@ import { useActionState } from "react";
 export default function RemoveSourceProcessedHtmlForm({
   sourceId,
 }: {
-  sourceId: string | number;
+  sourceId: string;
 }) {
   const [state, formAction, pending] = useActionState(
     removeSourceProcessedHtmlAction,
-    undefined,
+    null,
   );
+
   return (
     <form action={formAction}>
       <input type="hidden" name="sourceId" value={sourceId} />
@@ -24,15 +25,7 @@ export default function RemoveSourceProcessedHtmlForm({
         Remove
       </button>
 
-      {state?.formErrors && (
-        <ul className="list-disc list-inside text-red-500">
-          {state.formErrors.map((error) => (
-            <li key={error} className="text-red-500">
-              {error}
-            </li>
-          ))}
-        </ul>
-      )}
+      {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>
   );
 }

@@ -17,7 +17,10 @@ export async function createSourceAction(
   });
 
   if (!parsedFormData.success) {
-    return z.flattenError(parsedFormData.error);
+    return {
+      error: z.prettifyError(parsedFormData.error),
+      fields: Object.fromEntries(formData.entries()),
+    };
   }
 
   const { url } = parsedFormData.data;
@@ -44,7 +47,10 @@ export async function updateSourceFullHtmlAction(
   });
 
   if (!parsedFormData.success) {
-    return z.flattenError(parsedFormData.error);
+    return {
+      error: z.prettifyError(parsedFormData.error),
+      fields: Object.fromEntries(formData.entries()),
+    };
   }
 
   const { sourceId, fullHtml } = parsedFormData.data;
@@ -71,7 +77,10 @@ export async function removeSourceFullHtmlAction(
   });
 
   if (!parsedFormData.success) {
-    return z.flattenError(parsedFormData.error);
+    return {
+      error: z.prettifyError(parsedFormData.error),
+      fields: Object.fromEntries(formData.entries()),
+    };
   }
 
   const { sourceId } = parsedFormData.data;
@@ -100,7 +109,10 @@ export async function updateSourceProcessedHtmlAction(
   });
 
   if (!parsedFormData.success) {
-    return z.flattenError(parsedFormData.error);
+    return {
+      error: z.prettifyError(parsedFormData.error),
+      fields: Object.fromEntries(formData.entries()),
+    };
   }
 
   const { sourceId, processedHtml } = parsedFormData.data;
@@ -126,7 +138,10 @@ export async function removeSourceProcessedHtmlAction(
   });
 
   if (!parsedFormData.success) {
-    return z.flattenError(parsedFormData.error);
+    return {
+      error: z.prettifyError(parsedFormData.error),
+      fields: Object.fromEntries(formData.entries()),
+    };
   }
 
   const { sourceId } = parsedFormData.data;
@@ -154,7 +169,10 @@ export async function updateSourceExtractedRecipeAction(
   });
 
   if (!parsedFormData.success) {
-    return z.flattenError(parsedFormData.error);
+    return {
+      error: z.prettifyError(parsedFormData.error),
+      fields: Object.fromEntries(formData.entries()),
+    };
   }
 
   const { sourceId, extractedRecipe } = parsedFormData.data;
@@ -177,7 +195,10 @@ export async function removeSourceExtractedRecipeAction(
   });
 
   if (!parsedFormData.success) {
-    return z.flattenError(parsedFormData.error);
+    return {
+      error: z.prettifyError(parsedFormData.error),
+      fields: Object.fromEntries(formData.entries()),
+    };
   }
 
   const { sourceId } = parsedFormData.data;
@@ -200,7 +221,10 @@ export async function deleteSourceAction(
   });
 
   if (!parsedFormData.success) {
-    return z.flattenError(parsedFormData.error);
+    return {
+      error: z.prettifyError(parsedFormData.error),
+      fields: Object.fromEntries(formData.entries()),
+    };
   }
 
   const { sourceId } = parsedFormData.data;

@@ -19,7 +19,7 @@ export default function UpdateSourceProcessedHtmlForm({
 
   const [state, formAction, pending] = useActionState(
     updateSourceProcessedHtmlAction,
-    undefined,
+    null,
   );
 
   const isTooLong = processedHtml.length > MAX_LENGTH;
@@ -33,21 +33,12 @@ export default function UpdateSourceProcessedHtmlForm({
           rows={10}
           name="processedHtml"
           value={processedHtml}
+          defaultValue={state?.fields?.processedHtml as string}
           onChange={(event) => {
             setProcessedHtml(processRecipeHtml(event.target.value));
           }}
           required
         />
-
-        {state?.fieldErrors?.processedHtml && (
-          <ul className="list-disc list-inside text-red-500">
-            {state.fieldErrors.processedHtml.map((error) => (
-              <li key={error} className="text-red-500">
-                {error}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
       {isTooLong && (
@@ -65,15 +56,7 @@ export default function UpdateSourceProcessedHtmlForm({
         </Button>
       </div>
 
-      {state?.formErrors && (
-        <ul className="list-disc list-inside text-red-500">
-          {state.formErrors.map((error) => (
-            <li key={error} className="text-red-500">
-              {error}
-            </li>
-          ))}
-        </ul>
-      )}
+      {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>
   );
 }

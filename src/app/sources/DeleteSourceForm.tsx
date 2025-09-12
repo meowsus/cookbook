@@ -3,15 +3,8 @@
 import { deleteSourceAction } from "@/lib/actions/sources";
 import { useActionState } from "react";
 
-export default function DeleteSourceForm({
-  sourceId,
-}: {
-  sourceId: string | number;
-}) {
-  const [state, formAction, pending] = useActionState(
-    deleteSourceAction,
-    undefined,
-  );
+export default function DeleteSourceForm({ sourceId }: { sourceId: string }) {
+  const [state, formAction, pending] = useActionState(deleteSourceAction, null);
 
   return (
     <form action={formAction} className="space-y-2">
@@ -25,15 +18,7 @@ export default function DeleteSourceForm({
         Delete
       </button>
 
-      {state?.formErrors && (
-        <ul className="list-disc list-inside text-red-500">
-          {state.formErrors.map((error) => (
-            <li key={error} className="text-red-500">
-              {error}
-            </li>
-          ))}
-        </ul>
-      )}
+      {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>
   );
 }

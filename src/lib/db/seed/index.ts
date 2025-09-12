@@ -36,11 +36,29 @@ async function main() {
     await prisma.source.deleteMany({});
     console.log("✅ Existing sources cleared");
 
+    // Create or find default user
+    console.log("👤 Creating default user...");
+    const defaultUser = await prisma.user.upsert({
+      where: { email: "admin@example.com" },
+      update: {},
+      create: {
+        id: "default-user-id",
+        email: "admin@example.com",
+        name: "Default User",
+      },
+    });
+    console.log(`✅ Default user ready: ${defaultUser.email}`);
+
     // Create sample sources
     console.log("📝 Creating sample sources...");
     for (const source of sampleSources) {
       const created = await prisma.source.create({
-        data: source,
+        data: {
+          ...source,
+          user: {
+            connect: { id: defaultUser.id },
+          },
+        },
       });
       console.log(`✅ Created source: ${created.url}`);
     }

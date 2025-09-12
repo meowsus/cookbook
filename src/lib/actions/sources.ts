@@ -1,8 +1,13 @@
 "use server";
 
-import { createSource, deleteSource, updateSource } from "@/lib/db/sources";
+import {
+  createSource,
+  deleteSourceByUser,
+  updateSourceByUser,
+} from "@/lib/db/sources";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { auth } from "@/lib/auth";
 
 const CreateSourceFormDataSchema = z.object({
   url: z.url(),
@@ -12,6 +17,15 @@ export async function createSourceAction(
   prevState: unknown,
   formData: FormData,
 ) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return {
+      error: "You must be logged in to create a source",
+      fields: Object.fromEntries(formData.entries()),
+    };
+  }
+
   const parsedFormData = CreateSourceFormDataSchema.safeParse({
     url: formData.get("url"),
   });
@@ -27,6 +41,9 @@ export async function createSourceAction(
 
   await createSource({
     url,
+    user: {
+      connect: { id: session.user.id },
+    },
   });
 
   redirect("/sources");
@@ -41,6 +58,15 @@ export async function updateSourceFullHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return {
+      error: "You must be logged in to update a source",
+      fields: Object.fromEntries(formData.entries()),
+    };
+  }
+
   const parsedFormData = UpdateSourceFullHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     fullHtml: formData.get("fullHtml"),
@@ -55,7 +81,7 @@ export async function updateSourceFullHtmlAction(
 
   const { sourceId, fullHtml } = parsedFormData.data;
 
-  await updateSource(sourceId, {
+  await updateSourceByUser(session.user.id, sourceId, {
     fullHtml,
     processedHtml: "",
     extractedRecipe: "",
@@ -72,6 +98,15 @@ export async function removeSourceFullHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return {
+      error: "You must be logged in to update a source",
+      fields: Object.fromEntries(formData.entries()),
+    };
+  }
+
   const parsedFormData = RemoveSourceFullHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
@@ -85,7 +120,7 @@ export async function removeSourceFullHtmlAction(
 
   const { sourceId } = parsedFormData.data;
 
-  await updateSource(sourceId, {
+  await updateSourceByUser(session.user.id, sourceId, {
     fullHtml: "",
     processedHtml: "",
     extractedRecipe: "",
@@ -103,6 +138,15 @@ export async function updateSourceProcessedHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return {
+      error: "You must be logged in to update a source",
+      fields: Object.fromEntries(formData.entries()),
+    };
+  }
+
   const parsedFormData = UpdateSourceProcessedHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     processedHtml: formData.get("processedHtml"),
@@ -117,7 +161,7 @@ export async function updateSourceProcessedHtmlAction(
 
   const { sourceId, processedHtml } = parsedFormData.data;
 
-  await updateSource(sourceId, {
+  await updateSourceByUser(session.user.id, sourceId, {
     processedHtml,
     extractedRecipe: "",
   });
@@ -133,6 +177,15 @@ export async function removeSourceProcessedHtmlAction(
   prevState: unknown,
   formData: FormData,
 ) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return {
+      error: "You must be logged in to update a source",
+      fields: Object.fromEntries(formData.entries()),
+    };
+  }
+
   const parsedFormData = RemoveSourceProcessedHtmlFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
@@ -146,7 +199,7 @@ export async function removeSourceProcessedHtmlAction(
 
   const { sourceId } = parsedFormData.data;
 
-  await updateSource(sourceId, {
+  await updateSourceByUser(session.user.id, sourceId, {
     processedHtml: "",
     extractedRecipe: "",
   });
@@ -163,6 +216,15 @@ export async function updateSourceExtractedRecipeAction(
   prevState: unknown,
   formData: FormData,
 ) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return {
+      error: "You must be logged in to update a source",
+      fields: Object.fromEntries(formData.entries()),
+    };
+  }
+
   const parsedFormData = UpdateExtractedRecipeFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
     extractedRecipe: formData.get("extractedRecipe"),
@@ -177,7 +239,7 @@ export async function updateSourceExtractedRecipeAction(
 
   const { sourceId, extractedRecipe } = parsedFormData.data;
 
-  await updateSource(sourceId, { extractedRecipe });
+  await updateSourceByUser(session.user.id, sourceId, { extractedRecipe });
 
   redirect(`/sources/${sourceId}`);
 }
@@ -190,6 +252,15 @@ export async function removeSourceExtractedRecipeAction(
   prevState: unknown,
   formData: FormData,
 ) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return {
+      error: "You must be logged in to update a source",
+      fields: Object.fromEntries(formData.entries()),
+    };
+  }
+
   const parsedFormData = RemoveExtractedRecipeFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
@@ -203,7 +274,7 @@ export async function removeSourceExtractedRecipeAction(
 
   const { sourceId } = parsedFormData.data;
 
-  await updateSource(sourceId, { extractedRecipe: "" });
+  await updateSourceByUser(session.user.id, sourceId, { extractedRecipe: "" });
 
   redirect(`/sources/${sourceId}`);
 }
@@ -216,6 +287,15 @@ export async function deleteSourceAction(
   prevState: unknown,
   formData: FormData,
 ) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return {
+      error: "You must be logged in to delete a source",
+      fields: Object.fromEntries(formData.entries()),
+    };
+  }
+
   const parsedFormData = DeleteSourceFormDataSchema.safeParse({
     sourceId: formData.get("sourceId"),
   });
@@ -229,7 +309,7 @@ export async function deleteSourceAction(
 
   const { sourceId } = parsedFormData.data;
 
-  await deleteSource(sourceId);
+  await deleteSourceByUser(session.user.id, sourceId);
 
   redirect("/sources");
 }

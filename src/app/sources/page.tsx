@@ -1,12 +1,20 @@
 import Heading from "@/components/elements/Heading";
 import List from "@/components/elements/List";
-import { findSources } from "@/lib/db/sources";
+import { findSourcesByUser } from "@/lib/db/sources";
 import Link from "@/components/elements/Link";
 import Code from "@/components/elements/Code";
 import DeleteSourceForm from "./DeleteSourceForm";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function SourcesPage() {
-  const sources = await findSources();
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/api/auth/signin");
+  }
+
+  const sources = await findSourcesByUser(session.user.id);
 
   return (
     <div className="space-y-4">

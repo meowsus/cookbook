@@ -2,13 +2,15 @@ import Code from "@/components/elements/Code";
 import Heading from "@/components/elements/Heading";
 import Link from "@/components/elements/Link";
 import UpdateSourceFullHtmlForm from "./UpdateSourceFullHtmlForm";
-import { findSource } from "@/lib/db/sources";
+import { findSourceByUser } from "@/lib/db/sources";
 import DeleteSourceForm from "../DeleteSourceForm";
 import RemoveSourceFullHtmlForm from "./RemoveSourceFullHtmlForm";
 import RemoveSourceProcessedHtmlForm from "./RemoveSourceProcessedHtmlForm";
 import UpdateSourceProcessedHtmlForm from "./UpdateSourceProcessedHtmlForm";
 import UpdateSourceExtractedRecipeForm from "@/app/sources/[sourceId]/UpdateSourceExtractedRecipeForm";
 import RemoveSourceExtractedRecipeForm from "./RemoveSourceExtractedRecipeForm";
+import { auth } from "@/lib/auth";
+import { notFound, redirect } from "next/navigation";
 
 export default async function SourcePage({
   params,
@@ -17,7 +19,17 @@ export default async function SourcePage({
 }) {
   const { sourceId } = await params;
 
-  const source = await findSource(sourceId);
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/api/auth/signin");
+  }
+
+  const source = await findSourceByUser(session.user.id, sourceId);
+
+  if (!source) {
+    notFound();
+  }
 
   return (
     <div className="space-y-4">

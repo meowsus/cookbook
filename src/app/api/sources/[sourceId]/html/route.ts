@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { findSource } from "@/lib/db/sources";
+import { findSourceByUser } from "@/lib/db/sources";
 import { ApiErrorCode, ApiError } from "@/types";
 import { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
@@ -43,7 +43,7 @@ export const GET = auth(async function GET(
 
   const { sourceId } = parsedParams.data;
 
-  const source = await findSource(sourceId);
+  const source = await findSourceByUser(request.auth.user.id, sourceId);
 
   if (!source) {
     return NextResponse.json(

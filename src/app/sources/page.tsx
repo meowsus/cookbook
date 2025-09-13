@@ -1,4 +1,3 @@
-import List from "@/components/elements/List";
 import { findSourcesByUser } from "@/lib/db/sources";
 import DeleteSourceForm from "./DeleteSourceForm";
 import { auth } from "@/lib/auth";
@@ -23,7 +22,7 @@ export default async function SourcesPage() {
         <Link href="/sources/new">here</Link>.
       </p>
 
-      <List type="ul">
+      <ul>
         {sources.map((source) => (
           <li key={source.id}>
             <code>{source.id}</code> {source.url}{" "}
@@ -33,7 +32,7 @@ export default async function SourcesPage() {
             </div>
           </li>
         ))}
-      </List>
+      </ul>
     </div>
   );
 }

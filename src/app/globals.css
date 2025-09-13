@@ -158,4 +158,12 @@
   a {
     @apply text-blue-500 hover:text-blue-600;
   }
+
+  ul {
+    @apply list-disc list-inside;
+  }
+
+  ol {
+    @apply list-decimal list-inside;
+  }
 }

@@ -2,7 +2,6 @@ import Heading from "@/components/elements/Heading";
 import List from "@/components/elements/List";
 import { findSourcesByUser } from "@/lib/db/sources";
 import Link from "@/components/elements/Link";
-import Code from "@/components/elements/Code";
 import DeleteSourceForm from "./DeleteSourceForm";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -26,7 +25,7 @@ export default async function SourcesPage() {
       <List type="ul">
         {sources.map((source) => (
           <li key={source.id}>
-            <Code>{source.id}</Code> {source.url}{" "}
+            <code>{source.id}</code> {source.url}{" "}
             <div className="inline-flex items-center gap-2">
               <Link href={`/sources/${source.id}`}>View</Link>
               <DeleteSourceForm sourceId={source.id} />

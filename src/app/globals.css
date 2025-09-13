@@ -116,7 +116,12 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  code {
+    @apply bg-gray-700 text-white px-1 rounded-md;
   }
 }

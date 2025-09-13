@@ -1,4 +1,3 @@
-import Code from "@/components/elements/Code";
 import Heading from "@/components/elements/Heading";
 import Link from "@/components/elements/Link";
 import UpdateSourceFullHtmlForm from "./UpdateSourceFullHtmlForm";
@@ -34,7 +33,7 @@ export default async function SourcePage({
   return (
     <div className="space-y-4">
       <Heading level={1}>
-        Source <Code>{sourceId}</Code>
+        Source <code>{sourceId}</code>
       </Heading>
 
       <div className="flex items-center gap-2">

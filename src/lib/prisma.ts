@@ -1,5 +1,12 @@
 import { PrismaClient } from "../../generated/prisma";
 
-const prisma = new PrismaClient();
+type GlobalThis = typeof globalThis;
+type GlobalThisWithPrisma = GlobalThis & {
+  prisma?: PrismaClient;
+};
 
-export default prisma;
+const globalThisWithPrisma: GlobalThisWithPrisma = globalThis;
+
+export const prisma = globalThisWithPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalThisWithPrisma.prisma = prisma;

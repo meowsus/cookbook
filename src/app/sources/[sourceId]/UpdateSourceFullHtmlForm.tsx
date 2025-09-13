@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/elements/Button";
+import { Button } from "@/components/ui/button";
 import fetcher from "@/lib/fetcher";
 import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";

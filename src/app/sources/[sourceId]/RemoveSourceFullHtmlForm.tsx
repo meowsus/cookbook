@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { removeSourceFullHtmlAction } from "@/lib/actions/sources";
 import { useActionState } from "react";
 
@@ -17,13 +18,9 @@ export default function RemoveSourceFullHtmlForm({
     <form action={formAction}>
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <button
-        type="submit"
-        className="text-red-500 hover:text-red-600 cursor-pointer"
-        disabled={pending}
-      >
+      <Button type="submit" variant="destructive" disabled={pending}>
         Remove
-      </button>
+      </Button>
 
       {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>

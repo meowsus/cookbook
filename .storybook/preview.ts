@@ -13,11 +13,7 @@ const preview: Preview = {
 
     layout: "centered",
 
-    backgrounds: {
-      options: {
-        shadcn: { name: "Shadcn", value: "hsl(var(--background))" },
-      },
-    },
+    backgrounds: null,
 
     a11y: {
       // 'todo' - show a11y violations in the test UI only
@@ -25,9 +21,6 @@ const preview: Preview = {
       // 'off' - skip a11y checks entirely
       test: "todo",
     },
-  },
-  initialGlobals: {
-    backgrounds: { value: "shadcn" },
   },
 };
 

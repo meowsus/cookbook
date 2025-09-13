@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import fetcher from "@/lib/fetcher";
 
-import Textarea from "@/components/elements/Textarea";
+import { Textarea } from "@/components/ui/textarea";
 import useSWRImmutable from "swr/immutable";
 import { useActionState } from "react";
 import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";

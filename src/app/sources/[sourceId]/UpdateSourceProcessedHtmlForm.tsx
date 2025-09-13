@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Textarea from "@/components/elements/Textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { updateSourceProcessedHtmlAction } from "@/lib/actions/sources";
 import { processRecipeHtml } from "@/lib/helpers/html";
 import { useActionState, useState } from "react";

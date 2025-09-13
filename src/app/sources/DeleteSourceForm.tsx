@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { deleteSourceAction } from "@/lib/actions/sources";
 import { useActionState } from "react";
 
@@ -10,13 +11,9 @@ export default function DeleteSourceForm({ sourceId }: { sourceId: string }) {
     <form action={formAction} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <button
-        type="submit"
-        className="text-red-500 hover:text-red-600 cursor-pointer"
-        disabled={pending}
-      >
+      <Button type="submit" variant="destructive" disabled={pending}>
         Delete
-      </button>
+      </Button>
 
       {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>

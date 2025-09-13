@@ -45,7 +45,7 @@ export const GET = auth(async function GET(
   request: NextAuthRequest,
   { params }: { params: Promise<{ sourceId: string }> },
 ): Promise<NextResponse<GetResponseData | ApiError<GetParamsType>>> {
-  if (!request.auth) {
+  if (!request.auth?.user?.id) {
     return NextResponse.json(
       { message: "Unauthorized", code: ApiErrorCode.UNAUTHORIZED },
       { status: 401 },

@@ -154,4 +154,8 @@
   .h6 {
     @apply text-sm font-bold;
   }
+
+  a {
+    @apply text-blue-500 hover:text-blue-600;
+  }
 }

@@ -1,4 +1,4 @@
-import Link from "@/components/elements/Link";
+import Link from "next/link";
 import CreateSourceForm from "./CreateSourceForm";
 
 export default function NewSourcePage() {

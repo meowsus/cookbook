@@ -1,9 +1,9 @@
 import List from "@/components/elements/List";
 import { findSourcesByUser } from "@/lib/db/sources";
-import Link from "@/components/elements/Link";
 import DeleteSourceForm from "./DeleteSourceForm";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function SourcesPage() {
   const session = await auth();

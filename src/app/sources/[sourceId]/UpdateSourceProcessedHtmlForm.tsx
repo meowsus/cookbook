@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { updateSourceProcessedHtmlAction } from "@/lib/actions/sources";
-import { processRecipeHtml } from "@/lib/helpers/html";
+import { processRecipeHtml } from "@/lib/utils";
 import { useActionState, useState } from "react";
 
 const MAX_LENGTH = 10000;

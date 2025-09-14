@@ -17,7 +17,7 @@
     "prisma:migrate": "prisma migrate dev",
     "db:seed": "tsx src/lib/db/seed/index.ts",
     "db:drop": "prisma migrate reset --force",
-    "shadcn:add": "pnpm dlx shadcn@latest add",
+    "shadcn:add": "pnpm dlx shadcn@latest add && pnpm dlx prettier --write src/components/ui",
     "storybook:dev": "storybook dev -p 6006",
     "storybook:build": "storybook build"
   },

@@ -3,6 +3,9 @@
     {
       "path": ".",
     },
+    {
+      "path": "../cookbook.wiki",
+    },
   ],
   "settings": {
     "editor.tabSize": 2,

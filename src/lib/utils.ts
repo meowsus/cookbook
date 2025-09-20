@@ -1,4 +1,8 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 import sanitizeHtml from "sanitize-html";
+
+// HTML Helpers
 
 const MAIN_CONTENT_REGEX =
   /<(main|article|div[^>]*class="[^"]*recipe[^"]*")[^>]*>([\s\S]*?)<\/\1>/gi;
@@ -58,4 +62,10 @@ export function processRecipeHtml(fullHtml: string): string {
   });
 
   return condenseHtml(sanitizedHtml);
+}
+
+// Added by shadcn
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }

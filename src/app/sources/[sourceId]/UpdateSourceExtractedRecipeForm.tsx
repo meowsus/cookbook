@@ -5,7 +5,7 @@ import fetcher from "@/lib/fetcher";
 
 import { Textarea } from "@/components/ui/textarea";
 import useSWRImmutable from "swr/immutable";
-import { useActionState } from "react";
+import { useAction } from "next-safe-action/hooks";
 import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
 import {
   GetParamsType,
@@ -18,9 +18,8 @@ export default function UpdateSourceExtractedRecipeForm({
 }: {
   sourceId: string;
 }) {
-  const [state, formAction, pending] = useActionState(
+  const { execute, result, isPending } = useAction(
     updateSourceExtractedRecipeAction,
-    null,
   );
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
@@ -55,7 +54,7 @@ export default function UpdateSourceExtractedRecipeForm({
   }
 
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={execute} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
       <div className="flex flex-col gap-2">
@@ -63,14 +62,13 @@ export default function UpdateSourceExtractedRecipeForm({
           rows={10}
           name="extractedRecipe"
           value={data?.text}
-          defaultValue={state?.fields?.extractedRecipe as string}
           readOnly
           required
         />
       </div>
 
       <div className="space-x-2">
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={isPending}>
           Looks good!
         </Button>
         <Button type="reset" onClick={() => mutate()}>
@@ -78,7 +76,9 @@ export default function UpdateSourceExtractedRecipeForm({
         </Button>
       </div>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

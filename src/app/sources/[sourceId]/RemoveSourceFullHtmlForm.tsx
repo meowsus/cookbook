@@ -2,27 +2,26 @@
 
 import { Button } from "@/components/ui/button";
 import { removeSourceFullHtmlAction } from "@/lib/actions/sources";
-import { useActionState } from "react";
+import { useAction } from "next-safe-action/hooks";
 
 export default function RemoveSourceFullHtmlForm({
   sourceId,
 }: {
   sourceId: string;
 }) {
-  const [state, formAction, pending] = useActionState(
-    removeSourceFullHtmlAction,
-    null,
-  );
+  const { execute, result, isPending } = useAction(removeSourceFullHtmlAction);
 
   return (
-    <form action={formAction}>
+    <form action={execute}>
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <Button type="submit" variant="destructive" disabled={pending}>
+      <Button type="submit" variant="destructive" disabled={isPending}>
         Remove
       </Button>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

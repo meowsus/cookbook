@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import fetcher from "@/lib/fetcher";
 import { Textarea } from "@/components/ui/textarea";
 import useSWRImmutable from "swr/immutable";
-import { useActionState } from "react";
+import { useAction } from "next-safe-action/hooks";
 import { updateSourceFullHtmlAction } from "@/lib/actions/sources";
 import { ApiError } from "@/types";
 import {
@@ -17,10 +17,7 @@ export default function UpdateSourceFullHtmlForm({
 }: {
   sourceId: string;
 }) {
-  const [state, formAction, pending] = useActionState(
-    updateSourceFullHtmlAction,
-    null,
-  );
+  const { execute, result, isPending } = useAction(updateSourceFullHtmlAction);
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
     GetResponseData,
@@ -54,7 +51,7 @@ export default function UpdateSourceFullHtmlForm({
   }
 
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={execute} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
       <div className="space-y-1">
@@ -62,14 +59,13 @@ export default function UpdateSourceFullHtmlForm({
           rows={10}
           name="fullHtml"
           value={data?.html}
-          defaultValue={state?.fields?.fullHtml as string}
           readOnly
           required
         />
       </div>
 
       <div className="space-x-2">
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={isPending}>
           Looks good!
         </Button>
         <Button type="reset" onClick={() => mutate()}>
@@ -77,7 +73,9 @@ export default function UpdateSourceFullHtmlForm({
         </Button>
       </div>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

@@ -4,8 +4,18 @@ import { Button } from "@/components/ui/button";
 import fetcher from "@/lib/fetcher";
 import { Textarea } from "@/components/ui/textarea";
 import useSWRImmutable from "swr/immutable";
-import { useAction } from "next-safe-action/hooks";
 import { updateSourceFullHtmlAction } from "@/lib/actions/sources";
+import { UpdateSourceFullHtmlSchema } from "@/lib/actions/sources.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { toast } from "sonner";
 import { ApiError } from "@/types";
 import {
   GetParamsType,
@@ -17,12 +27,31 @@ export default function UpdateSourceFullHtmlForm({
 }: {
   sourceId: string;
 }) {
-  const { execute, result, isPending } = useAction(updateSourceFullHtmlAction);
-
   const { data, error, isLoading, mutate } = useSWRImmutable<
     GetResponseData,
     ApiError<GetParamsType>
   >(`/api/sources/${sourceId}/html`, fetcher);
+
+  const { form, handleSubmitWithAction } = useHookFormAction(
+    updateSourceFullHtmlAction,
+    zodResolver(UpdateSourceFullHtmlSchema),
+    {
+      actionProps: {
+        onSuccess: (data) => {
+          toast.success("Source HTML updated successfully");
+        },
+        onError: ({ error: { serverError } }) => {
+          toast.error(`${serverError?.error ?? "Unknown error"}`);
+        },
+      },
+      formProps: {
+        defaultValues: {
+          sourceId,
+          fullHtml: data?.html || "",
+        },
+      },
+    },
+  );
 
   if (isLoading) {
     return <Textarea disabled value="Fetching source HTML..." />;
@@ -50,32 +79,49 @@ export default function UpdateSourceFullHtmlForm({
     );
   }
 
+  // Update form values when data changes
+  if (data?.html && form.getValues("fullHtml") !== data.html) {
+    form.setValue("fullHtml", data.html);
+  }
+
   return (
-    <form action={execute} className="space-y-2">
-      <input type="hidden" name="sourceId" value={sourceId} />
-
-      <div className="space-y-1">
-        <Textarea
-          rows={10}
-          name="fullHtml"
-          value={data?.html}
-          readOnly
-          required
+    <Form {...form}>
+      <form onSubmit={handleSubmitWithAction} className="space-y-2">
+        <FormField
+          control={form.control}
+          name="sourceId"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <input type="hidden" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className="space-x-2">
-        <Button type="submit" disabled={isPending}>
-          Looks good!
-        </Button>
-        <Button type="reset" onClick={() => mutate()}>
-          Fetch again?
-        </Button>
-      </div>
+        <FormField
+          control={form.control}
+          name="fullHtml"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Textarea rows={10} {...field} readOnly required />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      {result?.serverError && (
-        <p className="text-red-500">{result.serverError.error}</p>
-      )}
-    </form>
+        <div className="space-x-2">
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            Looks good!
+          </Button>
+          <Button type="button" onClick={() => mutate()}>
+            Fetch again?
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

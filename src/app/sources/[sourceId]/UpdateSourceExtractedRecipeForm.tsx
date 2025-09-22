@@ -2,11 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import fetcher from "@/lib/fetcher";
-
 import { Textarea } from "@/components/ui/textarea";
 import useSWRImmutable from "swr/immutable";
-import { useAction } from "next-safe-action/hooks";
 import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
+import { UpdateExtractedRecipeSchema } from "@/lib/actions/sources.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { toast } from "sonner";
 import {
   GetParamsType,
   GetResponseData,
@@ -18,14 +27,31 @@ export default function UpdateSourceExtractedRecipeForm({
 }: {
   sourceId: string;
 }) {
-  const { execute, result, isPending } = useAction(
-    updateSourceExtractedRecipeAction,
-  );
-
   const { data, error, isLoading, mutate } = useSWRImmutable<
     GetResponseData,
     ApiError<GetParamsType>
   >(`/api/sources/${sourceId}/html/extract-recipe`, fetcher);
+
+  const { form, handleSubmitWithAction } = useHookFormAction(
+    updateSourceExtractedRecipeAction,
+    zodResolver(UpdateExtractedRecipeSchema),
+    {
+      actionProps: {
+        onSuccess: (data) => {
+          toast.success("Extracted recipe updated successfully");
+        },
+        onError: ({ error: { serverError } }) => {
+          toast.error(`${serverError?.error ?? "Unknown error"}`);
+        },
+      },
+      formProps: {
+        defaultValues: {
+          sourceId,
+          extractedRecipe: data?.text || "",
+        },
+      },
+    },
+  );
 
   if (isLoading) {
     return <Textarea disabled value="Generating recipe data..." />;
@@ -53,32 +79,49 @@ export default function UpdateSourceExtractedRecipeForm({
     );
   }
 
+  // Update form values when data changes
+  if (data?.text && form.getValues("extractedRecipe") !== data.text) {
+    form.setValue("extractedRecipe", data.text);
+  }
+
   return (
-    <form action={execute} className="space-y-2">
-      <input type="hidden" name="sourceId" value={sourceId} />
-
-      <div className="flex flex-col gap-2">
-        <Textarea
-          rows={10}
-          name="extractedRecipe"
-          value={data?.text}
-          readOnly
-          required
+    <Form {...form}>
+      <form onSubmit={handleSubmitWithAction} className="space-y-2">
+        <FormField
+          control={form.control}
+          name="sourceId"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <input type="hidden" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className="space-x-2">
-        <Button type="submit" disabled={isPending}>
-          Looks good!
-        </Button>
-        <Button type="reset" onClick={() => mutate()}>
-          Fetch again?
-        </Button>
-      </div>
+        <FormField
+          control={form.control}
+          name="extractedRecipe"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Textarea rows={10} {...field} readOnly required />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      {result?.serverError && (
-        <p className="text-red-500">{result.serverError.error}</p>
-      )}
-    </form>
+        <div className="space-x-2">
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            Looks good!
+          </Button>
+          <Button type="button" onClick={() => mutate()}>
+            Fetch again?
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

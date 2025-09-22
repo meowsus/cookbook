@@ -75,14 +75,24 @@ export const GET = auth(async function GET(
     );
   }
 
-  const result = await ollama.generate({
-    model: process.env.OLLAMA_MODEL || "mistral",
-    system: SYSTEM_PROMPT,
-    prompt: `Extract ONLY the recipe from this HTML (ignore everything else): ${source.processedHtml}`,
-    keep_alive: "15m",
-  });
+  try {
+    const result = await ollama.generate({
+      model: process.env.OLLAMA_MODEL || "mistral",
+      system: SYSTEM_PROMPT,
+      prompt: `Extract ONLY the recipe from this HTML (ignore everything else): ${source.processedHtml}`,
+      keep_alive: "15m",
+    });
 
-  console.log(result);
+    console.log(result);
 
-  return NextResponse.json({ text: result.response });
+    return NextResponse.json({ text: result.response });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Failed to extract recipe",
+        code: ApiErrorCode.INTERNAL_SERVER_ERROR,
+      },
+      { status: 500 },
+    );
+  }
 });

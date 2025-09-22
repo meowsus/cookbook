@@ -52,8 +52,18 @@ export const GET = auth(async function GET(
     );
   }
 
-  const response = await fetch(source.url);
-  const html = await response.text();
+  try {
+    const response = await fetch(source.url);
+    const html = await response.text();
 
-  return NextResponse.json({ html });
+    return NextResponse.json({ html });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Failed to fetch source HTML",
+        code: ApiErrorCode.INTERNAL_SERVER_ERROR,
+      },
+      { status: 500 },
+    );
+  }
 });

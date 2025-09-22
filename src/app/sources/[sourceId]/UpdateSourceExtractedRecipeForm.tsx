@@ -34,7 +34,7 @@ export default function UpdateSourceExtractedRecipeForm({
   if (error) {
     return (
       <div className="space-y-2">
-        <Textarea disabled value={`Error: ${error.message}`} />
+        <Textarea disabled defaultValue={`Error: ${error.message}`} />
 
         {error.validation && (
           <ul className="text-red-500">

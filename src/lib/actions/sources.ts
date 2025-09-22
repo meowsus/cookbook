@@ -9,14 +9,11 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { authActionClient } from "../safe-action";
 import { zfd } from "zod-form-data";
-
-const CreateSourceFormDataSchema = zfd.formData({
-  url: zfd.text(z.url("A valid URL is required").nonempty()),
-});
+import { CreateSourceSchema } from "./sources.schema";
 
 export const createSourceAction = authActionClient
   .metadata({ actionName: "createSourceAction" })
-  .inputSchema(CreateSourceFormDataSchema)
+  .inputSchema(CreateSourceSchema)
   .action(async ({ parsedInput: { url }, ctx }) => {
     const source = await createSource({
       url,

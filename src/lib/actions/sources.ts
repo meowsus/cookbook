@@ -6,10 +6,17 @@ import {
   updateSourceByUser,
 } from "@/lib/db/sources";
 import { redirect } from "next/navigation";
-import { z } from "zod";
 import { authActionClient } from "../safe-action";
-import { zfd } from "zod-form-data";
-import { CreateSourceSchema } from "./sources.schema";
+import {
+  CreateSourceSchema,
+  UpdateSourceFullHtmlSchema,
+  RemoveSourceFullHtmlSchema,
+  UpdateSourceProcessedHtmlSchema,
+  RemoveSourceProcessedHtmlSchema,
+  UpdateExtractedRecipeSchema,
+  RemoveExtractedRecipeSchema,
+  DeleteSourceSchema,
+} from "./sources.schema";
 
 export const createSourceAction = authActionClient
   .metadata({ actionName: "createSourceAction" })
@@ -25,14 +32,9 @@ export const createSourceAction = authActionClient
     redirect(`/sources/${source.id}`);
   });
 
-const UpdateSourceFullHtmlFormDataSchema = zfd.formData({
-  sourceId: zfd.text(z.string().nonempty()),
-  fullHtml: zfd.text(z.string().nonempty()),
-});
-
 export const updateSourceFullHtmlAction = authActionClient
   .metadata({ actionName: "updateSourceFullHtmlAction" })
-  .inputSchema(UpdateSourceFullHtmlFormDataSchema)
+  .inputSchema(UpdateSourceFullHtmlSchema)
   .action(async ({ parsedInput: { sourceId, fullHtml }, ctx }) => {
     await updateSourceByUser(ctx.userId, sourceId, {
       fullHtml,
@@ -43,13 +45,9 @@ export const updateSourceFullHtmlAction = authActionClient
     redirect(`/sources/${sourceId}`);
   });
 
-const RemoveSourceFullHtmlFormDataSchema = zfd.formData({
-  sourceId: zfd.text(z.string().nonempty()),
-});
-
 export const removeSourceFullHtmlAction = authActionClient
   .metadata({ actionName: "removeSourceFullHtmlAction" })
-  .inputSchema(RemoveSourceFullHtmlFormDataSchema)
+  .inputSchema(RemoveSourceFullHtmlSchema)
   .action(async ({ parsedInput: { sourceId }, ctx }) => {
     await updateSourceByUser(ctx.userId, sourceId, {
       fullHtml: "",
@@ -60,14 +58,9 @@ export const removeSourceFullHtmlAction = authActionClient
     redirect(`/sources/${sourceId}`);
   });
 
-const UpdateSourceProcessedHtmlFormDataSchema = zfd.formData({
-  sourceId: zfd.text(z.string().nonempty()),
-  processedHtml: zfd.text(z.string().nonempty()),
-});
-
 export const updateSourceProcessedHtmlAction = authActionClient
   .metadata({ actionName: "updateSourceProcessedHtmlAction" })
-  .inputSchema(UpdateSourceProcessedHtmlFormDataSchema)
+  .inputSchema(UpdateSourceProcessedHtmlSchema)
   .action(async ({ parsedInput: { sourceId, processedHtml }, ctx }) => {
     await updateSourceByUser(ctx.userId, sourceId, {
       processedHtml,
@@ -77,13 +70,9 @@ export const updateSourceProcessedHtmlAction = authActionClient
     redirect(`/sources/${sourceId}`);
   });
 
-const RemoveSourceProcessedHtmlFormDataSchema = zfd.formData({
-  sourceId: zfd.text(z.string().nonempty()),
-});
-
 export const removeSourceProcessedHtmlAction = authActionClient
   .metadata({ actionName: "removeSourceProcessedHtmlAction" })
-  .inputSchema(RemoveSourceProcessedHtmlFormDataSchema)
+  .inputSchema(RemoveSourceProcessedHtmlSchema)
   .action(async ({ parsedInput: { sourceId }, ctx }) => {
     await updateSourceByUser(ctx.userId, sourceId, {
       processedHtml: "",
@@ -93,40 +82,27 @@ export const removeSourceProcessedHtmlAction = authActionClient
     redirect(`/sources/${sourceId}`);
   });
 
-const UpdateExtractedRecipeFormDataSchema = zfd.formData({
-  sourceId: zfd.text(z.string().nonempty()),
-  extractedRecipe: zfd.text(z.string().nonempty()),
-});
-
 export const updateSourceExtractedRecipeAction = authActionClient
   .metadata({ actionName: "updateSourceExtractedRecipeAction" })
-  .inputSchema(UpdateExtractedRecipeFormDataSchema)
+  .inputSchema(UpdateExtractedRecipeSchema)
   .action(async ({ parsedInput: { sourceId, extractedRecipe }, ctx }) => {
     await updateSourceByUser(ctx.userId, sourceId, { extractedRecipe });
 
     redirect(`/sources/${sourceId}`);
   });
 
-const RemoveExtractedRecipeFormDataSchema = zfd.formData({
-  sourceId: zfd.text(z.string().nonempty()),
-});
-
 export const removeSourceExtractedRecipeAction = authActionClient
   .metadata({ actionName: "removeSourceExtractedRecipeAction" })
-  .inputSchema(RemoveExtractedRecipeFormDataSchema)
+  .inputSchema(RemoveExtractedRecipeSchema)
   .action(async ({ parsedInput: { sourceId }, ctx }) => {
     await updateSourceByUser(ctx.userId, sourceId, { extractedRecipe: "" });
 
     redirect(`/sources/${sourceId}`);
   });
 
-const DeleteSourceFormDataSchema = zfd.formData({
-  sourceId: zfd.text(z.string().nonempty()),
-});
-
 export const deleteSourceAction = authActionClient
   .metadata({ actionName: "deleteSourceAction" })
-  .inputSchema(DeleteSourceFormDataSchema)
+  .inputSchema(DeleteSourceSchema)
   .action(async ({ parsedInput: { sourceId }, ctx }) => {
     await deleteSourceByUser(ctx.userId, sourceId);
 

@@ -27,9 +27,7 @@ export default function CreateSourceForm() {
           toast.success("Source created successfully");
         },
         onError: ({ error: { serverError } }) => {
-          toast.error(
-            `Action failed: ${serverError?.error ?? "Unknown error"}`,
-          );
+          toast.error(`${serverError?.error ?? "Unknown error"}`);
         },
       },
       formProps: {

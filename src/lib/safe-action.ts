@@ -4,7 +4,7 @@ import {
 } from "next-safe-action";
 import { auth } from "./auth";
 import { z } from "zod";
-import { PrismaClientKnownRequestError } from "../../generated/prisma/runtime/library";
+import { Prisma } from "../../generated/prisma";
 
 class ActionError extends Error {}
 
@@ -21,7 +21,7 @@ export const actionClient = createSafeActionClient({
       return { error: error.message };
     }
 
-    if (error instanceof PrismaClientKnownRequestError) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return { error: error.message };
     }
 

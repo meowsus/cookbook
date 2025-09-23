@@ -25,7 +25,7 @@ importers:
         version: 6.10.1
       ollama:
         specifier: ^0.5.17
-        version: 0.5.17
+        version: 0.5.18
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1850,8 +1850,8 @@ packages:
   ohash@2.0.11:
     resolution: {integrity: sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ==}
 
-  ollama@0.5.17:
-    resolution: {integrity: sha512-q5LmPtk6GLFouS+3aURIVl+qcAOPC4+Msmx7uBb3pd+fxI55WnGjmLZ0yijI/CYy79x0QPGx3BwC3u5zv9fBvQ==}
+  ollama@0.5.18:
+    resolution: {integrity: sha512-lTFqTf9bo7Cd3hpF6CviBe/DEhewjoZYd9N/uCe7O20qYTvGqrNOFOBDj3lbZgFWHUgDv5EeyusYxsZSLS8nvg==}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -4075,7 +4075,7 @@ snapshots:
 
   ohash@2.0.11: {}
 
-  ollama@0.5.17:
+  ollama@0.5.18:
     dependencies:
       whatwg-fetch: 3.6.20
 

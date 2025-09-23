@@ -1,7 +1,5 @@
 "use client";
 
-import Button from "@/components/elements/Button";
-import Textarea from "@/components/elements/Textarea";
 import { updateSourceProcessedHtmlAction } from "@/lib/actions/sources";
 import { processRecipeHtml } from "@/lib/helpers/html";
 import { useActionState, useState } from "react";
@@ -29,7 +27,7 @@ export default function UpdateSourceProcessedHtmlForm({
       <input type="hidden" name="sourceId" value={sourceId} />
 
       <div className="space-y-1">
-        <Textarea
+        <textarea
           rows={10}
           name="processedHtml"
           value={processedHtml}
@@ -51,9 +49,9 @@ export default function UpdateSourceProcessedHtmlForm({
       )}
 
       <div className="space-x-2">
-        <Button type="submit" disabled={pending}>
+        <button className="btn btn-primary" type="submit" disabled={pending}>
           Looks good!
-        </Button>
+        </button>
       </div>
 
       {state?.error && <p className="text-red-500">{state.error}</p>}

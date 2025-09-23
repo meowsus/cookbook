@@ -28,6 +28,16 @@ docker compose up -d
 pnpm dev
 ```
 
+### Design System
+
+We're using [`daisyUI`](https://daisyui.com/components/).
+
 ### Authentication
 
 After signing in with any email address, visit http://localhost:8025 to retrieve the magic link email.
+
+### Cursor
+
+#### daisyUI MCP
+
+Example prompt: `give me a light daisyUI 5 theme with tropical color palette. use context7` (the suffix is required)

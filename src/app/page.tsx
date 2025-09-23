@@ -1,4 +1,3 @@
-import Heading from "@/components/elements/Heading";
 import { signInAction, signOutAction } from "@/lib/actions/auth";
 import { auth } from "@/lib/auth";
 
@@ -7,7 +6,7 @@ export default async function Home() {
 
   return (
     <div className="space-y-4">
-      <Heading level={1}>Home</Heading>
+      <h1>Home</h1>
 
       {session?.user && <span>Welcome, {session?.user?.email}</span>}
 

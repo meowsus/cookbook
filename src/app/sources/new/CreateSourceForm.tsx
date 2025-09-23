@@ -1,7 +1,5 @@
 "use client";
 
-import Input from "@/components/elements/Input";
-import Button from "@/components/elements/Button";
 import { createSourceAction } from "@/lib/actions/sources";
 import { useActionState } from "react";
 
@@ -11,17 +9,18 @@ export default function CreateSourceForm() {
   return (
     <form action={formAction} className="space-y-2">
       <div className="flex gap-2">
-        <Input
+        <input
           name="url"
           type="url"
           placeholder="https://example.com"
           defaultValue={state?.fields?.url as string}
+          className="input"
           required
         />
 
-        <Button type="submit" disabled={pending}>
+        <button className="btn btn-primary" type="submit" disabled={pending}>
           Add
-        </Button>
+        </button>
       </div>
 
       {state?.error && <p className="text-red-500">{state.error}</p>}

@@ -1,3 +1,6 @@
+import Code from "@/components/elements/Code";
+import Heading from "@/components/elements/Heading";
+import Link from "@/components/elements/Link";
 import UpdateSourceFullHtmlForm from "./UpdateSourceFullHtmlForm";
 import { findSourceByUser } from "@/lib/db/sources";
 import DeleteSourceForm from "../DeleteSourceForm";
@@ -8,7 +11,6 @@ import UpdateSourceExtractedRecipeForm from "@/app/sources/[sourceId]/UpdateSour
 import RemoveSourceExtractedRecipeForm from "./RemoveSourceExtractedRecipeForm";
 import { auth } from "@/lib/auth";
 import { notFound, redirect } from "next/navigation";
-import Link from "next/link";
 
 export default async function SourcePage({
   params,
@@ -31,20 +33,20 @@ export default async function SourcePage({
 
   return (
     <div className="space-y-4">
-      <h1>
-        Source <code>{sourceId}</code>
-      </h1>
+      <Heading level={1}>
+        Source <Code>{sourceId}</Code>
+      </Heading>
 
       <div className="flex items-center gap-2">
         <Link href="/sources">Back to sources</Link>
         <DeleteSourceForm sourceId={sourceId} />
       </div>
 
-      <h2>Data</h2>
+      <Heading level={2}>Data</Heading>
 
       {source?.url && (
         <>
-          <h3>URL</h3>
+          <Heading level={3}>URL</Heading>
 
           <div className="space-x-2">
             {source.url}{" "}
@@ -57,7 +59,7 @@ export default async function SourcePage({
 
       {source?.url && !source?.fullHtml && (
         <>
-          <h3>Fetched Source HTML</h3>
+          <Heading level={3}>Fetched Source HTML</Heading>
 
           <p>
             We&apos;ve fetched the HTML for this source URL. Review it below,
@@ -72,7 +74,7 @@ export default async function SourcePage({
       {source?.fullHtml && (
         <>
           <div className="flex items-baseline gap-2">
-            <h3>Full HTML</h3>
+            <Heading level={3}>Full HTML</Heading>
             <RemoveSourceFullHtmlForm sourceId={sourceId} />
           </div>
 
@@ -82,7 +84,7 @@ export default async function SourcePage({
 
       {source?.fullHtml && !source?.processedHtml && (
         <>
-          <h3>Processed HTML</h3>
+          <Heading level={3}>Processed HTML</Heading>
 
           <p>
             Here is the proposed processed HTML. Review it below, and if it
@@ -100,7 +102,7 @@ export default async function SourcePage({
       {source?.processedHtml && (
         <>
           <div className="flex items-baseline gap-2">
-            <h3>Processed HTML</h3>
+            <Heading level={3}>Processed HTML</Heading>
             <RemoveSourceProcessedHtmlForm sourceId={sourceId} />
           </div>
 
@@ -110,7 +112,7 @@ export default async function SourcePage({
 
       {source?.processedHtml && !source?.extractedRecipe && (
         <>
-          <h3>Extracted Recipe</h3>
+          <Heading level={3}>Extracted Recipe</Heading>
 
           <p>
             We&apos;re extracting the recipe from the HTML. This could take a
@@ -132,7 +134,7 @@ export default async function SourcePage({
       {source?.extractedRecipe && (
         <>
           <div className="flex items-baseline gap-2">
-            <h3>Extracted Recipe</h3>
+            <Heading level={3}>Extracted Recipe</Heading>
             <RemoveSourceExtractedRecipeForm sourceId={sourceId} />
           </div>
 

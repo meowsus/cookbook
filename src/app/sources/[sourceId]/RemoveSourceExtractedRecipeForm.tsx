@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { removeSourceExtractedRecipeAction } from "@/lib/actions/sources";
 import { useActionState } from "react";
 
@@ -18,9 +17,13 @@ export default function RemoveSourceExtractedRecipeForm({
     <form action={formAction}>
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <Button type="submit" variant="destructive" disabled={pending}>
+      <button
+        type="submit"
+        className="text-red-500 hover:text-red-600 cursor-pointer"
+        disabled={pending}
+      >
         Remove
-      </Button>
+      </button>
 
       {state?.error && <p className="text-red-500">{state.error}</p>}
     </form>

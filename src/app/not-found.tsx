@@ -1,7 +1,9 @@
+import Heading from "@/components/elements/Heading";
+
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h1>Not Found</h1>
+      <Heading level={1}>Not Found</Heading>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import Heading from "@/components/elements/Heading";
 import { signInAction, signOutAction } from "@/lib/actions/auth";
 import { auth } from "@/lib/auth";
 
@@ -7,17 +7,17 @@ export default async function Home() {
 
   return (
     <div className="space-y-4">
-      <h1>Home</h1>
+      <Heading level={1}>Home</Heading>
 
       {session?.user && <span>Welcome, {session?.user?.email}</span>}
 
       {session?.user ? (
         <form action={signOutAction}>
-          <Button type="submit">Sign Out</Button>
+          <button type="submit">Sign Out</button>
         </form>
       ) : (
         <form action={signInAction}>
-          <Button type="submit">Sign In</Button>
+          <button type="submit">Sign In</button>
         </form>
       )}
     </div>

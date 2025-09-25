@@ -39,6 +39,12 @@ export default function UpdateSourceProcessedHtmlForm({
         />
       </div>
 
+      {result?.validationErrors && (
+        <p className="text-red-500">
+          {result.validationErrors?.processedHtml?._errors?.join(", ")}
+        </p>
+      )}
+
       {isTooLong && (
         <div className="text-yellow-500">
           Warning: Sending too much data to the server can negatively impact the
@@ -53,16 +59,6 @@ export default function UpdateSourceProcessedHtmlForm({
           Looks good!
         </Button>
       </div>
-
-      {result?.validationErrors && (
-        <div className="text-red-500">
-          {Object.entries(result.validationErrors).map(([key, value]) => (
-            <p key={key}>
-              {key}: {value?._errors?.join(", ")}
-            </p>
-          ))}
-        </div>
-      )}
 
       {result?.serverError && (
         <p className="text-red-500">{result.serverError.error}</p>

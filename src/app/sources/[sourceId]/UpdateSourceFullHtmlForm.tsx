@@ -64,6 +64,12 @@ export default function UpdateSourceFullHtmlForm({
         />
       </div>
 
+      {result?.validationErrors && (
+        <p className="text-red-500">
+          {result.validationErrors?.fullHtml?._errors?.join(", ")}
+        </p>
+      )}
+
       <div className="space-x-2">
         <Button type="submit" disabled={isPending}>
           Looks good!
@@ -72,16 +78,6 @@ export default function UpdateSourceFullHtmlForm({
           Fetch again?
         </Button>
       </div>
-
-      {result?.validationErrors && (
-        <div className="text-red-500">
-          {Object.entries(result.validationErrors).map(([key, value]) => (
-            <p key={key}>
-              {key}: {value?._errors?.join(", ")}
-            </p>
-          ))}
-        </div>
-      )}
 
       {result?.serverError && (
         <p className="text-red-500">{result.serverError.error}</p>

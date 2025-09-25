@@ -7,309 +7,131 @@ import {
 } from "@/lib/db/sources";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { auth } from "@/lib/auth";
+import { authActionClient } from "../safe-action";
+import { zfd } from "zod-form-data";
 
-const CreateSourceFormDataSchema = z.object({
-  url: z.url(),
+const CreateSourceFormDataSchema = zfd.formData({
+  url: zfd.text(z.url()),
 });
 
-export async function createSourceAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const createSourceAction = authActionClient
+  .metadata({ actionName: "createSourceAction" })
+  .inputSchema(CreateSourceFormDataSchema)
+  .action(async ({ parsedInput: { url }, ctx }) => {
+    const source = await createSource({
+      url,
+      user: {
+        connect: { id: ctx.userId },
+      },
+    });
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to create a source",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = CreateSourceFormDataSchema.safeParse({
-    url: formData.get("url"),
+    redirect(`/sources/${source.id}`);
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { url } = parsedFormData.data;
-
-  await createSource({
-    url,
-    user: {
-      connect: { id: session.user.id },
-    },
-  });
-
-  redirect("/sources");
-}
-
-const UpdateSourceFullHtmlFormDataSchema = z.object({
-  sourceId: z.string().nonempty(),
-  fullHtml: z.string().nonempty(),
+const UpdateSourceFullHtmlFormDataSchema = zfd.formData({
+  sourceId: zfd.text(z.string().nonempty()),
+  fullHtml: zfd.text(z.string().nonempty()),
 });
 
-export async function updateSourceFullHtmlAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const updateSourceFullHtmlAction = authActionClient
+  .metadata({ actionName: "updateSourceFullHtmlAction" })
+  .inputSchema(UpdateSourceFullHtmlFormDataSchema)
+  .action(async ({ parsedInput: { sourceId, fullHtml }, ctx }) => {
+    await updateSourceByUser(ctx.userId, sourceId, {
+      fullHtml,
+      processedHtml: "",
+      extractedRecipe: "",
+    });
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to update a source",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = UpdateSourceFullHtmlFormDataSchema.safeParse({
-    sourceId: formData.get("sourceId"),
-    fullHtml: formData.get("fullHtml"),
+    redirect(`/sources/${sourceId}`);
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { sourceId, fullHtml } = parsedFormData.data;
-
-  await updateSourceByUser(session.user.id, sourceId, {
-    fullHtml,
-    processedHtml: "",
-    extractedRecipe: "",
-  });
-
-  redirect(`/sources/${sourceId}`);
-}
-
-const RemoveSourceFullHtmlFormDataSchema = z.object({
-  sourceId: z.string().nonempty(),
+const RemoveSourceFullHtmlFormDataSchema = zfd.formData({
+  sourceId: zfd.text(z.string().nonempty()),
 });
 
-export async function removeSourceFullHtmlAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const removeSourceFullHtmlAction = authActionClient
+  .metadata({ actionName: "removeSourceFullHtmlAction" })
+  .inputSchema(RemoveSourceFullHtmlFormDataSchema)
+  .action(async ({ parsedInput: { sourceId }, ctx }) => {
+    await updateSourceByUser(ctx.userId, sourceId, {
+      fullHtml: "",
+      processedHtml: "",
+      extractedRecipe: "",
+    });
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to update a source",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = RemoveSourceFullHtmlFormDataSchema.safeParse({
-    sourceId: formData.get("sourceId"),
+    redirect(`/sources/${sourceId}`);
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { sourceId } = parsedFormData.data;
-
-  await updateSourceByUser(session.user.id, sourceId, {
-    fullHtml: "",
-    processedHtml: "",
-    extractedRecipe: "",
-  });
-
-  redirect(`/sources/${sourceId}`);
-}
-
-const UpdateSourceProcessedHtmlFormDataSchema = z.object({
-  sourceId: z.string().nonempty(),
-  processedHtml: z.string().nonempty(),
+const UpdateSourceProcessedHtmlFormDataSchema = zfd.formData({
+  sourceId: zfd.text(z.string().nonempty()),
+  processedHtml: zfd.text(z.string().nonempty()),
 });
 
-export async function updateSourceProcessedHtmlAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const updateSourceProcessedHtmlAction = authActionClient
+  .metadata({ actionName: "updateSourceProcessedHtmlAction" })
+  .inputSchema(UpdateSourceProcessedHtmlFormDataSchema)
+  .action(async ({ parsedInput: { sourceId, processedHtml }, ctx }) => {
+    await updateSourceByUser(ctx.userId, sourceId, {
+      processedHtml,
+      extractedRecipe: "",
+    });
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to update a source",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = UpdateSourceProcessedHtmlFormDataSchema.safeParse({
-    sourceId: formData.get("sourceId"),
-    processedHtml: formData.get("processedHtml"),
+    redirect(`/sources/${sourceId}`);
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { sourceId, processedHtml } = parsedFormData.data;
-
-  await updateSourceByUser(session.user.id, sourceId, {
-    processedHtml,
-    extractedRecipe: "",
-  });
-
-  redirect(`/sources/${sourceId}`);
-}
-
-const RemoveSourceProcessedHtmlFormDataSchema = z.object({
-  sourceId: z.string().nonempty(),
+const RemoveSourceProcessedHtmlFormDataSchema = zfd.formData({
+  sourceId: zfd.text(z.string().nonempty()),
 });
 
-export async function removeSourceProcessedHtmlAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const removeSourceProcessedHtmlAction = authActionClient
+  .metadata({ actionName: "removeSourceProcessedHtmlAction" })
+  .inputSchema(RemoveSourceProcessedHtmlFormDataSchema)
+  .action(async ({ parsedInput: { sourceId }, ctx }) => {
+    await updateSourceByUser(ctx.userId, sourceId, {
+      processedHtml: "",
+      extractedRecipe: "",
+    });
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to update a source",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = RemoveSourceProcessedHtmlFormDataSchema.safeParse({
-    sourceId: formData.get("sourceId"),
+    redirect(`/sources/${sourceId}`);
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { sourceId } = parsedFormData.data;
-
-  await updateSourceByUser(session.user.id, sourceId, {
-    processedHtml: "",
-    extractedRecipe: "",
-  });
-
-  redirect(`/sources/${sourceId}`);
-}
-
-const UpdateExtractedRecipeFormDataSchema = z.object({
-  sourceId: z.string().nonempty(),
-  extractedRecipe: z.string().nonempty(),
+const UpdateExtractedRecipeFormDataSchema = zfd.formData({
+  sourceId: zfd.text(z.string().nonempty()),
+  extractedRecipe: zfd.text(z.string().nonempty()),
 });
 
-export async function updateSourceExtractedRecipeAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const updateSourceExtractedRecipeAction = authActionClient
+  .metadata({ actionName: "updateSourceExtractedRecipeAction" })
+  .inputSchema(UpdateExtractedRecipeFormDataSchema)
+  .action(async ({ parsedInput: { sourceId, extractedRecipe }, ctx }) => {
+    await updateSourceByUser(ctx.userId, sourceId, { extractedRecipe });
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to update a source",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = UpdateExtractedRecipeFormDataSchema.safeParse({
-    sourceId: formData.get("sourceId"),
-    extractedRecipe: formData.get("extractedRecipe"),
+    redirect(`/sources/${sourceId}`);
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { sourceId, extractedRecipe } = parsedFormData.data;
-
-  await updateSourceByUser(session.user.id, sourceId, { extractedRecipe });
-
-  redirect(`/sources/${sourceId}`);
-}
-
-const RemoveExtractedRecipeFormDataSchema = z.object({
-  sourceId: z.string().nonempty(),
+const RemoveExtractedRecipeFormDataSchema = zfd.formData({
+  sourceId: zfd.text(z.string().nonempty()),
 });
 
-export async function removeSourceExtractedRecipeAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const removeSourceExtractedRecipeAction = authActionClient
+  .metadata({ actionName: "removeSourceExtractedRecipeAction" })
+  .inputSchema(RemoveExtractedRecipeFormDataSchema)
+  .action(async ({ parsedInput: { sourceId }, ctx }) => {
+    await updateSourceByUser(ctx.userId, sourceId, { extractedRecipe: "" });
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to update a source",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = RemoveExtractedRecipeFormDataSchema.safeParse({
-    sourceId: formData.get("sourceId"),
+    redirect(`/sources/${sourceId}`);
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { sourceId } = parsedFormData.data;
-
-  await updateSourceByUser(session.user.id, sourceId, { extractedRecipe: "" });
-
-  redirect(`/sources/${sourceId}`);
-}
-
-const DeleteSourceFormDataSchema = z.object({
-  sourceId: z.string().nonempty(),
+const DeleteSourceFormDataSchema = zfd.formData({
+  sourceId: zfd.text(z.string().nonempty()),
 });
 
-export async function deleteSourceAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const deleteSourceAction = authActionClient
+  .metadata({ actionName: "deleteSourceAction" })
+  .inputSchema(DeleteSourceFormDataSchema)
+  .action(async ({ parsedInput: { sourceId }, ctx }) => {
+    await deleteSourceByUser(ctx.userId, sourceId);
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to delete a source",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = DeleteSourceFormDataSchema.safeParse({
-    sourceId: formData.get("sourceId"),
+    redirect("/sources");
   });
-
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { sourceId } = parsedFormData.data;
-
-  await deleteSourceByUser(session.user.id, sourceId);
-
-  redirect("/sources");
-}

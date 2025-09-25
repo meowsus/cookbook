@@ -1,11 +1,14 @@
 {
-  "folders": [
-    {
-      "path": ".",
-    },
-    {
-      "path": "../cookbook.wiki",
-    },
-  ],
-  "settings": {},
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../cookbook.wiki"
+		}
+	],
+	"settings": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	}
 }

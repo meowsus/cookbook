@@ -3,28 +3,36 @@
 import Input from "@/components/elements/Input";
 import Button from "@/components/elements/Button";
 import { createSourceAction } from "@/lib/actions/sources";
-import { useActionState } from "react";
+import { useAction } from "next-safe-action/hooks";
 
 export default function CreateSourceForm() {
-  const [state, formAction, pending] = useActionState(createSourceAction, null);
+  const { execute, input, isPending, result } = useAction(createSourceAction);
 
   return (
-    <form action={formAction} className="space-y-2">
-      <div className="flex gap-2">
+    <form action={execute} className="space-y-2">
+      <div className="flex flex-col gap-2">
         <Input
           name="url"
           type="url"
           placeholder="https://example.com"
-          defaultValue={state?.fields?.url as string}
+          defaultValue={((input as FormData)?.get("url") as string) ?? ""}
           required
         />
 
-        <Button type="submit" disabled={pending}>
+        {result?.validationErrors && (
+          <p className="text-red-500">
+            {result.validationErrors.url?._errors?.join(", ")}
+          </p>
+        )}
+
+        <Button type="submit" disabled={isPending}>
           Add
         </Button>
       </div>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

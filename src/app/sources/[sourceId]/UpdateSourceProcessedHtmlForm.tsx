@@ -4,7 +4,8 @@ import Button from "@/components/elements/Button";
 import Textarea from "@/components/elements/Textarea";
 import { updateSourceProcessedHtmlAction } from "@/lib/actions/sources";
 import { processRecipeHtml } from "@/lib/helpers/html";
-import { useActionState, useState } from "react";
+import { useState } from "react";
+import { useAction } from "next-safe-action/hooks";
 
 const MAX_LENGTH = 10000;
 
@@ -16,16 +17,14 @@ export default function UpdateSourceProcessedHtmlForm({
   value: string;
 }) {
   const [processedHtml, setProcessedHtml] = useState(processRecipeHtml(value));
-
-  const [state, formAction, pending] = useActionState(
+  const { execute, isPending, result } = useAction(
     updateSourceProcessedHtmlAction,
-    null,
   );
 
   const isTooLong = processedHtml.length > MAX_LENGTH;
 
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={execute} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
       <div className="space-y-1">
@@ -33,7 +32,6 @@ export default function UpdateSourceProcessedHtmlForm({
           rows={10}
           name="processedHtml"
           value={processedHtml}
-          defaultValue={state?.fields?.processedHtml as string}
           onChange={(event) => {
             setProcessedHtml(processRecipeHtml(event.target.value));
           }}
@@ -51,12 +49,24 @@ export default function UpdateSourceProcessedHtmlForm({
       )}
 
       <div className="space-x-2">
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={isPending}>
           Looks good!
         </Button>
       </div>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.validationErrors && (
+        <div className="text-red-500">
+          {Object.entries(result.validationErrors).map(([key, value]) => (
+            <p key={key}>
+              {key}: {value?._errors?.join(", ")}
+            </p>
+          ))}
+        </div>
+      )}
+
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

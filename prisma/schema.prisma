@@ -67,14 +67,28 @@ model VerificationToken {
 }
 
 model Source {
-  id              String @id @default(cuid())
-  url             String @unique
-  fullHtml        String @default("")
-  processedHtml   String @default("")
-  extractedRecipe String @default("")
-  userId          String
-  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String  @id @default(cuid())
+  url           String  @unique
+  fullHtml      String  @default("")
+  processedHtml String  @default("")
+  userId        String
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Recipe        Recipe?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Recipe {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name    String
+  content String
+
+  sourceId String @unique
+  source   Source @relation(fields: [sourceId], references: [id])
+
+  @@index([sourceId])
 }

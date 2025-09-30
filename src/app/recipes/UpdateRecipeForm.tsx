@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-export default function UpdateRecipeForm({ recipe }: { recipe: Object }) {
+export default function UpdateRecipeForm({ recipe }: { recipe: object }) {
   const [state, formAction, pending] = useActionState(updateRecipeAction, null);
   const [recipeName, setRecipeName] = useState(() => recipe.name);
   const [recipeContent, setRecipeContent] = useState(() => recipe.content);
@@ -37,6 +37,8 @@ export default function UpdateRecipeForm({ recipe }: { recipe: Object }) {
             Save
           </Button>
         </div>
+
+        {state?.error && <p className="text-red-500">{state.error}</p>}
       </div>
     </form>
   );

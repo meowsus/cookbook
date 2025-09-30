@@ -153,7 +153,7 @@ export default async function SourcePage({
           <h3>Saved Recipes</h3>
           <ul>
             {recipes.map((recipe) => (
-              <li>
+              <li key={recipe.id}>
                 {recipe.name} <code>{recipe.id}</code>{" "}
                 <div className="inline-flex items-center gap-2">
                   <Link href={`/recipes/${recipe.id}`}>View Recipe</Link>{" "}

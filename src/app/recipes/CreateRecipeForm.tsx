@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useActionState, useState } from "react";
+import { useActionState, useState } from "react";
 import { createRecipeAction } from "@/lib/actions/recipes";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

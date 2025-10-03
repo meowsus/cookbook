@@ -15,7 +15,9 @@ export default function UpdateSourceFullHtmlForm({
 }: {
   sourceId: string;
 }) {
-  const { execute, isPending, result } = useAction(updateSourceFullHtmlAction);
+  const { execute, input, isPending, result } = useAction(
+    updateSourceFullHtmlAction,
+  );
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
     GetResponseData,
@@ -65,7 +67,7 @@ export default function UpdateSourceFullHtmlForm({
           rows={10}
           name="fullHtml"
           value={data?.html}
-          defaultValue={data?.html}
+          defaultValue={((input as FormData)?.get("fullHtml") as string) ?? ""}
           className="textarea"
           readOnly
           required

@@ -15,7 +15,7 @@ export default function UpdateSourceProcessedHtmlForm({
   value: string;
 }) {
   const [processedHtml, setProcessedHtml] = useState(processRecipeHtml(value));
-  const { execute, isPending, result } = useAction(
+  const { execute, input, isPending, result } = useAction(
     updateSourceProcessedHtmlAction,
   );
 
@@ -30,6 +30,9 @@ export default function UpdateSourceProcessedHtmlForm({
           rows={10}
           name="processedHtml"
           value={processedHtml}
+          defaultValue={
+            ((input as FormData)?.get("processedHtml") as string) ?? ""
+          }
           onChange={(event) => {
             setProcessedHtml(processRecipeHtml(event.target.value));
           }}

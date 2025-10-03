@@ -16,7 +16,7 @@ export default function UpdateSourceExtractedRecipeForm({
 }: {
   sourceId: string;
 }) {
-  const { execute, isPending, result } = useAction(
+  const { execute, input, isPending, result } = useAction(
     updateSourceExtractedRecipeAction,
   );
 
@@ -71,7 +71,10 @@ export default function UpdateSourceExtractedRecipeForm({
         <textarea
           rows={10}
           name="extractedRecipe"
-          defaultValue={data?.text as string}
+          value={data?.text}
+          defaultValue={
+            ((input as FormData)?.get("extractedRecipe") as string) ?? ""
+          }
           className="textarea"
           readOnly
           required

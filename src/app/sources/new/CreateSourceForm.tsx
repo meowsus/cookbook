@@ -1,7 +1,5 @@
 "use client";
 
-import Input from "@/components/elements/Input";
-import Button from "@/components/elements/Button";
 import { createSourceAction } from "@/lib/actions/sources";
 import { useAction } from "next-safe-action/hooks";
 
@@ -10,24 +8,19 @@ export default function CreateSourceForm() {
 
   return (
     <form action={execute} className="space-y-2">
-      <div className="flex flex-col gap-2">
-        <Input
+      <div className="flex gap-2">
+        <input
           name="url"
           type="url"
           placeholder="https://example.com"
           defaultValue={((input as FormData)?.get("url") as string) ?? ""}
+          className="input"
           required
         />
 
-        {result?.validationErrors && (
-          <p className="text-red-500">
-            {result.validationErrors.url?._errors?.join(", ")}
-          </p>
-        )}
-
-        <Button type="submit" disabled={isPending}>
+        <button className="btn btn-primary" type="submit" disabled={isPending}>
           Add
-        </Button>
+        </button>
       </div>
 
       {result?.serverError && (

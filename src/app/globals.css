@@ -1,26 +1,33 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@plugin "daisyui" {
+  themes: dracula --default;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+h1 {
+  @apply text-2xl font-bold;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+h2 {
+  @apply text-xl font-bold;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+h3 {
+  @apply text-lg font-bold;
+}
+
+a {
+  @apply text-blue-500;
+  @apply underline;
+  @apply hover:text-blue-700;
+}
+
+ul {
+  @apply list-disc;
+  @apply pl-4;
+}
+
+ol {
+  @apply list-decimal;
+  @apply pl-4;
 }

@@ -26,13 +26,19 @@ export default function UpdateSourceFullHtmlForm({
   >(`/api/sources/${sourceId}/html`, fetcher);
 
   if (isLoading) {
-    return <textarea disabled value="Fetching source HTML..." className="textarea" />;
+    return (
+      <textarea disabled value="Fetching source HTML..." className="textarea" />
+    );
   }
 
   if (error) {
     return (
       <div className="space-y-2">
-        <textarea disabled value={`Error: ${error.message}`} className="textarea" />
+        <textarea
+          disabled
+          value={`Error: ${error.message}`}
+          className="textarea"
+        />
 
         {error.validation && (
           <ul className="text-red-500">
@@ -46,7 +52,9 @@ export default function UpdateSourceFullHtmlForm({
           </ul>
         )}
 
-        <button className="btn btn-secondary" onClick={() => mutate()}>Try again</button>
+        <button className="btn btn-secondary" onClick={() => mutate()}>
+          Try again
+        </button>
       </div>
     );
   }
@@ -71,7 +79,11 @@ export default function UpdateSourceFullHtmlForm({
         <button className="btn btn-primary" type="submit" disabled={pending}>
           Looks good!
         </button>
-        <button className="btn btn-secondary" type="reset" onClick={() => mutate()}>
+        <button
+          className="btn btn-secondary"
+          type="reset"
+          onClick={() => mutate()}
+        >
           Fetch again?
         </button>
       </div>

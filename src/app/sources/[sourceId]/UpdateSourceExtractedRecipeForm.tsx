@@ -27,13 +27,23 @@ export default function UpdateSourceExtractedRecipeForm({
   >(`/api/sources/${sourceId}/html/extract-recipe`, fetcher);
 
   if (isLoading) {
-    return <textarea disabled value="Generating recipe data..." className="textarea" />;
+    return (
+      <textarea
+        disabled
+        value="Generating recipe data..."
+        className="textarea"
+      />
+    );
   }
 
   if (error) {
     return (
       <div className="space-y-2">
-        <textarea disabled value={`Error: ${error.message}`} className="textarea" />
+        <textarea
+          disabled
+          value={`Error: ${error.message}`}
+          className="textarea"
+        />
 
         {error.validation && (
           <ul className="text-red-500">
@@ -74,7 +84,11 @@ export default function UpdateSourceExtractedRecipeForm({
         <button className="btn btn-primary" type="submit" disabled={pending}>
           Looks good!
         </button>
-        <button className="btn btn-secondary" type="reset" onClick={() => mutate()}>
+        <button
+          className="btn btn-secondary"
+          type="reset"
+          onClick={() => mutate()}
+        >
           Fetch again?
         </button>
       </div>

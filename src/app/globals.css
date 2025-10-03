@@ -2,9 +2,7 @@
 
 @plugin "daisyui" {
   themes: dracula --default;
-};
-
-:root {}
+}
 
 h1 {
   @apply text-2xl font-bold;

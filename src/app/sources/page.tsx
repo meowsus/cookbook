@@ -1,8 +1,5 @@
-import Heading from "@/components/elements/Heading";
-import List from "@/components/elements/List";
 import { findSourcesByUser } from "@/lib/db/sources";
-import Link from "@/components/elements/Link";
-import Code from "@/components/elements/Code";
+import Link from "next/link";
 import DeleteSourceForm from "./DeleteSourceForm";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -18,22 +15,22 @@ export default async function SourcesPage() {
 
   return (
     <div className="space-y-4">
-      <Heading level={1}>Sources</Heading>
+      <h1>Sources</h1>
       <p>
         Sources are URLs to a specific recipe. You can add new sources{" "}
         <Link href="/sources/new">here</Link>.
       </p>
-      <List type="ul">
+      <ul>
         {sources.map((source) => (
           <li key={source.id}>
-            <Code>{source.id}</Code> {source.url}{" "}
+            <code>{source.id}</code> {source.url}{" "}
             <div className="inline-flex items-center gap-2">
               <Link href={`/sources/${source.id}`}>View</Link>
               <DeleteSourceForm sourceId={source.id} />
             </div>
           </li>
         ))}
-      </List>
+      </ul>
     </div>
   );
 }

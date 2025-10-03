@@ -1,8 +1,6 @@
 "use client";
 
-import Button from "@/components/elements/Button";
 import fetcher from "@/lib/fetcher";
-import Textarea from "@/components/elements/Textarea";
 import useSWRImmutable from "swr/immutable";
 import { useActionState } from "react";
 import { updateSourceFullHtmlAction } from "@/lib/actions/sources";
@@ -28,13 +26,19 @@ export default function UpdateSourceFullHtmlForm({
   >(`/api/sources/${sourceId}/html`, fetcher);
 
   if (isLoading) {
-    return <Textarea disabled value="Fetching source HTML..." />;
+    return (
+      <textarea disabled value="Fetching source HTML..." className="textarea" />
+    );
   }
 
   if (error) {
     return (
       <div className="space-y-2">
-        <Textarea disabled value={`Error: ${error.message}`} />
+        <textarea
+          disabled
+          value={`Error: ${error.message}`}
+          className="textarea"
+        />
 
         {error.validation && (
           <ul className="text-red-500">
@@ -48,7 +52,9 @@ export default function UpdateSourceFullHtmlForm({
           </ul>
         )}
 
-        <Button onClick={() => mutate()}>Try again</Button>
+        <button className="btn btn-secondary" onClick={() => mutate()}>
+          Try again
+        </button>
       </div>
     );
   }
@@ -58,23 +64,28 @@ export default function UpdateSourceFullHtmlForm({
       <input type="hidden" name="sourceId" value={sourceId} />
 
       <div className="space-y-1">
-        <Textarea
+        <textarea
           rows={10}
           name="fullHtml"
           value={data?.html}
           defaultValue={state?.fields?.fullHtml as string}
+          className="textarea"
           readOnly
           required
         />
       </div>
 
       <div className="space-x-2">
-        <Button type="submit" disabled={pending}>
+        <button className="btn btn-primary" type="submit" disabled={pending}>
           Looks good!
-        </Button>
-        <Button type="reset" onClick={() => mutate()}>
+        </button>
+        <button
+          className="btn btn-secondary"
+          type="reset"
+          onClick={() => mutate()}
+        >
           Fetch again?
-        </Button>
+        </button>
       </div>
 
       {state?.error && <p className="text-red-500">{state.error}</p>}

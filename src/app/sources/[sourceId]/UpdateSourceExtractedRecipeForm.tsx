@@ -3,8 +3,8 @@
 import fetcher from "@/lib/fetcher";
 
 import useSWRImmutable from "swr/immutable";
-import { useActionState } from "react";
 import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
+import { useAction } from "next-safe-action/hooks";
 import {
   GetParamsType,
   GetResponseData,
@@ -16,9 +16,8 @@ export default function UpdateSourceExtractedRecipeForm({
 }: {
   sourceId: string;
 }) {
-  const [state, formAction, pending] = useActionState(
+  const { execute, input, isPending, result } = useAction(
     updateSourceExtractedRecipeAction,
-    null,
   );
 
   const { data, error, isLoading, mutate } = useSWRImmutable<
@@ -65,7 +64,7 @@ export default function UpdateSourceExtractedRecipeForm({
   }
 
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={execute} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
       <div className="flex flex-col gap-2">
@@ -73,15 +72,23 @@ export default function UpdateSourceExtractedRecipeForm({
           rows={10}
           name="extractedRecipe"
           value={data?.text}
-          defaultValue={state?.fields?.extractedRecipe as string}
+          defaultValue={
+            ((input as FormData)?.get("extractedRecipe") as string) ?? ""
+          }
           className="textarea"
           readOnly
           required
         />
       </div>
 
+      {result?.validationErrors && (
+        <p className="text-red-500">
+          {result.validationErrors?.extractedRecipe?._errors?.join(", ")}
+        </p>
+      )}
+
       <div className="space-x-2">
-        <button className="btn btn-primary" type="submit" disabled={pending}>
+        <button className="btn btn-primary" type="submit" disabled={isPending}>
           Looks good!
         </button>
         <button
@@ -93,7 +100,9 @@ export default function UpdateSourceExtractedRecipeForm({
         </button>
       </div>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

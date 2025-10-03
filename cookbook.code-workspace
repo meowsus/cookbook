@@ -7,5 +7,8 @@
       "path": "../cookbook.wiki",
     },
   ],
-  "settings": {},
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+  },
 }

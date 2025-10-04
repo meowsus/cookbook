@@ -8,7 +8,7 @@ import { useAction } from "next-safe-action/hooks";
 import {
   GetParamsType,
   GetResponseData,
-} from "@/app/api/sources/[sourceId]/html/extract-recipe/route";
+} from "@/app/api/sources/[sourceId]/html/extract-recipe/route.schema";
 import { ApiError } from "@/types";
 
 export default function UpdateSourceExtractedRecipeForm({

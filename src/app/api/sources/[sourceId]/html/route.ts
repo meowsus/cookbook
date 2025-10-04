@@ -3,21 +3,16 @@ import { findSourceByUser } from "@/lib/db/sources";
 import { ApiErrorCode, ApiError } from "@/types";
 import { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
+import {
+  GetParamsSchema,
+  GetParamsType,
+  GetResponseData,
+} from "./route.schema";
 import { z } from "zod";
-
-export const GetParamsSchema = z.object({
-  sourceId: z.string().nonempty(),
-});
-
-export type GetParamsType = z.infer<typeof GetParamsSchema>;
-
-export interface GetResponseData {
-  html: string;
-}
 
 export const GET = auth(async function GET(
   request: NextAuthRequest,
-  { params }: { params: Promise<{ sourceId: string }> },
+  { params }: { params: Promise<GetParamsType> },
 ): Promise<NextResponse<GetResponseData | ApiError<GetParamsType>>> {
   if (!request.auth?.user?.id) {
     return NextResponse.json(

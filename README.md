@@ -26,17 +26,18 @@ pnpm db:seed # optional
 ```
 docker compose up -d
 pnpm dev
-pnpm storybook:dev
 ```
+
+### Design System
+
+We're using [`daisyUI`](https://daisyui.com/components/).
 
 ### Authentication
 
 After signing in with any email address, visit http://localhost:8025 to retrieve the magic link email.
 
-### Design System
+### Cursor
 
-We're using [Storybook](https://storybook.js.org/docs) to showcase our [shadcn](https://ui.shadcn.com/docs/installation) components & resultant patterns.
+#### daisyUI MCP
 
-Adding new shadcn components can be done via `pnpm shadcn:add COMPONENT_NAME`
-
-Once `pnpm storybook:dev` is running, visit http://localhost:6006/
+Example prompt: `give me a light daisyUI 5 theme with tropical color palette. use context7` (the suffix is required)

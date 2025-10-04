@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { signInAction, signOutAction } from "@/lib/actions/auth";
 import { auth } from "@/lib/auth";
 
@@ -13,11 +12,11 @@ export default async function Home() {
 
       {session?.user ? (
         <form action={signOutAction}>
-          <Button type="submit">Sign Out</Button>
+          <button type="submit">Sign Out</button>
         </form>
       ) : (
         <form action={signInAction}>
-          <Button type="submit">Sign In</Button>
+          <button type="submit">Sign In</button>
         </form>
       )}
     </div>

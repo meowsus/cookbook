@@ -1,28 +1,32 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { removeSourceProcessedHtmlAction } from "@/lib/actions/sources";
-import { useActionState } from "react";
+import { useAction } from "next-safe-action/hooks";
 
 export default function RemoveSourceProcessedHtmlForm({
   sourceId,
 }: {
   sourceId: string;
 }) {
-  const [state, formAction, pending] = useActionState(
+  const { execute, isPending, result } = useAction(
     removeSourceProcessedHtmlAction,
-    null,
   );
 
   return (
-    <form action={formAction}>
+    <form action={execute}>
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <Button type="submit" variant="destructive" disabled={pending}>
+      <button
+        type="submit"
+        className="text-red-500 hover:text-red-600 cursor-pointer"
+        disabled={isPending}
+      >
         Remove
-      </Button>
+      </button>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

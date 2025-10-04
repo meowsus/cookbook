@@ -1,21 +1,26 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { deleteSourceAction } from "@/lib/actions/sources";
-import { useActionState } from "react";
+import { useAction } from "next-safe-action/hooks";
 
 export default function DeleteSourceForm({ sourceId }: { sourceId: string }) {
-  const [state, formAction, pending] = useActionState(deleteSourceAction, null);
+  const { execute, isPending, result } = useAction(deleteSourceAction);
 
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={execute} className="space-y-2">
       <input type="hidden" name="sourceId" value={sourceId} />
 
-      <Button type="submit" variant="destructive" disabled={pending}>
+      <button
+        type="submit"
+        className="text-red-500 hover:text-red-600 cursor-pointer"
+        disabled={isPending}
+      >
         Delete
-      </Button>
+      </button>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

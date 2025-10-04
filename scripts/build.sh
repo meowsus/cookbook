@@ -2,8 +2,8 @@
 # Script to build the project
 
 # Disable linting in CI
-if [ -z "$CI" ]; then
-  pnpm build --no-lint
+if [ -n "$CI" ]; then
+  pnpm next build --no-lint
 else
-  pnpm build
+  pnpm next build
 fi

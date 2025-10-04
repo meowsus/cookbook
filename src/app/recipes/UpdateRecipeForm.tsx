@@ -1,22 +1,20 @@
 "use client";
 
-import { ChangeEvent, useActionState, useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { useAction } from "next-safe-action/hooks";
 import { updateRecipeAction } from "@/lib/actions/recipes";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 
 export default function UpdateRecipeForm({ recipe }: { recipe: object }) {
-  const [state, formAction, pending] = useActionState(updateRecipeAction, null);
+  const { execute, isPending, result } = useAction(updateRecipeAction, null);
   const [recipeName, setRecipeName] = useState(() => recipe.name);
   const [recipeContent, setRecipeContent] = useState(() => recipe.content);
   console.log(recipe);
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={execute} className="space-y-2">
       <input type="hidden" name="recipeId" value={recipe.id} />
 
       <div className="flex flex-col gap-2">
-        <Input
+        <input
           name="name"
           value={recipeName}
           onChange={(event: ChangeEvent) => {
@@ -24,7 +22,7 @@ export default function UpdateRecipeForm({ recipe }: { recipe: object }) {
           }}
           required
         />
-        <Textarea
+        <textarea
           rows={10}
           name="content"
           value={recipeContent}
@@ -33,12 +31,12 @@ export default function UpdateRecipeForm({ recipe }: { recipe: object }) {
           }}
         />
         <div className="space-x-2">
-          <Button type="submit" disabled={pending}>
+          <button type="submit" disabled={isPending}>
             Save
-          </Button>
+          </button>
         </div>
 
-        {state?.error && <p className="text-red-500">{state.error}</p>}
+        {result?.error && <p className="text-red-500">{result.error}</p>}
       </div>
     </form>
   );

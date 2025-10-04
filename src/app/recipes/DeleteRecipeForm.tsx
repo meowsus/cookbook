@@ -1,21 +1,24 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { deleteRecipeAction } from "@/lib/actions/recipes";
-import { useActionState } from "react";
+import { useAction } from "next-safe-action/hooks";
 
 export default function DeleteRecipeForm({ recipeId }: { recipeId: string }) {
-  const [state, formAction, pending] = useActionState(deleteRecipeAction, null);
+  const { execute, isPending, result } = useAction(deleteRecipeAction, null);
 
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={execute} className="space-y-2">
       <input type="hidden" name="recipeId" value={recipeId} />
 
-      <Button type="submit" variant="destructive" disabled={pending}>
+      <button
+        type="submit"
+        className="text-red-500 hover:text-red-600 cursor-pointer"
+        disabled={isPending}
+      >
         Delete
-      </Button>
+      </button>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {result?.error && <p className="text-red-500">{result.error}</p>}
     </form>
   );
 }

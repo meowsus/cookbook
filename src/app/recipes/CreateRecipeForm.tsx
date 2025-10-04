@@ -1,10 +1,8 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useState } from "react";
+import { useAction } from "next-safe-action/hooks";
 import { createRecipeAction } from "@/lib/actions/recipes";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 
 const createDefaultRecipeName = (content: string | null) => {
   if (!content) return "";
@@ -13,7 +11,7 @@ const createDefaultRecipeName = (content: string | null) => {
 };
 
 export default function CreateRecipeForm({ source }: { source: Object }) {
-  const [state, formAction, pending] = useActionState(createRecipeAction, null);
+  const { execute, isPending, result } = useAction(createRecipeAction, null);
   const [recipeName, setRecipeName] = useState(() =>
     createDefaultRecipeName(source.extractedRecipe),
   );
@@ -22,11 +20,11 @@ export default function CreateRecipeForm({ source }: { source: Object }) {
   );
 
   return (
-    <form action={formAction} className="space-y-2">
+    <form action={execute} className="space-y-2">
       <input type="hidden" name="sourceId" value={source.id} />
 
       <div className="flex flex-col gap-2">
-        <Input
+        <input
           name="name"
           value={recipeName}
           onChange={(event) => {
@@ -34,7 +32,7 @@ export default function CreateRecipeForm({ source }: { source: Object }) {
           }}
           required
         />
-        <Textarea
+        <textarea
           rows={10}
           name="content"
           value={recipeContent}
@@ -43,9 +41,9 @@ export default function CreateRecipeForm({ source }: { source: Object }) {
           }}
         />
         <div className="space-x-2">
-          <Button type="submit" disabled={pending}>
+          <button type="submit" disabled={isPending}>
             Save
-          </Button>
+          </button>
         </div>
       </div>
     </form>

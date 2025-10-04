@@ -1,122 +1,53 @@
 "use server";
 
 import { createRecipe, updateRecipe, deleteRecipe } from "@/lib/db/recipes";
-import { auth } from "@/lib/auth";
 import { z } from "zod";
 import { redirect } from "next/navigation";
+import { authActionClient } from "../safe-action";
+import { zfd } from "zod-form-data";
 
-const CreateRecipeDataSchema = z.object({
-  sourceId: z.string().nonempty(),
-  name: z.string(),
-  content: z.string(),
+const CreateRecipeFormDataSchema = zfd.formData({
+  sourceId: zfd.text(z.string().nonempty()),
+  name: zfd.text(z.string()),
+  content: zfd.text(z.string()),
 });
 
-export async function createRecipeAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
-
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to create a recipe",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = CreateRecipeDataSchema.safeParse({
-    sourceId: formData.get("sourceId"),
-    name: formData.get("name"),
-    content: formData.get("content"),
+export const createRecipeAction = authActionClient
+  .metadata({ actionName: "createRecipeAction" })
+  .inputSchema(CreateRecipeFormDataSchema)
+  .action(async ({ parsedInput: { sourceId, name, content } }) => {
+    await createRecipe({
+      sourceId: sourceId,
+      name,
+      content,
+    });
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { sourceId, name, content } = parsedFormData.data;
-
-  await createRecipe({
-    sourceId: sourceId,
-    name,
-    content,
-  });
-}
-
-const UpdateRecipeDataSchema = z.object({
-  recipeId: z.string().nonempty(),
-  name: z.string(),
-  content: z.string(),
+const UpdateRecipeFormDataSchema = zfd.formData({
+  recipeId: zfd.text(z.string().nonempty()),
+  name: zfd.text(z.string()),
+  content: zfd.text(z.string()),
 });
 
-export async function updateRecipeAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
-
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to create a recipe",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = UpdateRecipeDataSchema.safeParse({
-    recipeId: formData.get("recipeId"),
-    name: formData.get("name"),
-    content: formData.get("content"),
+export const updateRecipeAction = authActionClient
+  .metadata({ actionName: "updateRecipeAction" })
+  .inputSchema(UpdateRecipeFormDataSchema)
+  .action(async ({ parsedInput: { recipeId, name, content } }) => {
+    await updateRecipe(recipeId, {
+      name,
+      content,
+    });
   });
 
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { recipeId, name, content } = parsedFormData.data;
-
-  await updateRecipe(recipeId, {
-    name,
-    content,
-  });
-}
-
-const DeleteRecipeFormDataSchema = z.object({
-  recipeId: z.string().nonempty(),
+const DeleteRecipeFormDataSchema = zfd.formData({
+  recipeId: zfd.text(z.string().nonempty()),
 });
 
-export async function deleteRecipeAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const session = await auth();
+export const deleteRecipeAction = authActionClient
+  .metadata({ actionName: "deleteRecipeAction" })
+  .inputSchema(DeleteRecipeFormDataSchema)
+  .action(async ({ parsedInput: { recipeId } }) => {
+    await deleteRecipe(recipeId);
 
-  if (!session?.user?.id) {
-    return {
-      error: "You must be logged in to delete a recipe",
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const parsedFormData = DeleteRecipeFormDataSchema.safeParse({
-    recipeId: formData.get("recipeId"),
+    redirect("/recipes");
   });
-
-  if (!parsedFormData.success) {
-    return {
-      error: z.prettifyError(parsedFormData.error),
-      fields: Object.fromEntries(formData.entries()),
-    };
-  }
-
-  const { recipeId } = parsedFormData.data;
-
-  await deleteRecipe(recipeId);
-
-  redirect("/recipes");
-}

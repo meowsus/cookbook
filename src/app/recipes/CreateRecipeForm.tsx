@@ -41,7 +41,11 @@ export default function CreateRecipeForm({ source }: { source: Object }) {
           }}
         />
         <div className="space-x-2">
-          <button type="submit" disabled={isPending}>
+          <button
+            className="btn btn-secondary"
+            type="submit"
+            disabled={isPending}
+          >
             Save
           </button>
         </div>

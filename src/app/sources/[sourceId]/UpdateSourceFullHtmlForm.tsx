@@ -8,7 +8,7 @@ import { ApiError } from "@/types";
 import {
   GetParamsType,
   GetResponseData,
-} from "@/app/api/sources/[sourceId]/html/route";
+} from "@/app/api/sources/[sourceId]/html/route.schema";
 
 export default function UpdateSourceFullHtmlForm({
   sourceId,

@@ -11,8 +11,13 @@ export default function GlobalError({
     // global-error must include html and body tags
     <html>
       <body>
-        <h2>Something went wrong!</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <div className="container mx-auto p-4 space-y-4">
+          <h2>Something went wrong!</h2>
+          <pre>{error.message}</pre>
+          <button className="btn btn-primary" onClick={() => reset()}>
+            Try again
+          </button>
+        </div>
       </body>
     </html>
   );

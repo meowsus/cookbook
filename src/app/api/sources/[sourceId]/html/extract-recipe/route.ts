@@ -6,6 +6,11 @@ import { findSourceByUser } from "@/lib/db/sources";
 import { ApiError, ApiErrorCode } from "@/types";
 import { auth } from "@/lib/auth";
 import { NextAuthRequest } from "next-auth";
+import {
+  GetParamsSchema,
+  GetParamsType,
+  GetResponseData,
+} from "./route.schema";
 
 const SYSTEM_PROMPT = `
 You are a recipe extraction bot. You MUST follow these rules strictly:
@@ -30,16 +35,6 @@ You are a recipe extraction bot. You MUST follow these rules strictly:
 
 CRITICAL: Do not provide explanations, summaries, or any other text. Return ONLY the recipe in the format above.
 `;
-
-const GetParamsSchema = z.object({
-  sourceId: z.string().nonempty(),
-});
-
-export type GetParamsType = z.infer<typeof GetParamsSchema>;
-
-export type GetResponseData = {
-  text: string;
-};
 
 export const GET = auth(async function GET(
   request: NextAuthRequest,

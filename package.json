@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "./scripts/build.sh",
     "start": "next start",
     "lint:check": "next lint",
     "lint:fix": "next lint --fix",

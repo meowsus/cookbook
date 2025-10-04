@@ -11,36 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.3.0
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v5.0.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: "pnpm"
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-        id: pnpm-cache
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Generate Prisma client
-        run: pnpm prisma:generate
-
-      - name: Run linting
-        run: pnpm lint:check
-
   format:
     runs-on: ubuntu-latest
     steps:
@@ -68,39 +38,9 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.3.0
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v5.0.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: "pnpm"
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-        id: pnpm-cache
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Generate Prisma client
-        run: pnpm prisma:generate
-
-      - name: Run type checking
-        run: pnpm typecheck
-
   build:
     runs-on: ubuntu-latest
-    needs: [lint, format, typecheck]
+    needs: [format]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.3.0

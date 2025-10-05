@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@auth/prisma-adapter':
         specifier: ^2.10.0
-        version: 2.10.0(@prisma/client@6.16.3(prisma@6.16.3(typescript@5.9.3))(typescript@5.9.3))(nodemailer@6.10.1)
+        version: 2.10.0(@prisma/client@6.16.3(prisma@6.16.3(typescript@5.9.3))(typescript@5.9.3))(nodemailer@7.0.6)
       '@prisma/client':
         specifier: 6.16.3
         version: 6.16.3(prisma@6.16.3(typescript@5.9.3))(typescript@5.9.3)
@@ -19,13 +19,13 @@ importers:
         version: 15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       next-auth:
         specifier: 5.0.0-beta.29
-        version: 5.0.0-beta.29(next@15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(nodemailer@6.10.1)(react@19.2.0)
+        version: 5.0.0-beta.29(next@15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(nodemailer@7.0.6)(react@19.2.0)
       next-safe-action:
         specifier: ^8.0.11
         version: 8.0.11(next@15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       nodemailer:
-        specifier: ^6.10.1
-        version: 6.10.1
+        specifier: ^7.0.0
+        version: 7.0.6
       ollama:
         specifier: ^0.6.0
         version: 0.6.0
@@ -1825,8 +1825,8 @@ packages:
   node-fetch-native@1.6.7:
     resolution: {integrity: sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==}
 
-  nodemailer@6.10.1:
-    resolution: {integrity: sha512-Z+iLaBGVaSjbIzQ4pX6XV41HrooLsQ10ZWPUehGmuantvzWoDVBnmsdUcOIDM1t+yPor5pDhVlDESgOMEGxhHA==}
+  nodemailer@7.0.6:
+    resolution: {integrity: sha512-F44uVzgwo49xboqbFgBGkRaiMgtoBrBEWCVincJPK9+S9Adkzt/wXCLKbf7dxucmxfTI5gHGB+bEmdyzN6QKjw==}
     engines: {node: '>=6.0.0'}
 
   nypm@0.6.2:
@@ -2305,7 +2305,7 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@auth/core@0.40.0(nodemailer@6.10.1)':
+  '@auth/core@0.40.0(nodemailer@7.0.6)':
     dependencies:
       '@panva/hkdf': 1.2.1
       jose: 6.1.0
@@ -2313,11 +2313,11 @@ snapshots:
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
     optionalDependencies:
-      nodemailer: 6.10.1
+      nodemailer: 7.0.6
 
-  '@auth/prisma-adapter@2.10.0(@prisma/client@6.16.3(prisma@6.16.3(typescript@5.9.3))(typescript@5.9.3))(nodemailer@6.10.1)':
+  '@auth/prisma-adapter@2.10.0(@prisma/client@6.16.3(prisma@6.16.3(typescript@5.9.3))(typescript@5.9.3))(nodemailer@7.0.6)':
     dependencies:
-      '@auth/core': 0.40.0(nodemailer@6.10.1)
+      '@auth/core': 0.40.0(nodemailer@7.0.6)
       '@prisma/client': 6.16.3(prisma@6.16.3(typescript@5.9.3))(typescript@5.9.3)
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
@@ -4018,13 +4018,13 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next-auth@5.0.0-beta.29(next@15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(nodemailer@6.10.1)(react@19.2.0):
+  next-auth@5.0.0-beta.29(next@15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(nodemailer@7.0.6)(react@19.2.0):
     dependencies:
-      '@auth/core': 0.40.0(nodemailer@6.10.1)
+      '@auth/core': 0.40.0(nodemailer@7.0.6)
       next: 15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react: 19.2.0
     optionalDependencies:
-      nodemailer: 6.10.1
+      nodemailer: 7.0.6
 
   next-safe-action@8.0.11(next@15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
@@ -4058,7 +4058,7 @@ snapshots:
 
   node-fetch-native@1.6.7: {}
 
-  nodemailer@6.10.1: {}
+  nodemailer@7.0.6: {}
 
   nypm@0.6.2:
     dependencies:

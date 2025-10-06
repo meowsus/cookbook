@@ -16,7 +16,8 @@
     "prisma:studio": "prisma studio",
     "prisma:migrate": "prisma migrate dev",
     "db:seed": "tsx src/lib/db/seed/index.ts",
-    "db:drop": "prisma migrate reset --force"
+    "db:drop": "prisma migrate reset --force",
+    "check:peer-deps": "./scripts/check-peer-deps.sh"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
@@ -24,7 +25,7 @@
     "next": "15.5.4",
     "next-auth": "5.0.0-beta.29",
     "next-safe-action": "^8.0.11",
-    "nodemailer": "^7.0.0",
+    "nodemailer": "6.10.1",
     "ollama": "^0.6.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
@@ -50,6 +51,9 @@
     "tailwindcss": "^4",
     "tsx": "^4.19.2",
     "typescript": "^5.8.3"
+  },
+  "resolutions": {
+    "typescript": "5.8.3"
   },
   "packageManager": "pnpm@10.18.0+sha512.e804f889f1cecc40d572db084eec3e4881739f8dec69c0ff10d2d1beff9a4e309383ba27b5b750059d7f4c149535b6cd0d2cb1ed3aeb739239a4284a68f40cfa",
   "browserslist": "> 1%"

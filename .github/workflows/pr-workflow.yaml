@@ -38,9 +38,36 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
+  check-peer-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5.0.0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.1.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+        id: pnpm-cache
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check peer dependencies
+        run: pnpm check:peer-deps
+
   build:
     runs-on: ubuntu-latest
-    needs: [format]
+    needs: [format, check-peer-deps]
     steps:
       - name: Checkout code
         uses: actions/checkout@v5.0.0

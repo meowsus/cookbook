@@ -59,9 +59,6 @@ jobs:
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
         id: pnpm-cache
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
       - name: Check peer dependencies
         run: pnpm check:peer-deps
 

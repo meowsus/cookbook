@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run pnpm install with resolution-only flag and capture output
-output=$(pnpm i --resolution-only 2>&1)
+output=$(pnpm i --resolution-only --no-frozen-lockfile 2>&1)
 
 # Print the output so it's visible
 echo "$output"

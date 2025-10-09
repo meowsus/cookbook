@@ -1,13 +1,12 @@
 import { signInAction, signOutAction } from "@/lib/actions/auth";
 import { auth } from "@/lib/auth";
+import Breadcrumbs from "./Breadcrumbs";
 
 export default async function Home() {
   const session = await auth();
 
   return (
     <div className="space-y-4">
-      <h1>Home</h1>
-
       {session?.user && <span>Welcome, {session?.user?.email}</span>}
 
       {session?.user ? (

@@ -1,5 +1,4 @@
 import { auth } from "@/lib/auth";
-import Link from "next/link";
 import Hero from "./Hero";
 
 export default async function Home() {

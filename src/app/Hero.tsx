@@ -17,14 +17,14 @@ export default function Hero({
 }: HeroProps) {
   return (
     <div
-      className="hero grow bg-top"
+      className="hero grow bg-top rounded-lg overflow-hidden shadow"
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}
     >
       <div className="hero-overlay"></div>
       <div className="hero-content text-neutral-content text-center">
-        <div className="max-w-md text-shadow-sm">
+        <div className="max-w-md text-shadow-sm/20">
           <h1 className="mb-5 text-5xl font-bold">{title}</h1>
           <p className="mb-5 text-lg">{description}</p>
 

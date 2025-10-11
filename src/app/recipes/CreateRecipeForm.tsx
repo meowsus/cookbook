@@ -29,8 +29,14 @@ export default function CreateRecipeForm({
           name="name"
           defaultValue={createDefaultRecipeName(recipeContent)}
           required
+          className="input"
         />
-        <textarea rows={10} name="content" defaultValue={recipeContent} />
+        <textarea
+          rows={10}
+          name="content"
+          defaultValue={recipeContent}
+          className="textarea"
+        />
         <div className="space-x-2">
           <button
             className="btn btn-secondary"

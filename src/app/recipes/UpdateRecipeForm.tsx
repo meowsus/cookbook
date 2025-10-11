@@ -19,8 +19,13 @@ export default function UpdateRecipeForm({
       <input type="hidden" name="recipeId" value={recipeId} />
 
       <div className="flex flex-col gap-2">
-        <input name="name" defaultValue={name} required />
-        <textarea rows={10} name="content" defaultValue={content} />
+        <input name="name" defaultValue={name} required className="input" />
+        <textarea
+          rows={10}
+          name="content"
+          defaultValue={content}
+          className="textarea"
+        />
         <div className="space-x-2">
           <button
             className="btn btn-secondary"

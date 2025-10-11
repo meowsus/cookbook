@@ -10,13 +10,13 @@ export default async function RecipePage({
 }: {
   params: Promise<{ recipeId: string }>;
 }) {
-  const { recipeId } = await params;
-
   const session = await auth();
 
   if (!session?.user?.id) {
     redirect("/api/auth/signin");
   }
+
+  const { recipeId } = await params;
 
   const recipe = await getRecipe(session.user.id, recipeId);
 

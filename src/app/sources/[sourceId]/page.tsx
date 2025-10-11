@@ -32,7 +32,7 @@ export default async function SourcePage({
     notFound();
   }
 
-  const recipes = await findRecipesBySource(sourceId);
+  const recipes = await findRecipesBySource(session.user.id, sourceId);
 
   return (
     <div className="space-y-4">
@@ -144,7 +144,10 @@ export default async function SourcePage({
           <p>{source.extractedRecipe}</p>
 
           <h3>Create Recipe Entry From Extracted Recipe</h3>
-          <CreateRecipeForm source={source} />
+          <CreateRecipeForm
+            sourceId={source.id}
+            recipeContent={source.extractedRecipe}
+          />
         </>
       )}
 

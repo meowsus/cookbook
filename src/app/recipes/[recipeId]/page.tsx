@@ -18,7 +18,7 @@ export default async function RecipePage({
     redirect("/api/auth/signin");
   }
 
-  const recipe = await getRecipe(recipeId);
+  const recipe = await getRecipe(session.user.id, recipeId);
 
   if (!recipe) notFound();
 
@@ -31,7 +31,11 @@ export default async function RecipePage({
           </h1>
           <Link href={`/sources/${recipe.sourceId}`}>View source</Link>
 
-          <UpdateRecipeForm recipe={recipe} />
+          <UpdateRecipeForm
+            recipeId={recipeId}
+            name={recipe.name}
+            content={recipe.content}
+          />
           <DeleteRecipeForm recipeId={recipeId} />
         </>
       )}

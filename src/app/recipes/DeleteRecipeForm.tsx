@@ -4,7 +4,7 @@ import { deleteRecipeAction } from "@/lib/actions/recipes";
 import { useAction } from "next-safe-action/hooks";
 
 export default function DeleteRecipeForm({ recipeId }: { recipeId: string }) {
-  const { execute, isPending, result } = useAction(deleteRecipeAction, null);
+  const { execute, isPending, result } = useAction(deleteRecipeAction);
 
   return (
     <form action={execute} className="space-y-2">
@@ -18,7 +18,9 @@ export default function DeleteRecipeForm({ recipeId }: { recipeId: string }) {
         Delete
       </button>
 
-      {result?.error && <p className="text-red-500">{result.error}</p>}
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
     </form>
   );
 }

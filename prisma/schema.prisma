@@ -20,6 +20,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   sources       Source[]
+  recipes       Recipe[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,14 +68,14 @@ model VerificationToken {
 }
 
 model Source {
-  id              String  @id @default(cuid())
-  url             String  @unique
-  fullHtml        String  @default("")
-  processedHtml   String  @default("")
-  extractedRecipe String  @default("")
+  id              String   @id @default(cuid())
+  url             String   @unique
+  fullHtml        String   @default("")
+  processedHtml   String   @default("")
+  extractedRecipe String   @default("")
   userId          String
-  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Recipe          Recipe?
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipes         Recipe[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -88,8 +89,11 @@ model Recipe {
   name    String
   content String
 
-  sourceId String @unique
+  sourceId String
   source   Source @relation(fields: [sourceId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([sourceId])
 }

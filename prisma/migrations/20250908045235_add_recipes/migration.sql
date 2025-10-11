@@ -6,7 +6,9 @@ CREATE TABLE "Recipe" (
     "name" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "sourceId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     CONSTRAINT "Recipe_sourceId_fkey" FOREIGN KEY ("sourceId") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Recipe_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex

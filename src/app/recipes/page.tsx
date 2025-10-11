@@ -11,7 +11,7 @@ export default async function RecipesPage() {
     redirect("/api/auth/signin");
   }
 
-  const recipes = await getRecipes();
+  const recipes = await getRecipes(session.user.id);
 
   return (
     <div className="space-y-4">

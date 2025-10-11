@@ -16,7 +16,7 @@ export const createRecipeAction = authActionClient
   .metadata({ actionName: "createRecipeAction" })
   .inputSchema(CreateRecipeFormDataSchema)
   .action(async ({ parsedInput: { sourceId, name, content }, ctx }) => {
-    await createRecipe({
+    const recipe = await createRecipe({
       source: {
         connect: { id: sourceId },
       },
@@ -26,6 +26,8 @@ export const createRecipeAction = authActionClient
         connect: { id: ctx.userId },
       },
     });
+
+    redirect(`/recipes/${recipe.id}`);
   });
 
 const UpdateRecipeFormDataSchema = zfd.formData({
@@ -42,6 +44,8 @@ export const updateRecipeAction = authActionClient
       name,
       content,
     });
+
+    redirect(`/recipes/${recipeId}`);
   });
 
 const DeleteRecipeFormDataSchema = zfd.formData({
@@ -54,7 +58,5 @@ export const deleteRecipeAction = authActionClient
   .action(async ({ parsedInput: { recipeId }, ctx }) => {
     await deleteRecipe(ctx.userId, recipeId);
 
-    // TODO: redirect to recipes route if user
-    // deletes from the recipes/[recipeId] route
-    // redirect("/recipes");
+    redirect("/recipes");
   });

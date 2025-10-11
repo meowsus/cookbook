@@ -18,13 +18,13 @@ export default async function SourcePage({
 }: {
   params: Promise<{ sourceId: string }>;
 }) {
-  const { sourceId } = await params;
-
   const session = await auth();
 
   if (!session?.user?.id) {
     redirect("/api/auth/signin");
   }
+
+  const { sourceId } = await params;
 
   const source = await findSourceByUser(session.user.id, sourceId);
 

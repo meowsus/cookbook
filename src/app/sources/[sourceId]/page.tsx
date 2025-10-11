@@ -12,6 +12,7 @@ import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
 import { auth } from "@/lib/auth";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import Breadcrumbs from "@/app/Breadcrumbs";
 
 export default async function SourcePage({
   params,
@@ -36,14 +37,9 @@ export default async function SourcePage({
 
   return (
     <div className="space-y-4">
-      <h1>
-        Source <code>{sourceId}</code>
-      </h1>
+      <Breadcrumbs pageTitle={`Editing source ${sourceId}`} />
 
-      <div className="flex items-center gap-2">
-        <Link href="/sources">Back to sources</Link>
-        <DeleteSourceForm sourceId={sourceId} />
-      </div>
+      <DeleteSourceForm sourceId={sourceId} />
 
       <h2>Data</h2>
 

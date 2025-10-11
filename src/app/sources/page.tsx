@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Breadcrumbs from "../Breadcrumbs";
 import SourcesList from "./SourcesList";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import NoSourcesCard from "./NoSourcesCard";
 
 export default async function SourcesPage() {

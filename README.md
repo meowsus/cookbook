@@ -36,10 +36,10 @@ We're using [`daisyUI`](https://daisyui.com/components/).
 
 #### Icons
 
-For iconography, we're using [`@heroicons/react`](https://github.com/tailwindlabs/heroicons?tab=readme-ov-file#react). See the full list of icons [here](https://heroicons.com/) and their exported components [here](https://unpkg.com/browse/@heroicons/react/24/outline/). You should import from the `@heroicons/react/24/outline` package:
+For iconography, we're using [`@heroicons/react`](https://github.com/tailwindlabs/heroicons?tab=readme-ov-file#react). See the full list of icons [here](https://heroicons.com/) and their exported components [here](https://unpkg.com/browse/@heroicons/react/24/solid/). You should import from the `@heroicons/react/24/solid` package:
 
 ```tsx
-import { GlobeAltIcon } from "@heroicons/react/24/outline";
+import { GlobeAltIcon } from "@heroicons/react/24/solid";
 
 ...
 

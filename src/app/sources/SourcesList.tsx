@@ -2,7 +2,7 @@ import {
   GlobeAltIcon,
   ArrowTopRightOnSquareIcon,
   EyeIcon,
-} from "@heroicons/react/24/outline";
+} from "@heroicons/react/24/solid";
 import { Source } from "../../../generated/prisma";
 import Link from "next/link";
 import DeleteSourceForm from "./DeleteSourceForm";

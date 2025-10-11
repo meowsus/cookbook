@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { readFileSync, readdirSync } from "fs";
 import { join, parse } from "path";
+import { createDefaultRecipeName } from "@/lib/helpers/recipe";
 
 const fixturesDir = join(__dirname, "fixtures");
 const fixtures = readdirSync(fixturesDir).reduce(
@@ -32,6 +33,10 @@ async function main() {
 
   try {
     // Clear existing data
+    console.log("🧹 Clearing existing recipes...");
+    await prisma.recipe.deleteMany({});
+    console.log("✅ Existing recipes cleared");
+
     console.log("🧹 Clearing existing sources...");
     await prisma.source.deleteMany({});
     console.log("✅ Existing sources cleared");
@@ -50,7 +55,7 @@ async function main() {
     console.log(`✅ Default user ready: ${defaultUser.email}`);
 
     // Create sample sources
-    console.log("📝 Creating sample sources...");
+    console.log("📝 Creating sample sources and recipes...");
     for (const source of sampleSources) {
       const created = await prisma.source.create({
         data: {
@@ -61,6 +66,19 @@ async function main() {
         },
       });
       console.log(`✅ Created source: ${created.url}`);
+
+      console.log(`📝 Creating recipe for source ${created.id}`);
+      const createdRecipe = await prisma.recipe.create({
+        data: {
+          name: createDefaultRecipeName(created.extractedRecipe),
+          source: { connect: { id: created.id } },
+          content: created.extractedRecipe,
+          user: {
+            connect: { id: defaultUser.id },
+          },
+        },
+      });
+      console.log(`✅ Created Recipe: ${createdRecipe.name}`);
     }
 
     console.log(`🎉 Seed completed! Created ${sampleSources.length} sources.`);

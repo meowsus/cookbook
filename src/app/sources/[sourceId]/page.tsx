@@ -1,11 +1,14 @@
 import UpdateSourceFullHtmlForm from "./UpdateSourceFullHtmlForm";
 import { findSourceByUser } from "@/lib/db/sources";
+import { findRecipesBySource } from "@/lib/db/recipes";
 import DeleteSourceForm from "../DeleteSourceForm";
 import RemoveSourceFullHtmlForm from "./RemoveSourceFullHtmlForm";
 import RemoveSourceProcessedHtmlForm from "./RemoveSourceProcessedHtmlForm";
 import UpdateSourceProcessedHtmlForm from "./UpdateSourceProcessedHtmlForm";
 import UpdateSourceExtractedRecipeForm from "@/app/sources/[sourceId]/UpdateSourceExtractedRecipeForm";
 import RemoveSourceExtractedRecipeForm from "./RemoveSourceExtractedRecipeForm";
+import CreateRecipeForm from "@/app/recipes/new/CreateRecipeForm";
+import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
 import { auth } from "@/lib/auth";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
@@ -15,19 +18,21 @@ export default async function SourcePage({
 }: {
   params: Promise<{ sourceId: string }>;
 }) {
-  const { sourceId } = await params;
-
   const session = await auth();
 
   if (!session?.user?.id) {
     redirect("/api/auth/signin");
   }
 
+  const { sourceId } = await params;
+
   const source = await findSourceByUser(session.user.id, sourceId);
 
   if (!source) {
     notFound();
   }
+
+  const recipes = await findRecipesBySource(session.user.id, sourceId);
 
   return (
     <div className="space-y-4">
@@ -137,6 +142,29 @@ export default async function SourcePage({
           </div>
 
           <p>{source.extractedRecipe}</p>
+
+          <h3>Create Recipe Entry From Extracted Recipe</h3>
+          <CreateRecipeForm
+            sourceId={source.id}
+            recipeContent={source.extractedRecipe}
+          />
+        </>
+      )}
+
+      {recipes?.length > 0 && (
+        <>
+          <h3>Saved Recipes</h3>
+          <ul>
+            {recipes.map((recipe) => (
+              <li key={recipe.id}>
+                {recipe.name} <code>{recipe.id}</code>{" "}
+                <div className="inline-flex items-center gap-2">
+                  <Link href={`/recipes/${recipe.id}`}>View Recipe</Link>{" "}
+                  <DeleteRecipeForm recipeId={recipe.id} />
+                </div>
+              </li>
+            ))}
+          </ul>
         </>
       )}
     </div>

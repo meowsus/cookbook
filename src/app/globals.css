@@ -20,7 +20,7 @@
   @apply text-lg font-bold;
 }
 
-a {
+a:not(.btn) {
   @apply text-primary;
   @apply hover:text-secondary;
 }

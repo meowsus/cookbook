@@ -4,12 +4,12 @@ import Breadcrumbs from "@/app/Breadcrumbs";
 
 export default function NewSourcePage() {
   return (
-    <div className="space-y-4">
-      <Breadcrumbs pageTitle="Add new source" />
+    <div className="grow flex flex-col gap-4">
+      <Breadcrumbs pageTitle="Add a new source" />
 
-      <p>Did you find a new recipe on the internet? Add it&apos;s url here!</p>
-
-      <CreateSourceForm />
+      <div className="grow flex items-center justify-center">
+        <CreateSourceForm />
+      </div>
     </div>
   );
 }

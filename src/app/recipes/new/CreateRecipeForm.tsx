@@ -2,14 +2,7 @@
 
 import { useAction } from "next-safe-action/hooks";
 import { createRecipeAction } from "@/lib/actions/recipes";
-
-const createDefaultRecipeName = (content: string | null) => {
-  if (!content) return "";
-
-  // This is a temporary measure until we improve the LLM output to
-  // include a seprate name value.
-  return content.substring(2, content.indexOf("\n"));
-};
+import { createDefaultRecipeName } from "@/lib/helpers/recipe";
 
 export default function CreateRecipeForm({
   sourceId,

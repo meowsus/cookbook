@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import DeleteRecipeForm from "../DeleteRecipeForm";
-import UpdateRecipeForm from "../UpdateRecipeForm";
+import UpdateRecipeForm from "./UpdateRecipeForm";
 
 export default async function RecipePage({
   params,

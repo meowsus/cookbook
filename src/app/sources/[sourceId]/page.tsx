@@ -7,7 +7,7 @@ import RemoveSourceProcessedHtmlForm from "./RemoveSourceProcessedHtmlForm";
 import UpdateSourceProcessedHtmlForm from "./UpdateSourceProcessedHtmlForm";
 import UpdateSourceExtractedRecipeForm from "@/app/sources/[sourceId]/UpdateSourceExtractedRecipeForm";
 import RemoveSourceExtractedRecipeForm from "./RemoveSourceExtractedRecipeForm";
-import CreateRecipeForm from "@/app/recipes/CreateRecipeForm";
+import CreateRecipeForm from "@/app/recipes/new/CreateRecipeForm";
 import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
 import { auth } from "@/lib/auth";
 import { notFound, redirect } from "next/navigation";

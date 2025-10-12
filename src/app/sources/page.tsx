@@ -1,4 +1,7 @@
-import { findSourcesByUser } from "@/lib/db/sources";
+import {
+  findSourcesByUser,
+  findSourcesWithRecipesByUser,
+} from "@/lib/db/sources";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -14,8 +17,11 @@ export default async function SourcesPage() {
     redirect("/api/auth/signin");
   }
 
-  const sources = await findSourcesByUser(session.user.id);
-  const hasSources = sources.length > 0;
+  const sourcesWithRecipes = await findSourcesWithRecipesByUser(
+    session.user.id,
+  );
+
+  const hasSources = sourcesWithRecipes.length > 0;
 
   return (
     <div className="grow flex flex-col gap-4">
@@ -33,7 +39,7 @@ export default async function SourcesPage() {
       </div>
 
       {hasSources ? (
-        <SourcesList sources={sources} />
+        <SourcesList sources={sourcesWithRecipes} />
       ) : (
         <div className="grow flex items-center justify-center">
           <NoSourcesCard />

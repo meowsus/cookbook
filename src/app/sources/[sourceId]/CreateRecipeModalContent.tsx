@@ -71,7 +71,7 @@ export default function FetchFullHtmlModalContent({
   return (
     <>
       <div className="py-4">
-        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
           <legend className="fieldset-legend">Extracted recipe</legend>
 
           <label className="label">Name</label>

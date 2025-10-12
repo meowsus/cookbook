@@ -4,6 +4,7 @@ export enum ApiErrorCode {
   VALIDATION_ERROR,
   NOT_FOUND,
   UNAUTHORIZED,
+  INVALID_RESPONSE,
 }
 
 export interface ApiError<T> {

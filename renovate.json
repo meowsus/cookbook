@@ -5,16 +5,16 @@
   "packageRules": [
     {
       "description": "Automerge non-major updates",
-      "updateTypes": ["minor", "patch", "digest"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "automerge": true
     },
     {
-      "depTypeList": ["devDependencies"],
-      "updateTypes": ["pin", "digest", "patch", "minor"],
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["pin", "digest", "patch", "minor"],
       "automerge": true
     },
     {
-      "depTypeList": ["action"],
+      "matchDepTypes": ["action"],
       "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
       "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
     }

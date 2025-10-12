@@ -22,6 +22,7 @@ export default function RemoveSourceExtractedRecipeForm({
         type="submit"
         className="btn btn-ghost btn-sm btn-error"
         disabled={isPending}
+        title="Remove extracted recipe"
       >
         <BackspaceIcon className="size-4" />
       </button>

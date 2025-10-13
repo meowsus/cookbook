@@ -1,10 +1,10 @@
-import ollama from "ollama";
 import { NextResponse } from "next/server";
+import ollama from "ollama";
 import { z } from "zod";
 
+import { auth } from "@/lib/auth";
 import { findSourceByUser } from "@/lib/db/sources";
 import { ApiError, ApiErrorCode } from "@/types";
-import { auth } from "@/lib/auth";
 import { NextAuthRequest } from "next-auth";
 import {
   GetParamsSchema,

@@ -1,14 +1,14 @@
 import { auth } from "@/lib/auth";
 import { findSourceByUser } from "@/lib/db/sources";
-import { ApiErrorCode, ApiError } from "@/types";
+import { ApiError, ApiErrorCode } from "@/types";
 import { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import {
   GetParamsSchema,
   GetParamsType,
   GetResponseData,
 } from "./route.schema";
-import { z } from "zod";
 
 export const GET = auth(async function GET(
   request: NextAuthRequest,

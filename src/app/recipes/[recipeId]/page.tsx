@@ -1,7 +1,7 @@
-import { getRecipe } from "@/lib/db/recipes";
-import { notFound, redirect } from "next/navigation";
-import Link from "next/link";
 import { auth } from "@/lib/auth";
+import { getRecipe } from "@/lib/db/recipes";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 import DeleteRecipeForm from "../DeleteRecipeForm";
 import UpdateRecipeForm from "./UpdateRecipeForm";
 

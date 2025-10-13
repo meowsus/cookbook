@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { getRecipes } from "@/lib/db/recipes";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import DeleteRecipeForm from "./DeleteRecipeForm";
 
 export default async function RecipesPage() {

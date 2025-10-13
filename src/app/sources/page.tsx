@@ -1,8 +1,8 @@
+import { auth } from "@/lib/auth";
 import { findSourcesByUser } from "@/lib/db/sources";
 import Link from "next/link";
-import DeleteSourceForm from "./DeleteSourceForm";
-import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import DeleteSourceForm from "./DeleteSourceForm";
 
 export default async function SourcesPage() {
   const session = await auth();

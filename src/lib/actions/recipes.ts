@@ -1,10 +1,10 @@
 "use server";
 
 import { createRecipe, deleteRecipe, updateRecipe } from "@/lib/db/recipes";
+import { authActionClient } from "@/lib/safe-action";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { authActionClient } from "../safe-action";
 
 const CreateRecipeFormDataSchema = zfd.formData({
   sourceId: zfd.text(z.string().nonempty()),

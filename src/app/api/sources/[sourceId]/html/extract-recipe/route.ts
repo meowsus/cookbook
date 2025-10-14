@@ -2,15 +2,15 @@ import { NextResponse } from "next/server";
 import ollama from "ollama";
 import { z } from "zod";
 
-import { auth } from "@/lib/auth";
-import { findSourceByUser } from "@/lib/db/sources";
-import { ApiError, ApiErrorCode } from "@/types";
-import { NextAuthRequest } from "next-auth";
 import {
   GetParamsSchema,
   GetParamsType,
   GetResponseData,
-} from "./route.schema";
+} from "@/app/api/sources/[sourceId]/html/extracted-recipe/route.schema";
+import { auth } from "@/lib/auth";
+import { findSourceByUser } from "@/lib/db/sources";
+import { ApiError, ApiErrorCode } from "@/types";
+import { NextAuthRequest } from "next-auth";
 
 const SYSTEM_PROMPT = `
 You are a recipe extraction bot. You MUST follow these rules strictly:

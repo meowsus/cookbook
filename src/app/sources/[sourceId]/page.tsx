@@ -1,17 +1,17 @@
 import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
 import CreateRecipeForm from "@/app/recipes/new/CreateRecipeForm";
+import DeleteSourceForm from "@/app/sources/DeleteSourceForm";
+import RemoveSourceExtractedRecipeForm from "@/app/sources/[sourceId]/RemoveSourceExtractedRecipeForm";
+import RemoveSourceFullHtmlForm from "@/app/sources/[sourceId]/RemoveSourceFullHtmlForm";
+import RemoveSourceProcessedHtmlForm from "@/app/sources/[sourceId]/RemoveSourceProcessedHtmlForm";
 import UpdateSourceExtractedRecipeForm from "@/app/sources/[sourceId]/UpdateSourceExtractedRecipeForm";
+import UpdateSourceFullHtmlForm from "@/app/sources/[sourceId]/UpdateSourceFullHtmlForm";
+import UpdateSourceProcessedHtmlForm from "@/app/sources/[sourceId]/UpdateSourceProcessedHtmlForm";
 import { auth } from "@/lib/auth";
 import { findRecipesBySource } from "@/lib/db/recipes";
 import { findSourceByUser } from "@/lib/db/sources";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import DeleteSourceForm from "../DeleteSourceForm";
-import RemoveSourceExtractedRecipeForm from "./RemoveSourceExtractedRecipeForm";
-import RemoveSourceFullHtmlForm from "./RemoveSourceFullHtmlForm";
-import RemoveSourceProcessedHtmlForm from "./RemoveSourceProcessedHtmlForm";
-import UpdateSourceFullHtmlForm from "./UpdateSourceFullHtmlForm";
-import UpdateSourceProcessedHtmlForm from "./UpdateSourceProcessedHtmlForm";
 
 export default async function SourcePage({
   params,

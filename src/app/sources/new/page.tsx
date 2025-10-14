@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CreateSourceForm from "./CreateSourceForm";
+import CreateSourceFormfrom "@/app/sources/new/CreateSourceForm";
 
 export default function NewSourcePage() {
   return (

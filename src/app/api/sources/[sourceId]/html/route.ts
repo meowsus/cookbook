@@ -1,14 +1,14 @@
+import {
+  GetParamsSchema,
+  GetParamsType,
+  GetResponseData,
+} from "@/app/api/sources/[sourceId]/html/route.schema";
 import { auth } from "@/lib/auth";
 import { findSourceByUser } from "@/lib/db/sources";
 import { ApiError, ApiErrorCode } from "@/types";
 import { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import {
-  GetParamsSchema,
-  GetParamsType,
-  GetResponseData,
-} from "./route.schema";
 
 export const GET = auth(async function GET(
   request: NextAuthRequest,

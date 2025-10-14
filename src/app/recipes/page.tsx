@@ -1,8 +1,8 @@
+import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
 import { auth } from "@/lib/auth";
 import { getRecipes } from "@/lib/db/recipes";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import DeleteRecipeForm from "./DeleteRecipeForm";
 
 export default async function RecipesPage() {
   const session = await auth();

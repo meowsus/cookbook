@@ -1,10 +1,10 @@
 import { getSourceProgress } from "@/lib/helpers/source";
-import { Source } from "../../../generated/prisma";
 import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/helpers";
+import { SourceWithRecipes } from "@/types";
 
 interface SourceProgressProps {
-  source: Source;
+  source: SourceWithRecipes;
   className?: string;
 }
 

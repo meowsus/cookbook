@@ -6,7 +6,7 @@ import {
   GetParamsSchema,
   GetParamsType,
   GetResponseData,
-} from "@/app/api/sources/[sourceId]/html/extracted-recipe/route.schema";
+} from "@/app/api/sources/[sourceId]/html/extract-recipe/route.schema";
 import { auth } from "@/lib/auth";
 import { findSourceByUser } from "@/lib/db/sources";
 import { ApiError, ApiErrorCode } from "@/types";

@@ -1,15 +1,11 @@
 import { GlobeAltIcon, EyeIcon } from "@heroicons/react/24/solid";
-import { Prisma } from "../../../generated/prisma";
 import Link from "next/link";
 import DeleteSourceForm from "./DeleteSourceForm";
 import SourceProgress from "./SourceProgress";
+import { SourceWithRecipes } from "@/types";
 
 interface SourcesListProps {
-  sources: Prisma.SourceGetPayload<{
-    include: {
-      recipes: true;
-    };
-  }>[];
+  sources: SourceWithRecipes[];
 }
 
 export default function SourcesList({ sources }: SourcesListProps) {

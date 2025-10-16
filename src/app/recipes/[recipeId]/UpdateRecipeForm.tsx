@@ -12,33 +12,68 @@ export default function UpdateRecipeForm({
   name: string;
   content: string;
 }) {
-  const { execute, isPending, result } = useAction(updateRecipeAction);
+  const { execute, input, isPending, result } = useAction(updateRecipeAction);
 
   return (
     <form action={execute} className="space-y-2">
       <input type="hidden" name="recipeId" value={recipeId} />
 
-      <div className="flex flex-col gap-2">
-        <input name="name" defaultValue={name} required className="input" />
-        <textarea
-          rows={10}
-          name="content"
-          defaultValue={content}
-          className="textarea"
+      <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <label className="label">Name</label>
+        <input
+          type="text"
+          name="name"
+          className="input w-full"
+          placeholder="Recipe name"
+          defaultValue={((input as FormData)?.get("name") as string) ?? name}
+          autoFocus
+          required
         />
-        <div className="space-x-2">
-          <button
-            className="btn btn-secondary"
-            type="submit"
-            disabled={isPending}
-          >
-            Save
-          </button>
-        </div>
 
-        {result?.serverError && (
-          <p className="text-red-500">{result.serverError.error}</p>
+        {result?.validationErrors && (
+          <div className="label">
+            <ul className="list-disc list-inside text-red-500">
+              {result.validationErrors?.name?._errors?.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          </div>
         )}
+
+        <label className="label">Content</label>
+        <textarea
+          name="content"
+          className="textarea w-full h-64"
+          placeholder="Recipe content"
+          required
+          defaultValue={
+            ((input as FormData)?.get("content") as string) ?? content
+          }
+        />
+
+        {result?.validationErrors && (
+          <div className="label">
+            <ul className="list-disc list-inside text-red-500">
+              {result.validationErrors?.content?._errors?.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </fieldset>
+
+      {result?.serverError && (
+        <p className="text-red-500">{result.serverError.error}</p>
+      )}
+
+      <div className="flex gap-2 justify-end">
+        <button type="reset" className="btn btn-ghost">
+          Reset
+        </button>
+
+        <button type="submit" className="btn btn-primary" disabled={isPending}>
+          Save
+        </button>
       </div>
     </form>
   );

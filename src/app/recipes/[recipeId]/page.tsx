@@ -4,6 +4,8 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import DeleteRecipeForm from "../DeleteRecipeForm";
 import UpdateRecipeForm from "./UpdateRecipeForm";
+import Breadcrumbs from "@/app/Breadcrumbs";
+import { GlobeAltIcon } from "@heroicons/react/24/solid";
 
 export default async function RecipePage({
   params,
@@ -23,22 +25,30 @@ export default async function RecipePage({
   if (!recipe) notFound();
 
   return (
-    <div className="space-y-4">
-      {recipe && (
-        <>
-          <h1>
-            Recipe: <code>{recipe.name}</code>
-          </h1>
-          <Link href={`/sources/${recipe.sourceId}`}>View source</Link>
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-2 justify-between items-center">
+        <Breadcrumbs pageTitle={recipe.name} />
 
-          <UpdateRecipeForm
-            recipeId={recipeId}
-            name={recipe.name}
-            content={recipe.content}
-          />
+        <div className="flex flex-row items-center gap-1">
+          <Link
+            href={`/sources/${recipe.sourceId}`}
+            title="View source"
+            className="btn btn-square btn-ghost"
+          >
+            <GlobeAltIcon className="size-4" />
+          </Link>
+
           <DeleteRecipeForm recipeId={recipeId} />
-        </>
-      )}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <UpdateRecipeForm
+          recipeId={recipeId}
+          name={recipe.name}
+          content={recipe.content}
+        />
+      </div>
     </div>
   );
 }

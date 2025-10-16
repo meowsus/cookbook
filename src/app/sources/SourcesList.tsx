@@ -1,5 +1,4 @@
 import { GlobeAltIcon, EyeIcon } from "@heroicons/react/24/solid";
-import { Prisma } from "../../../generated/prisma";
 import Link from "next/link";
 import DeleteSourceForm from "./DeleteSourceForm";
 import SourceProgress from "./SourceProgress";

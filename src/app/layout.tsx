@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <div className="container mx-auto grow flex flex-col gap-4">
           <Header />
-          <main className="container mx-auto py-4 px-6 bg-base-200 grow">
+          <main className="container mx-auto py-4 px-6 bg-base-200 grow flex flex-col">
             {children}
           </main>
           <Footer />

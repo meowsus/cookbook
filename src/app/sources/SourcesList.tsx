@@ -1,6 +1,5 @@
 import {
   GlobeAltIcon,
-  ArrowTopRightOnSquareIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
 import { Source } from "../../../generated/prisma";

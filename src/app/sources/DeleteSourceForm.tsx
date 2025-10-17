@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteSourceAction } from "@/lib/actions/sources";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { useAction } from "next-safe-action/hooks";
 
 export default function DeleteSourceForm({ sourceId }: { sourceId: string }) {
@@ -12,10 +13,11 @@ export default function DeleteSourceForm({ sourceId }: { sourceId: string }) {
 
       <button
         type="submit"
-        className="text-red-500 hover:text-red-600 cursor-pointer"
+        className="btn btn-square btn-ghost btn-error"
         disabled={isPending}
+        title="Delete source"
       >
-        Delete
+        <TrashIcon className="size-4" />
       </button>
 
       {result?.serverError && (

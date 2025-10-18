@@ -19,6 +19,7 @@ export default function CreateSourceForm() {
             placeholder="https://example.com"
             defaultValue={((input as FormData)?.get("url") as string) ?? ""}
             className="grow"
+            autoFocus
             required
           />
           <span className="badge badge-soft badge-error badge-xs">

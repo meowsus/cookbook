@@ -1,7 +1,7 @@
 "use client";
 
 import { deleteSourceAction } from "@/lib/actions/sources";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { TrashIcon } from "@heroicons/react/24/solid";
 import { useAction } from "next-safe-action/hooks";
 
 export default function DeleteSourceForm({ sourceId }: { sourceId: string }) {

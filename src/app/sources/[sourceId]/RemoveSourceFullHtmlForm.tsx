@@ -2,6 +2,7 @@
 
 import { removeSourceFullHtmlAction } from "@/lib/actions/sources";
 import { useAction } from "next-safe-action/hooks";
+import { BackspaceIcon } from "@heroicons/react/24/solid";
 
 export default function RemoveSourceFullHtmlForm({
   sourceId,
@@ -13,13 +14,15 @@ export default function RemoveSourceFullHtmlForm({
   return (
     <form action={execute}>
       <input type="hidden" name="sourceId" value={sourceId} />
+      <input type="hidden" name="fullHtml" value="" />
 
       <button
         type="submit"
-        className="text-red-500 hover:text-red-600 cursor-pointer"
+        className="btn btn-ghost btn-sm btn-error"
         disabled={isPending}
+        title="Remove full HTML"
       >
-        Remove
+        <BackspaceIcon className="size-4" />
       </button>
 
       {result?.serverError && (

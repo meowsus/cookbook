@@ -166,7 +166,7 @@ export default async function SourcePage({
                   "We'll need to process the HTML that you've just fetched to continue."
                 ) : (
                   <span className="text-neutral">
-                    You haven't fetched the full HTML yet.
+                    You haven&apos;t fetched the full HTML yet.
                   </span>
                 )}
               </p>
@@ -218,7 +218,7 @@ export default async function SourcePage({
                   "We'll need to extract the recipe from the processed HTML to continue."
                 ) : (
                   <span className="text-neutral">
-                    You haven't processed the HTML yet.
+                    You haven&apos;t processed the HTML yet.
                   </span>
                 )}
               </p>

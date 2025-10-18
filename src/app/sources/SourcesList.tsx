@@ -1,8 +1,4 @@
-import {
-  GlobeAltIcon,
-  ArrowTopRightOnSquareIcon,
-  EyeIcon,
-} from "@heroicons/react/24/solid";
+import { GlobeAltIcon, EyeIcon } from "@heroicons/react/24/solid";
 import { Source } from "../../../generated/prisma";
 import Link from "next/link";
 import DeleteSourceForm from "./DeleteSourceForm";
@@ -16,7 +12,7 @@ export default function SourcesList({ sources }: SourcesListProps) {
   return (
     <ul className="list bg-base-100 rounded-box shadow-md">
       <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
-        Here are the sources that you've added so far.
+        Here are the sources that you&apos;ve added so far.
       </li>
 
       {sources.map((source) => (

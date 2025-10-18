@@ -1,5 +1,5 @@
+import { Source } from "@/generated/prisma";
 import { cn } from "@/lib/helpers";
-import { Source } from "../../../../generated/prisma";
 
 interface SourceStepsProps {
   source: Source;

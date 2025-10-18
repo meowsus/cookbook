@@ -1,9 +1,9 @@
-import { getRecipe } from "@/lib/db/recipes";
-import { notFound, redirect } from "next/navigation";
-import Link from "next/link";
+import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
+import UpdateRecipeForm from "@/app/recipes/[recipeId]/UpdateRecipeForm";
 import { auth } from "@/lib/auth";
-import DeleteRecipeForm from "../DeleteRecipeForm";
-import UpdateRecipeForm from "./UpdateRecipeForm";
+import { getRecipe } from "@/lib/db/recipes";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 
 export default async function RecipePage({
   params,

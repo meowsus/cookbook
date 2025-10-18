@@ -1,7 +1,7 @@
+import { createDefaultRecipeName } from "@/lib/helpers/recipe";
 import { prisma } from "@/lib/prisma";
 import { readFileSync, readdirSync } from "fs";
 import { join, parse } from "path";
-import { createDefaultRecipeName } from "@/lib/helpers/recipe";
 
 const fixturesDir = join(__dirname, "fixtures");
 const fixtures = readdirSync(fixturesDir).reduce(

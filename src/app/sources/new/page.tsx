@@ -1,5 +1,5 @@
-import CreateSourceForm from "./CreateSourceForm";
 import Breadcrumbs from "@/app/Breadcrumbs";
+import CreateSourceForm from "@/app/sources/new/CreateSourceForm";
 
 export default function NewSourcePage() {
   return (

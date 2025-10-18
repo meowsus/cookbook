@@ -1,13 +1,13 @@
-import { auth } from "@/lib/auth";
-import { findSourceByUser } from "@/lib/db/sources";
-import { ApiErrorCode, ApiError } from "@/types";
-import { NextAuthRequest } from "next-auth";
-import { NextResponse } from "next/server";
 import {
   GetParamsSchema,
   GetParamsType,
   GetResponseData,
-} from "./route.schema";
+} from "@/app/api/sources/[sourceId]/html/route.schema";
+import { auth } from "@/lib/auth";
+import { findSourceByUser } from "@/lib/db/sources";
+import { ApiError, ApiErrorCode } from "@/types";
+import { NextAuthRequest } from "next-auth";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export const GET = auth(async function GET(

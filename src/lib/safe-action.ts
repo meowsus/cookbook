@@ -1,10 +1,10 @@
+import { Prisma } from "@/generated/prisma";
+import { auth } from "@/lib/auth";
 import {
   createSafeActionClient,
   DEFAULT_SERVER_ERROR_MESSAGE,
 } from "next-safe-action";
-import { auth } from "./auth";
 import { z } from "zod";
-import { Prisma } from "../../generated/prisma";
 
 class ActionError extends Error {}
 class KnownDatabaseError extends Prisma.PrismaClientKnownRequestError {}

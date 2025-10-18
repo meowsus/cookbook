@@ -1,5 +1,5 @@
+import Hero from "@/app/Hero";
 import { auth } from "@/lib/auth";
-import Hero from "./Hero";
 
 export default async function Home() {
   const session = await auth();

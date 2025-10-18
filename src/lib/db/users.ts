@@ -1,5 +1,5 @@
+import { Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "../../../generated/prisma";
 
 export async function createUser(data: Prisma.UserCreateInput) {
   return prisma.user.create({

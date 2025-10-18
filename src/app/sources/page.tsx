@@ -1,8 +1,11 @@
-import DeleteSourceForm from "@/app/sources/DeleteSourceForm";
 import { auth } from "@/lib/auth";
 import { findSourcesByUser } from "@/lib/db/sources";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Breadcrumbs from "../Breadcrumbs";
+import NoSourcesCard from "./NoSourcesCard";
+import SourcesList from "./SourcesList";
 
 export default async function SourcesPage() {
   const session = await auth();
@@ -12,25 +15,30 @@ export default async function SourcesPage() {
   }
 
   const sources = await findSourcesByUser(session.user.id);
+  const hasSources = sources.length > 0;
 
   return (
-    <div className="space-y-4">
-      <h1>Sources</h1>
-      <p>
-        Sources are URLs to a specific recipe. You can add new sources{" "}
-        <Link href="/sources/new">here</Link>.
-      </p>
-      <ul>
-        {sources.map((source) => (
-          <li key={source.id}>
-            <code>{source.id}</code> {source.url}{" "}
-            <div className="inline-flex items-center gap-2">
-              <Link href={`/sources/${source.id}`}>View</Link>
-              <DeleteSourceForm sourceId={source.id} />
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="grow flex flex-col gap-4">
+      <div className="flex justify-between items-center">
+        <Breadcrumbs pageTitle="Sources" />
+
+        <Link
+          href="/sources/new"
+          className="btn btn-primary btn-sm"
+          title="New source"
+        >
+          New
+          <PlusCircleIcon className="size-4" />
+        </Link>
+      </div>
+
+      {hasSources ? (
+        <SourcesList sources={sources} />
+      ) : (
+        <div className="grow flex items-center justify-center">
+          <NoSourcesCard />
+        </div>
+      )}
     </div>
   );
 }

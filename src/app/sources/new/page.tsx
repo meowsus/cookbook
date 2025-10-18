@@ -1,18 +1,14 @@
+import Breadcrumbs from "@/app/Breadcrumbs";
 import CreateSourceForm from "@/app/sources/new/CreateSourceForm";
-import Link from "next/link";
 
 export default function NewSourcePage() {
   return (
-    <div className="space-y-4">
-      <h1>Add new source</h1>
+    <div className="grow flex flex-col gap-4">
+      <Breadcrumbs pageTitle="Add a new source" />
 
-      <div>
-        <Link href="/sources">Back to sources</Link>
+      <div className="grow flex items-center justify-center">
+        <CreateSourceForm />
       </div>
-
-      <p>Did you find a new recipe on the internet? Add it&apos;s url here!</p>
-
-      <CreateSourceForm />
     </div>
   );
 }

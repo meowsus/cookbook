@@ -1,5 +1,5 @@
+import { Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "../../../generated/prisma";
 
 export async function createRecipe(data: Prisma.RecipeCreateInput) {
   return prisma.recipe.create({

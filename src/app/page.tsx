@@ -1,24 +1,28 @@
-import { signInAction, signOutAction } from "@/lib/actions/auth";
 import { auth } from "@/lib/auth";
+import Hero from "./Hero";
 
 export default async function Home() {
   const session = await auth();
 
+  if (session?.user?.id) {
+    return (
+      <Hero
+        title="Heck yeah!"
+        description="Are you ready to start cooking? I bet you are, you hungry little scamp you!"
+        buttonText="Get started"
+        buttonLink="/sources"
+        backgroundImage="/images/dad-helped.jpg"
+      />
+    );
+  }
+
   return (
-    <div className="space-y-4">
-      <h1>Home</h1>
-
-      {session?.user && <span>Welcome, {session?.user?.email}</span>}
-
-      {session?.user ? (
-        <form action={signOutAction}>
-          <button type="submit">Sign Out</button>
-        </form>
-      ) : (
-        <form action={signInAction}>
-          <button type="submit">Sign In</button>
-        </form>
-      )}
-    </div>
+    <Hero
+      title="We got this!"
+      description="Don't worry, buddy. All you have to do is sign in and we'll start cooking, together."
+      buttonText="Sign In"
+      buttonLink="/api/auth/signin"
+      backgroundImage="/images/help-dad.jpg"
+    />
   );
 }

@@ -30,7 +30,21 @@ pnpm dev
 
 ### Design System
 
+#### Components
+
 We're using [`daisyUI`](https://daisyui.com/components/).
+
+#### Icons
+
+For iconography, we're using [`@heroicons/react`](https://github.com/tailwindlabs/heroicons?tab=readme-ov-file#react). See the full list of icons [here](https://heroicons.com/) and their exported components [here](https://unpkg.com/browse/@heroicons/react/24/solid/). You should import from the `@heroicons/react/24/solid` package:
+
+```tsx
+import { GlobeAltIcon } from "@heroicons/react/24/solid";
+
+...
+
+<GlobeAltIcon className="size-4" />
+```
 
 ### Authentication
 

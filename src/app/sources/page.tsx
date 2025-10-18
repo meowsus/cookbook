@@ -1,11 +1,11 @@
+import Breadcrumbs from "@/app/Breadcrumbs";
+import NoSourcesCard from "@/app/sources/NoSourcesCard";
+import SourcesList from "@/app/sources/SourcesList";
 import { auth } from "@/lib/auth";
 import { findSourcesByUser } from "@/lib/db/sources";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import Breadcrumbs from "../Breadcrumbs";
-import NoSourcesCard from "./NoSourcesCard";
-import SourcesList from "./SourcesList";
 
 export default async function SourcesPage() {
   const session = await auth();

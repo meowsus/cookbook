@@ -1,4 +1,4 @@
-import { Source } from "../../../generated/prisma";
+import { Source } from "@/generated/prisma";
 
 export function getSourceProgress(source: Source) {
   if (source.fullHtml === "") {

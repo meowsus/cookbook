@@ -1,8 +1,8 @@
 "use client";
 
+import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
 import useSourceHtmlExtractRecipeAPI from "@/lib/hooks/useSourceHtmlExtractRecipeAPI";
 import { useAction } from "next-safe-action/hooks";
-import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
 
 interface ExtractRecipeModalContentProps {
   sourceId: string;

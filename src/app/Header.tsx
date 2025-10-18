@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { auth } from "@/lib/auth";
 import { signInAction, signOutAction } from "@/lib/actions/auth";
+import { auth } from "@/lib/auth";
+import Link from "next/link";
 
 export default async function Header() {
   const session = await auth();

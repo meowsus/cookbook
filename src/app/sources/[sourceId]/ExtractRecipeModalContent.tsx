@@ -1,10 +1,10 @@
 "use client";
 
+import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
 import useSourceHtmlExtractRecipeAPI from "@/lib/hooks/useSourceHtmlExtractRecipeAPI";
 import { useAction } from "next-safe-action/hooks";
-import { updateSourceExtractedRecipeAction } from "@/lib/actions/sources";
 
-interface FetchFullHtmlModalContentProps {
+interface ExtractRecipeModalContentProps {
   sourceId: string;
   onClose: () => void;
 }
@@ -12,7 +12,7 @@ interface FetchFullHtmlModalContentProps {
 export default function ExtractRecipeModalContent({
   sourceId,
   onClose,
-}: FetchFullHtmlModalContentProps) {
+}: ExtractRecipeModalContentProps) {
   const { execute, isPending } = useAction(updateSourceExtractedRecipeAction);
 
   const { data, error, isLoading } = useSourceHtmlExtractRecipeAPI(sourceId);

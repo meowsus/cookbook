@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef } from "react";
 import { updateSourceProcessedHtmlAction } from "@/lib/actions/sources";
-import { useAction } from "next-safe-action/hooks";
 import { processRecipeHtml } from "@/lib/helpers/html";
+import { useAction } from "next-safe-action/hooks";
+import { useRef } from "react";
 
 interface ProcessHtmlModalProps {
   sourceId: string;

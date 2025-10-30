@@ -1,7 +1,7 @@
 "use client";
 
+import CreateRecipeModalContent from "@/app/sources/[sourceId]/CreateRecipeModalContent";
 import { useRef, useState } from "react";
-import CreateRecipeModalContent from "./CreateRecipeModalContent";
 
 interface CreateRecipeModalProps {
   sourceId: string;

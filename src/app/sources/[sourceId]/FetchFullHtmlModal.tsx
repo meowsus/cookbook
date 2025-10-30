@@ -1,7 +1,7 @@
 "use client";
 
+import FetchFullHtmlModalContent from "@/app/sources/[sourceId]/FetchFullHtmlModalContent";
 import { useRef, useState } from "react";
-import FetchFullHtmlModalContent from "./FetchFullHtmlModalContent";
 
 export default function FetchFullHtmlModal({ sourceId }: { sourceId: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);

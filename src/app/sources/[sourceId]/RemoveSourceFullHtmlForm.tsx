@@ -1,8 +1,8 @@
 "use client";
 
 import { removeSourceFullHtmlAction } from "@/lib/actions/sources";
-import { useAction } from "next-safe-action/hooks";
 import { BackspaceIcon } from "@heroicons/react/24/solid";
+import { useAction } from "next-safe-action/hooks";
 
 export default function RemoveSourceFullHtmlForm({
   sourceId,

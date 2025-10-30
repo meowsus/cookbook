@@ -1,7 +1,7 @@
 "use client";
 
+import ExtractRecipeModalContent from "@/app/sources/[sourceId]/ExtractRecipeModalContent";
 import { useRef, useState } from "react";
-import ExtractRecipeModalContent from "./ExtractRecipeModalContent";
 
 export default function ExtractRecipeModal({ sourceId }: { sourceId: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);

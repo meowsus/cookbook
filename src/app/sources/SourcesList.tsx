@@ -1,8 +1,8 @@
-import { GlobeAltIcon, EyeIcon } from "@heroicons/react/24/solid";
+import DeleteSourceForm from "@/app/sources/DeleteSourceForm";
+import SourceProgress from "@/app/sources/SourceProgress";
+import { Prisma } from "@/generated/prisma";
+import { EyeIcon, GlobeAltIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { Prisma } from "../../../generated/prisma";
-import DeleteSourceForm from "./DeleteSourceForm";
-import SourceProgress from "./SourceProgress";
 
 interface SourcesListProps {
   sources: Prisma.SourceGetPayload<{

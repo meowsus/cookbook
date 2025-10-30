@@ -1,9 +1,9 @@
-import fetcher from "../fetcher";
-import { ApiError } from "@/types";
 import {
   GetParamsType,
   GetResponseDataType,
 } from "@/app/api/sources/[sourceId]/create-recipe/route.schema";
+import fetcher from "@/lib/fetcher";
+import { ApiError } from "@/types";
 import useSWRImmutable from "swr/immutable";
 
 export default function useSourceCreateRecipeAPI(sourceId: string) {

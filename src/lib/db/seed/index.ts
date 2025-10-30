@@ -1,4 +1,3 @@
-import { createDefaultRecipeName } from "@/lib/helpers/recipe";
 import { prisma } from "@/lib/prisma";
 import { readFileSync, readdirSync } from "fs";
 import { join, parse } from "path";
@@ -70,7 +69,7 @@ async function main() {
       console.log(`📝 Creating recipe for source ${created.id}`);
       const createdRecipe = await prisma.recipe.create({
         data: {
-          name: createDefaultRecipeName(created.extractedRecipe),
+          name: "Recipe",
           source: { connect: { id: created.id } },
           content: created.extractedRecipe,
           user: {

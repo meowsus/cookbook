@@ -1,11 +1,11 @@
 import DeleteSourceForm from "@/app/sources/DeleteSourceForm";
 import SourceProgress from "@/app/sources/SourceProgress";
-import { Source } from "@/generated/prisma";
+import { SourceWithRecipes } from "@/types";
 import { EyeIcon, GlobeAltIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 interface SourcesListProps {
-  sources: Source[];
+  sources: SourceWithRecipes[];
 }
 
 export default function SourcesList({ sources }: SourcesListProps) {

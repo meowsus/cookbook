@@ -1,7 +1,6 @@
 import Breadcrumbs from "@/app/Breadcrumbs";
-import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
-import CreateRecipeForm from "@/app/recipes/new/CreateRecipeForm";
 import DeleteSourceForm from "@/app/sources/DeleteSourceForm";
+import CreateRecipeModal from "@/app/sources/[sourceId]/CreateRecipeModal";
 import ExtractRecipeModal from "@/app/sources/[sourceId]/ExtractRecipeModal";
 import FetchFullHtmlModal from "@/app/sources/[sourceId]/FetchFullHtmlModal";
 import ProcessHtmlModal from "@/app/sources/[sourceId]/ProcessHtmlModal";
@@ -52,7 +51,7 @@ export default async function SourcePage({
       </div>
 
       <div className="flex flex-col md:flex-row gap-6">
-        <SourceSteps source={source} />
+        <SourceSteps source={source} recipes={recipes} />
 
         <div className="flex flex-col gap-2 grow">
           <div className="card card-border bg-base-100" id="url">
@@ -61,7 +60,7 @@ export default async function SourcePage({
                 {source.url ? (
                   <HandThumbUpIcon className="size-4 text-success" />
                 ) : (
-                  <HandRaisedIcon className="size-4 text-warning" />
+                  <HandThumbDownIcon className="size-4 text-warning" />
                 )}
                 <h2
                   className={cn(
@@ -231,32 +230,50 @@ export default async function SourcePage({
             </div>
           </div>
 
-          {source?.extractedRecipe && (
-            <>
-              <h3>Create Recipe Entry From Extracted Recipe</h3>
-              <CreateRecipeForm
-                sourceId={source.id}
-                recipeContent={source.extractedRecipe}
-              />
-            </>
-          )}
+          <div className="card card-border bg-base-100" id="createRecipe">
+            <div className="card-body">
+              <div className="flex items-center gap-2">
+                {!source.extractedRecipe ? (
+                  <HandRaisedIcon className="size-4 text-neutral" />
+                ) : recipes.length > 0 ? (
+                  <HandThumbUpIcon className="size-4 text-success" />
+                ) : (
+                  <HandThumbDownIcon className="size-4 text-warning" />
+                )}
+                <h2
+                  className={cn(
+                    "grow card-title",
+                    recipes.length > 0 ? "text-success" : "text-warning",
+                    !source.extractedRecipe && "text-neutral",
+                  )}
+                >
+                  Step 5: Create Recipe
+                </h2>
+              </div>
+              {recipes.length > 0 ? (
+                <ul className="list-disc list-inside">
+                  {recipes.map((recipe) => (
+                    <li key={recipe.id}>
+                      <Link href={`/recipes/${recipe.id}`}>
+                        <code>{recipe.id}</code>
+                        {recipe.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-neutral">
+                  You haven&apos;t extracted the recipe yet.
+                </p>
+              )}
 
-          {recipes?.length > 0 && (
-            <>
-              <h3>Saved Recipes</h3>
-              <ul>
-                {recipes.map((recipe) => (
-                  <li key={recipe.id}>
-                    {recipe.name} <code>{recipe.id}</code>{" "}
-                    <div className="inline-flex items-center gap-2">
-                      <Link href={`/recipes/${recipe.id}`}>View Recipe</Link>{" "}
-                      <DeleteRecipeForm recipeId={recipe.id} />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+              {recipes.length === 0 && source.extractedRecipe && (
+                <div className="card-actions justify-end">
+                  <CreateRecipeModal sourceId={source.id} />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

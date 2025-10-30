@@ -1,7 +1,8 @@
-import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
+import Breadcrumbs from "@/app/Breadcrumbs";
+import NoRecipesCard from "@/app/recipes/NoRecipesCard";
+import RecipesList from "@/app/recipes/RecipesList";
 import { auth } from "@/lib/auth";
 import { getRecipes } from "@/lib/db/recipes";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function RecipesPage() {
@@ -13,23 +14,21 @@ export default async function RecipesPage() {
 
   const recipes = await getRecipes(session.user.id);
 
-  return (
-    <div className="space-y-4">
-      <h1>Recipes</h1>
+  const hasRecipes = recipes.length > 0;
 
-      <ul>
-        {recipes.map((recipe) => (
-          <li key={recipe.id}>
-            <p>{recipe.name}</p>
-            <code>{recipe.id}</code>{" "}
-            <div className="inline-flex items-center gap-2">
-              <Link href={`/recipes/${recipe.id}`}>View</Link>
-              <Link href={`/sources/${recipe.sourceId}`}>View source</Link>
-              <DeleteRecipeForm recipeId={recipe.id} />
-            </div>
-          </li>
-        ))}
-      </ul>
+  return (
+    <div className="grow flex flex-col gap-4">
+      <div className="flex justify-between items-center">
+        <Breadcrumbs pageTitle="Recipes" />
+      </div>
+
+      {hasRecipes ? (
+        <RecipesList recipes={recipes} />
+      ) : (
+        <div className="grow flex items-center justify-center">
+          <NoRecipesCard />
+        </div>
+      )}
     </div>
   );
 }

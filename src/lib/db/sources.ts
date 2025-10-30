@@ -30,6 +30,15 @@ export async function findSourcesByUser(userId: string) {
   });
 }
 
+export async function findSourcesWithRecipesByUser(userId: string) {
+  return prisma.source.findMany({
+    where: { userId },
+    include: {
+      recipes: true,
+    },
+  });
+}
+
 export async function findSourceByUser(userId: string, sourceId: string) {
   return prisma.source.findUnique({
     where: {

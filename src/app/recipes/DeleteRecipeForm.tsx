@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteRecipeAction } from "@/lib/actions/recipes";
+import { TrashIcon } from "@heroicons/react/24/solid";
 import { useAction } from "next-safe-action/hooks";
 
 export default function DeleteRecipeForm({ recipeId }: { recipeId: string }) {
@@ -12,10 +13,11 @@ export default function DeleteRecipeForm({ recipeId }: { recipeId: string }) {
 
       <button
         type="submit"
-        className="text-red-500 hover:text-red-600 cursor-pointer"
+        className="btn btn-square btn-ghost btn-error"
         disabled={isPending}
+        title="Delete recipe"
       >
-        Delete
+        <TrashIcon className="size-4" />
       </button>
 
       {result?.serverError && (

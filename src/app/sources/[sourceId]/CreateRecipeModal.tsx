@@ -5,12 +5,10 @@ import { useRef, useState } from "react";
 
 interface CreateRecipeModalProps {
   sourceId: string;
-  recipeContent: string;
 }
 
 export default function CreateRecipeModal({
   sourceId,
-  recipeContent,
 }: CreateRecipeModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [hasOpened, setHasOpened] = useState(false);
@@ -36,7 +34,6 @@ export default function CreateRecipeModal({
           {hasOpened && (
             <CreateRecipeModalContent
               sourceId={sourceId}
-              recipeContent={recipeContent}
               onClose={handleClose}
             />
           )}

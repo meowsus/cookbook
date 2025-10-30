@@ -79,6 +79,7 @@ export const GET = auth(async function GET(
   try {
     parsedResponse = JSON.parse(result.response);
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { message: "Invalid response", code: ApiErrorCode.INVALID_RESPONSE },
       { status: 400 },

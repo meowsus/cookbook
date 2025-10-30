@@ -1,21 +1,18 @@
 "use client";
 
-import useSourceHtmlAPI from "@/lib/hooks/useSourceHtmlAPI";
-import { useAction } from "next-safe-action/hooks";
-import { updateSourceFullHtmlAction } from "@/lib/actions/sources";
-import useSourceCreateRecipeAPI from "@/lib/hooks/useSourceCreateRecipeAPI";
 import { createRecipeAction } from "@/lib/actions/recipes";
+import useSourceCreateRecipeAPI from "@/lib/hooks/useSourceCreateRecipeAPI";
+import { useAction } from "next-safe-action/hooks";
 
-interface FetchFullHtmlModalContentProps {
+interface CreateRecipeModalContentProps {
   sourceId: string;
   onClose: () => void;
-  recipeContent: string;
 }
 
-export default function FetchFullHtmlModalContent({
+export default function CreateRecipeModalContent({
   sourceId,
   onClose,
-}: FetchFullHtmlModalContentProps) {
+}: CreateRecipeModalContentProps) {
   const { execute, isPending } = useAction(createRecipeAction);
 
   const { data, error, isLoading } = useSourceCreateRecipeAPI(sourceId);

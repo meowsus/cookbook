@@ -1,12 +1,6 @@
-import { Prisma } from "@/generated/prisma";
+import { SourceWithRecipes } from "@/types";
 
-export function getSourceProgress(
-  source: Prisma.SourceGetPayload<{
-    include: {
-      recipes: true;
-    };
-  }>,
-) {
+export function getSourceProgress(source: SourceWithRecipes) {
   if (source.fullHtml === "") {
     return (100 / 5) * 1;
   }

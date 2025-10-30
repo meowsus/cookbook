@@ -1,6 +1,6 @@
 import Footer from "@/app/Footer";
-import Header from "@/app/Header";
 import "@/app/globals.css";
+import Navbar from "@/app/Navbar";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased py-4 flex flex-col min-h-screen`}
       >
         <div className="container mx-auto grow flex flex-col gap-4">
-          <Header />
+          <Navbar />
           <main className="container mx-auto py-4 px-6 bg-base-200 grow flex flex-col">
             {children}
           </main>

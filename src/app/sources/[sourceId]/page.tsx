@@ -269,10 +269,7 @@ export default async function SourcePage({
 
               {recipes.length === 0 && source.extractedRecipe && (
                 <div className="card-actions justify-end">
-                  <CreateRecipeModal
-                    sourceId={source.id}
-                    recipeContent={source.extractedRecipe}
-                  />
+                  <CreateRecipeModal sourceId={source.id} />
                 </div>
               )}
             </div>

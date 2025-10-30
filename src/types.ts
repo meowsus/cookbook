@@ -1,4 +1,7 @@
+import { Prisma } from "@/generated/prisma";
 import { z } from "zod";
+
+// API
 
 export enum ApiErrorCode {
   VALIDATION_ERROR,
@@ -12,3 +15,9 @@ export interface ApiError<T> {
   code: ApiErrorCode;
   validation?: z.ZodFlattenedError<T>;
 }
+
+// Sources
+
+export type SourceWithRecipes = Prisma.SourceGetPayload<{
+  include: Pick<Prisma.SourceInclude, "recipes">;
+}>;

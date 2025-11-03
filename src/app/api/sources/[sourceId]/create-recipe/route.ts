@@ -51,7 +51,7 @@ export const GET = auth(async function GET(
   const result = await ollama.generate({
     model: process.env.OLLAMA_MODEL || "mistral",
     system: CREATE_RECIPE_SYSTEM_PROMPT,
-    prompt: `Extract ONLY the recipe JSON from this Markdown (ignore everything else): ${source.extractedRecipe}`,
+    prompt: source.extractedRecipe,
     keep_alive: "15m",
     format: "json",
   });

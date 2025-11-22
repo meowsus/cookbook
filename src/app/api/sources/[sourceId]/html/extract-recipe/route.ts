@@ -9,32 +9,9 @@ import {
 } from "@/app/api/sources/[sourceId]/html/extract-recipe/route.schema";
 import { auth } from "@/lib/auth";
 import { findSourceByUser } from "@/lib/db/sources";
+import { EXTRACT_RECIPE_SYSTEM_PROMPT } from "@/lib/helpers/prompts";
 import { ApiError, ApiErrorCode } from "@/types";
 import { NextAuthRequest } from "next-auth";
-
-const SYSTEM_PROMPT = `
-You are a recipe extraction bot. You MUST follow these rules strictly:
-
-1. ONLY extract recipe information from the HTML
-2. IGNORE all other content (navigation, comments, ads, etc.)
-3. Return ONLY the recipe in this EXACT markdown format:
-
-# Recipe Name
-
-## Ingredients
-
-- Ingredient 1
-- Ingredient 2
-- etc.
-
-## Steps
-
-1. Step 1
-2. Step 2
-3. etc.
-
-CRITICAL: Do not provide explanations, summaries, or any other text. Return ONLY the recipe in the format above.
-`;
 
 export const GET = auth(async function GET(
   request: NextAuthRequest,
@@ -72,8 +49,8 @@ export const GET = auth(async function GET(
 
   const result = await ollama.generate({
     model: process.env.OLLAMA_MODEL || "mistral",
-    system: SYSTEM_PROMPT,
-    prompt: `Extract ONLY the recipe from this HTML (ignore everything else): ${source.processedHtml}`,
+    system: EXTRACT_RECIPE_SYSTEM_PROMPT,
+    prompt: source.processedHtml,
     keep_alive: "15m",
   });
 

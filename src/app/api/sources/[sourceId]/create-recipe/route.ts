@@ -10,25 +10,9 @@ import {
 } from "@/app/api/sources/[sourceId]/create-recipe/route.schema";
 import { auth } from "@/lib/auth";
 import { findSourceByUser } from "@/lib/db/sources";
+import { CREATE_RECIPE_SYSTEM_PROMPT } from "@/lib/helpers/prompts";
 import { ApiError, ApiErrorCode } from "@/types";
 import { NextAuthRequest } from "next-auth";
-
-const SYSTEM_PROMPT = `
-You are a recipe extraction bot. You will be given a recipe in Markdown format.
-
-It's your job to respond with JSON, with "name" and "content" properties.
-
-1. Extract the recipe name from the Markdown.
-2. Extract the recipe content from the Markdown.
-3. Content should be the remainder of the Markdown, excluding the name.
-
-Example output:
-
-{
-  "name": "Recipe Name",
-  "content": "## Ingredients\n\n- Ingredient 1\n- Ingredient 2\n- etc.\n\n## Steps\n\n1. Step 1\n2. Step 2\n3. etc."
-}
-`;
 
 export const GET = auth(async function GET(
   request: NextAuthRequest,
@@ -66,8 +50,8 @@ export const GET = auth(async function GET(
 
   const result = await ollama.generate({
     model: process.env.OLLAMA_MODEL || "mistral",
-    system: SYSTEM_PROMPT,
-    prompt: `Extract ONLY the recipe JSON from this Markdown (ignore everything else): ${source.extractedRecipe}`,
+    system: CREATE_RECIPE_SYSTEM_PROMPT,
+    prompt: source.extractedRecipe,
     keep_alive: "15m",
     format: "json",
   });

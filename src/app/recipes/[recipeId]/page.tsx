@@ -1,8 +1,8 @@
 import Breadcrumbs from "@/app/Breadcrumbs";
 import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
-import UpdateRecipeForm from "@/app/recipes/[recipeId]/UpdateRecipeForm";
 import { auth } from "@/lib/auth";
 import { getRecipe } from "@/lib/db/recipes";
+import { markdownToHtml } from "@/lib/helpers/markdown";
 import { GlobeAltIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -24,6 +24,8 @@ export default async function RecipePage({
 
   if (!recipe) notFound();
 
+  const content = await markdownToHtml(recipe.content);
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-2 justify-between items-center">
@@ -43,11 +45,7 @@ export default async function RecipePage({
       </div>
 
       <div className="flex flex-col gap-6">
-        <UpdateRecipeForm
-          recipeId={recipeId}
-          name={recipe.name}
-          content={recipe.content}
-        />
+        <div className="prose" dangerouslySetInnerHTML={{ __html: content }} />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import Breadcrumbs from "@/app/Breadcrumbs";
+import UpdateRecipeForm from "@/app/recipes/[recipeId]/UpdateRecipeForm";
 import DeleteRecipeForm from "@/app/recipes/DeleteRecipeForm";
 import { auth } from "@/lib/auth";
 import { getRecipe } from "@/lib/db/recipes";
@@ -44,14 +45,18 @@ export default async function RecipePage({
         </div>
       </div>
 
-      <div className="flex flex-col gap-6">
-        <div className="card bg-base-100 shadow-sm">
+      <div className="flex flex-col gap-6 md:grid md:grid-cols-3">
+        <div className="card bg-base-100 shadow-sm md:col-span-2">
           <div className="card-body">
             <div
               className="prose min-w-full"
               dangerouslySetInnerHTML={{ __html: content }}
             />
           </div>
+        </div>
+
+        <div className="md:col-span-1 md:sticky md:self-start md:top-6">
+          <UpdateRecipeForm recipeId={recipeId} />
         </div>
       </div>
     </div>

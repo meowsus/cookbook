@@ -45,7 +45,14 @@ export default async function RecipePage({
       </div>
 
       <div className="flex flex-col gap-6">
-        <div className="prose" dangerouslySetInnerHTML={{ __html: content }} />
+        <div className="card bg-base-100 shadow-sm">
+          <div className="card-body">
+            <div
+              className="prose min-w-full"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

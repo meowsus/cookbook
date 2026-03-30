@@ -40,7 +40,7 @@ importers:
         version: 5.0.0-beta.29(next@15.5.14(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nodemailer@6.10.1)(react@19.2.4)
       next-safe-action:
         specifier: ^8.0.11
-        version: 8.1.9(next@15.5.14(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 8.1.10(next@15.5.14(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       nodemailer:
         specifier: 6.10.1
         version: 6.10.1
@@ -2118,8 +2118,8 @@ packages:
       nodemailer:
         optional: true
 
-  next-safe-action@8.1.9:
-    resolution: {integrity: sha512-imYvmoveXgLjEKIePGm0UlGbjY7vwDO5CTUcty1H4r1xPiOJ/AI/SNAJwZ9q0l+I7mRd1NUhAX53dh4G96hPjw==}
+  next-safe-action@8.1.10:
+    resolution: {integrity: sha512-+VGmjzPlV8nno2WFc88pjoZcXnDBSrHIZ2WyK4Z/TB/7mrLfPrq0Ao2UDTP4E4/tfRt5WtWxhtjOEknjgn+d+w==}
     engines: {node: '>=18.17'}
     peerDependencies:
       next: '>= 14.0.0'
@@ -4745,7 +4745,7 @@ snapshots:
     optionalDependencies:
       nodemailer: 6.10.1
 
-  next-safe-action@8.1.9(next@15.5.14(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  next-safe-action@8.1.10(next@15.5.14(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       deepmerge-ts: 7.1.5
       next: 15.5.14(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)

@@ -1,91 +1,68 @@
 "use client";
 
-import { createRecipeAction } from "@/lib/actions/recipes";
-import useSourceCreateRecipeAPI from "@/lib/hooks/useSourceCreateRecipeAPI";
+import {
+  createRecipeAction,
+  suggestRecipeNameAction,
+} from "@/lib/actions/recipes";
 import { useAction } from "next-safe-action/hooks";
+import { useEffect, useState } from "react";
 
 interface CreateRecipeModalContentProps {
   sourceId: string;
+  extractedRecipe: string;
   onClose: () => void;
 }
 
 export default function CreateRecipeModalContent({
   sourceId,
+  extractedRecipe,
   onClose,
 }: CreateRecipeModalContentProps) {
-  const { execute, isPending } = useAction(createRecipeAction);
+  const { execute: createRecipe, isPending: isCreating } =
+    useAction(createRecipeAction);
+  const { execute: suggestName, isPending: isSuggesting } = useAction(
+    suggestRecipeNameAction,
+    {
+      onSuccess: (result) => {
+        setName(result.data);
+      },
+    },
+  );
 
-  const { data, error, isLoading } = useSourceCreateRecipeAPI(sourceId);
+  const [name, setName] = useState("");
+  const [content, setContent] = useState(extractedRecipe);
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col gap-2 py-4">
-        <div className="flex justify-center">
-          <span className="loading loading-ring loading-lg" />
-        </div>
-
-        <p className="text-center">
-          This is probably going to take a minute...
-        </p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <div className="flex flex-col gap-2 py-4">
-          <code className="block text-red-500 py-2">{error.message}</code>
-          <p className="text-center">Please close this modal and try again.</p>
-        </div>
-
-        <div className="modal-action">
-          <button type="button" className="btn" onClick={onClose}>
-            Close
-          </button>
-        </div>
-      </>
-    );
-  }
-
-  if (!data) {
-    return (
-      <>
-        <div className="flex flex-col gap-2 py-4">
-          <code className="block text-red-500 py-2">No data</code>
-          <p className="text-center">Please close this modal and try again.</p>
-        </div>
-
-        <div className="modal-action">
-          <button type="button" className="btn" onClick={onClose}>
-            Close
-          </button>
-        </div>
-      </>
-    );
-  }
+  useEffect(() => {
+    suggestName({ extractedRecipe });
+  }, [suggestName, extractedRecipe]);
 
   return (
     <>
       <div className="py-4">
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-          <legend className="fieldset-legend">Extracted recipe</legend>
+          <legend className="fieldset-legend">Final Review</legend>
 
           <label className="label">Name</label>
-          <input
-            type="text"
-            className="input w-full"
-            placeholder="Recipe name"
-            readOnly
-            value={data.name}
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              className="input w-full"
+              placeholder="Recipe name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoFocus
+            />
+            {isSuggesting && (
+              <span className="loading loading-spinner loading-sm" />
+            )}
+          </div>
 
           <label className="label">Content</label>
           <textarea
             className="textarea w-full h-64"
             placeholder="Recipe content"
-            readOnly
-            value={data.content}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         </fieldset>
       </div>
@@ -94,18 +71,18 @@ export default function CreateRecipeModalContent({
           Close
         </button>
 
-        <form action={execute}>
+        <form action={createRecipe}>
           <input type="hidden" name="sourceId" value={sourceId} />
 
-          <input type="hidden" name="name" value={data.name} />
-          <input type="hidden" name="content" value={data.content} />
+          <input type="hidden" name="name" value={name} />
+          <input type="hidden" name="content" value={content} />
 
           <button
             type="submit"
             className="btn btn-primary"
-            disabled={isPending}
+            disabled={isCreating || !name.trim()}
           >
-            Looks good!
+            Create Recipe
           </button>
         </form>
       </div>

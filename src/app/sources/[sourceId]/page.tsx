@@ -1,9 +1,9 @@
 import Breadcrumbs from "@/app/Breadcrumbs";
 import DeleteSourceForm from "@/app/sources/DeleteSourceForm";
+import AutoPruneTrigger from "@/app/sources/[sourceId]/AutoPruneTrigger";
 import CreateRecipeModal from "@/app/sources/[sourceId]/CreateRecipeModal";
 import ExtractRecipeModal from "@/app/sources/[sourceId]/ExtractRecipeModal";
 import FetchFullHtmlModal from "@/app/sources/[sourceId]/FetchFullHtmlModal";
-import ProcessHtmlModal from "@/app/sources/[sourceId]/ProcessHtmlModal";
 import RemoveSourceExtractedRecipeForm from "@/app/sources/[sourceId]/RemoveSourceExtractedRecipeForm";
 import RemoveSourceFullHtmlForm from "@/app/sources/[sourceId]/RemoveSourceFullHtmlForm";
 import RemoveSourceProcessedHtmlForm from "@/app/sources/[sourceId]/RemoveSourceProcessedHtmlForm";
@@ -172,9 +172,10 @@ export default async function SourcePage({
 
               {!source.processedHtml && source.fullHtml && (
                 <div className="card-actions justify-end">
-                  <ProcessHtmlModal
+                  <AutoPruneTrigger
                     sourceId={source.id}
                     fullHtml={source.fullHtml}
+                    processedHtml={source.processedHtml}
                   />
                 </div>
               )}
@@ -269,7 +270,10 @@ export default async function SourcePage({
 
               {recipes.length === 0 && source.extractedRecipe && (
                 <div className="card-actions justify-end">
-                  <CreateRecipeModal sourceId={source.id} />
+                  <CreateRecipeModal
+                    sourceId={source.id}
+                    extractedRecipe={source.extractedRecipe}
+                  />
                 </div>
               )}
             </div>

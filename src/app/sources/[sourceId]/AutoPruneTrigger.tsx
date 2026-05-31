@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface AutoPruneTriggerProps {
   sourceId: string;
@@ -21,7 +21,7 @@ export default function AutoPruneTrigger({
   // Use a ref to prevent duplicate requests across re-renders and StrictMode remounts
   const requestInProgress = useRef(false);
 
-  const startPruning = async () => {
+  const startPruning = useCallback(async () => {
     if (requestInProgress.current) return;
 
     requestInProgress.current = true;
@@ -50,14 +50,14 @@ export default function AutoPruneTrigger({
         requestInProgress.current = false;
       }
     }
-  };
+  }, [sourceId, router, error]);
 
   useEffect(() => {
     // Trigger pruning if we have fullHtml but no processedHtml
     if (fullHtml && !processedHtml && !requestInProgress.current && !error) {
       startPruning();
     }
-  }, [fullHtml, processedHtml, error, sourceId, router]);
+  }, [fullHtml, processedHtml, error, startPruning]);
 
   if (isPruning) {
     return (

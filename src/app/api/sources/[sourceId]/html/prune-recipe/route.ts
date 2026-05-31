@@ -77,9 +77,9 @@ export const GET = auth(async function GET(
 
   let blockIds: string[] = [];
   try {
-    const parsedResponse = parseLLMJson<any>(result.response);
+    const parsedResponse = parseLLMJson<unknown>(result.response);
     if (Array.isArray(parsedResponse)) {
-      blockIds = parsedResponse;
+      blockIds = parsedResponse as string[];
     } else if (typeof parsedResponse === "object" && parsedResponse !== null) {
       // Handle case where LLM wraps array in an object, e.g. { "ids": [...] }
       const potentialArray = Object.values(parsedResponse).find((val) =>
@@ -89,7 +89,7 @@ export const GET = auth(async function GET(
         blockIds = potentialArray as string[];
       }
     }
-  } catch (e) {
+  } catch {
     console.error(
       "Failed to parse block IDs from LLM response:",
       result.response,

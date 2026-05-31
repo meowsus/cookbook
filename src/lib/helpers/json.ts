@@ -60,7 +60,7 @@ export function parseLLMJson<T>(text: string): T {
         return JSON.parse(fixedQuotes) as T;
       }
       throw e;
-    } catch (innerError) {
+    } catch (e) {
       throw e;
     }
   }

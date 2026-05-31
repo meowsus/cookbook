@@ -5,8 +5,8 @@ services:
     image: rnwood/smtp4dev:latest
     container_name: cookbook-smtp4dev
     ports:
-      - "1025:25" # SMTP port (mapped to standard port 25 inside container)
-      - "8025:80" # Web UI port
+      - "127.0.0.1:1025:25" # SMTP port (mapped to standard port 25 inside container)
+      - "127.0.0.1:8025:80" # Web UI port
     environment:
       - ServerOptions__HostName=smtp4dev
       - ServerOptions__Port=25

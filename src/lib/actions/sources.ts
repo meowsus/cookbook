@@ -63,23 +63,6 @@ export const removeSourceFullHtmlAction = authActionClient
     redirect(`/sources/${sourceId}`);
   });
 
-const UpdateSourceProcessedHtmlFormDataSchema = zfd.formData({
-  sourceId: zfd.text(z.string().nonempty()),
-  processedHtml: zfd.text(z.string().nonempty()),
-});
-
-export const updateSourceProcessedHtmlAction = authActionClient
-  .metadata({ actionName: "updateSourceProcessedHtmlAction" })
-  .inputSchema(UpdateSourceProcessedHtmlFormDataSchema)
-  .action(async ({ parsedInput: { sourceId, processedHtml }, ctx }) => {
-    await updateSourceByUser(ctx.userId, sourceId, {
-      processedHtml,
-      extractedRecipe: "",
-    });
-
-    redirect(`/sources/${sourceId}`);
-  });
-
 const RemoveSourceProcessedHtmlFormDataSchema = zfd.formData({
   sourceId: zfd.text(z.string().nonempty()),
 });

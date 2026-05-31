@@ -8,6 +8,8 @@ export enum ApiErrorCode {
   NOT_FOUND,
   UNAUTHORIZED,
   INVALID_RESPONSE,
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
 }
 
 export interface ApiError<T> {

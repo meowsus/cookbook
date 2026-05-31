@@ -21,15 +21,6 @@ export async function updateSourceByUser(
   });
 }
 
-export async function findSourcesByUser(userId: string) {
-  return prisma.source.findMany({
-    where: { userId },
-    include: {
-      user: true,
-    },
-  });
-}
-
 export async function findSourcesWithRecipesByUser(userId: string) {
   return prisma.source.findMany({
     where: { userId },

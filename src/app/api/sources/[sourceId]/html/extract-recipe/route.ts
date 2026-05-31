@@ -50,7 +50,7 @@ export const GET = auth(async function GET(
   const result = await ollama.generate({
     model: process.env.OLLAMA_MODEL || "mistral",
     system: EXTRACT_RECIPE_SYSTEM_PROMPT,
-    prompt: source.processedHtml,
+    prompt: source.processedHtml || source.fullHtml, // Fallback to fullHtml if processedHtml is missing
     keep_alive: "15m",
   });
 

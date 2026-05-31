@@ -26,7 +26,7 @@ Add a URL → fetch the page HTML → process it → extract the recipe → save
 - **Node.js** 24.x (version specified in [`.tool-versions`](.tool-versions); if you use [asdf](https://asdf-vm.com/), run `asdf install`)
 - **pnpm** ([install guide](https://pnpm.io/installation))
 - **Ollama** ([install guide](https://ollama.com/)) — used for local LLM inference
-- **Docker** — used only for the local dev mail server
+- **Docker** ([install guide](https://docs.docker.com/get-docker/)) — used only for the local dev mail server
 
 ## Setup
 
@@ -91,6 +91,8 @@ pnpm db:seed
 ```sh
 docker compose up -d
 ```
+
+If you get a "permission denied" error connecting to the Docker API, make sure your user is in the docker group (see [Docker post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)).
 
 This launches [smtp4dev](https://github.com/rnwood/smtp4dev) — a local SMTP server with a web UI for viewing emails sent during development.
 

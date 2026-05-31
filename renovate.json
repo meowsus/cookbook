@@ -19,5 +19,5 @@
       "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
     }
   ],
-  "enabled": false,
+  "enabled": false
 }

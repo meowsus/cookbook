@@ -43,3 +43,6 @@ next-env.d.ts
 # prisma
 /generated/prisma
 prisma/dev.db
+
+# AI
+.pi-lens
